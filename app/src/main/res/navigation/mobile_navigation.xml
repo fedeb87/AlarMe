@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.federicoberon.newapp.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="com.federicoberon.newapp.ui.about.AboutFragment"
+        android:label="@string/menu_about"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/addAlarmFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.AddAlarmFragment"
+        android:label="fragment_add_alarm"
+        tools:layout="@layout/fragment_add_alarm">
+
+        <argument
+            android:name="milestone_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_addAlarmFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_select_ringtone"
+            app:destination="@id/ringtonePickerFragment" />
+        <action
+            android:id="@+id/action_select_vibrator"
+            app:destination="@id/vibratorListFragment" />
+        <action
+            android:id="@+id/action_select_postpone"
+            app:destination="@id/postponePickerFragment" />
+        <action
+            android:id="@+id/action_select_repeat"
+            app:destination="@id/repeatPickerFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/ringtonePickerFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.melody.RingtonePickerFragment"
+        android:label="fragment_ringtone_picker"
+        tools:layout="@layout/fragment_ringtone_picker" >
+        <action
+            android:id="@+id/action_ringtoneListFragment"
+            app:destination="@id/ringtoneListFragment" />
+        <action
+            android:id="@+id/action_back_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ringtoneListFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.melody.RingtoneListFragment"
+        android:label="fragment_ringtone_list"
+        tools:layout="@layout/fragment_ringtone_list" >
+        <action
+            android:id="@+id/action_back_to_ringtonePickerFragment"
+            app:destination="@id/ringtonePickerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/vibratorListFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.vibration.VibratorListFragment"
+        android:label="VibratorListFragment" >
+        <action
+            android:id="@+id/action_vibratorListFragment_to_addAlarmFragment"
+            app:destination="@id/addAlarmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postponePickerFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.postpone.PostponePickerFragment"
+        android:label="PostponePickerFragment" />
+    <fragment
+        android:id="@+id/repeatPickerFragment"
+        android:name="com.federicoberon.newapp.ui.addalarm.repeat.RepeatPickerFragment"
+        android:label="RepeatPickerFragment" />
+</navigation>

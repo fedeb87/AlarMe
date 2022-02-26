@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.addalarm.AddAlarmFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="viewModel" type="com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel" />
+        <variable name="fragment" type="com.federicoberon.newapp.ui.addalarm.AddAlarmFragment" />
+    </data>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.HomeFragment"
+        >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbMonday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/checkbox_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:minWidth="100dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="10dp"
+                        android:text="@string/monday"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:textStyle="bold"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(2)}"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/cbTuesday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/tuesday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(3)}"/>
+
+                    <CheckBox
+                        android:id="@+id/cbWednesday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/wednesday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(4)}"/>
+
+                    <CheckBox
+                        android:id="@+id/cbThursday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/thursday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(5)}"/>
+
+                    <CheckBox
+                        android:id="@+id/cbFriday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/friday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(6)}"/>
+
+                    <CheckBox
+                        android:id="@+id/cbSaturday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/saturday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(7)}"/>
+
+                    <CheckBox
+                        android:id="@+id/cbSunday"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:text="@string/sunday"
+                        android:button="@null"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/checkbox_selector"
+                        android:checked="false"
+                        android:textColor="@drawable/checkbox_text_color"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:minWidth="100dp"
+                        android:layout_marginLeft="8dp"
+                        android:onClick="@{() -> viewModel.setDaysOfWeek(1)}"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewWhen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mañana 18:05 hs."
+                        android:textColor="@color/white_transparent"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <ImageView
+                        android:id="@+id/imageViewCalendar"
+                        android:layout_gravity="right"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_calendar_black"
+                        android:backgroundTint="@color/white_transparent"
+                        />
+
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="16dp"
+                    android:textColorHint="@color/colorGray">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextAlarmName"
+                        style="@style/edit_box"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:hint="@string/title_hint_milestone"
+                        android:paddingBottom="@dimen/activity_horizontal_margin"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/ringtoneLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openRingtoneSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/textViewMelody"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sonido de la Alarma"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/ringtoneValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="Morning Good"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/ringtoneSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{() -> fragment.offRingtone()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/vibrationLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openVibrationSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/textViewVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vibracion"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/vibrationValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Basic Call"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/vibrationSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{() -> fragment.offVibration()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/postponeLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openPostponeSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/textViewPostpone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Posponer"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/postponeValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5 minutos, 3 veces"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/postponeSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{() -> fragment.offPostpone()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/repeatLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openRepeatSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/textViewRepeat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Repetir"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/repeatValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Cada 8 horas"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/repeatSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{() -> fragment.offRepeat()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/discardLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openDiscardSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Descartar"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/discardValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Botón"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/okButton"
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/colorAccent"
+                    android:text="@string/save_button"
+                    android:textColor="@android:color/primary_text_dark" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

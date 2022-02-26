@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- TODO extraer strings -->
+    <item
+        android:id="@+id/previewCard"
+        android:orderInCategory="100"
+        android:title="Vista Previa" />
+    <item
+        android:id="@+id/duplicateCard"
+        android:orderInCategory="101"
+        android:title="Duplicar" />
+
+    <item
+        android:id="@+id/deleteCard"
+        android:orderInCategory="102"
+        android:title="Borrar" />
+
+    <item
+        android:id="@+id/detailsCard"
+        android:orderInCategory="103"
+        android:title="Detalles" />
+</menu>

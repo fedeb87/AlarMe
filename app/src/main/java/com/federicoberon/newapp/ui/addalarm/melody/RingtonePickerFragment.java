@@ -1,0 +1,148 @@
+package com.federicoberon.newapp.ui.addalarm.melody;
+
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.Navigation;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.SeekBar;
+
+import com.federicoberon.newapp.MainActivity;
+import com.federicoberon.newapp.R;
+import com.federicoberon.newapp.SimpleRemindMeApplication;
+import com.federicoberon.newapp.databinding.FragmentAddAlarmBinding;
+import com.federicoberon.newapp.databinding.FragmentHomeBinding;
+import com.federicoberon.newapp.databinding.FragmentRingtonePickerBinding;
+import com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel;
+
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
+
+public class RingtonePickerFragment extends Fragment {
+
+    private FragmentRingtonePickerBinding binding;
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
+
+    @Inject
+    AudioManager mAudioManager;
+
+    @Inject
+    AddAlarmViewModel viewModel;
+
+    public RingtonePickerFragment() { // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        ((SimpleRemindMeApplication)requireActivity().getApplication()).appComponent.inject(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)requireActivity()).getBinding().appBarMain.appBar.setExpanded(false, false);
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
+        lp.height = 140;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentRingtonePickerBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //binding.seekBarVolume.set
+        binding.onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                enableAllControls(isChecked);
+            }
+        });
+
+        binding.onOffSwitch.setChecked(viewModel.isMelodyOn());
+
+        binding.melodyLayout.setOnClickListener(view1 -> Navigation.findNavController(
+                binding.getRoot()).navigate(R.id.action_ringtoneListFragment));
+
+        // seekbar behaviour
+        binding.seekBarVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
+        binding.seekBarVolume.setMax(mAudioManager
+                .getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+
+        binding.seekBarVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+                        progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        if (viewModel.getSelectedMelody() != null)
+            binding.textviewMelodyValue.setText(viewModel.getSelectedMelody().getTitle());
+    }
+
+    private void enableAllControls(boolean isEnabled) {
+        binding.melodyLayout.setEnabled(isEnabled);
+        binding.seekBarVolume.setEnabled(isEnabled);
+        viewModel.setMelodyOn(isEnabled);
+
+        if (isEnabled) {
+            binding.onOffSwitch.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
+            binding.melodyLayout.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.rounded_view));
+            binding.onOffSwitch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.material_on_surface_disabled));
+            binding.seekBarVolume.setProgressDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.seek_bar));
+            binding.seekBarVolume.setThumb(ContextCompat.getDrawable(requireContext(), R.drawable.seek_thumb));
+            binding.onOffSwitch.setText(getString(R.string.on_string));
+        }else {
+            binding.onOffSwitch.setTextColor(ContextCompat.getColor(requireContext(), R.color.white_transparent));
+            binding.melodyLayout.setBackground(ContextCompat.getDrawable(requireContext(), R.drawable.rounded_view_unchecked));
+            binding.onOffSwitch.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white_transparent));
+            binding.seekBarVolume.setProgressDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.seek_bar_unchecked));
+            binding.seekBarVolume.setThumb(ContextCompat.getDrawable(requireContext(), R.drawable.seek_thumb_unchecked));
+            binding.onOffSwitch.setText(getString(R.string.off_string));
+
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mDisposable.clear();
+        binding = null;
+    }
+}

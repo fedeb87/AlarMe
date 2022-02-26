@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/fragment_item_detail">
+
+    <fragment
+        android:id="@+id/fragment_item_detail"
+        android:name="com.federicoberon.newapp.ui.milestonedetail.MilestoneDetailFragment"
+        android:label="@string/menu_detail"
+        tools:layout="@layout/fragment_milestone_detail">
+            <argument
+                android:name="milestone_id"
+                app:argType="long"
+                android:defaultValue="0L" />
+    </fragment>
+
+</navigation>
