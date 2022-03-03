@@ -1,5 +1,7 @@
 package com.federicoberon.newapp.repositories;
 
+import android.util.Log;
+
 import com.federicoberon.newapp.datasource.dao.AlarmDao;
 import com.federicoberon.newapp.datasource.dao.MelodyDao;
 import com.federicoberon.newapp.model.AlarmEntity;
@@ -25,7 +27,7 @@ public class AlarmRepository implements AlarmDataSource {
 
     // @Inject lets Dagger know how to create instances of this object
     @Inject
-    AlarmRepository(AlarmDao alarmDao, MelodyDao melodyDao) {
+    public AlarmRepository(AlarmDao alarmDao, MelodyDao melodyDao) {
         mAlarmDao = alarmDao;
         mMelodyDao = melodyDao;
     }

@@ -6,44 +6,46 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.MediaPlayer;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.util.Log;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import static com.federicoberon.newapp.SimpleRemindMeApplication.CHANNEL_ID;
 import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ACTION_DISCARD;
 import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.POSTPONE_TIME;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
+import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import com.federicoberon.newapp.R;
+import com.federicoberon.newapp.SimpleRemindMeApplication;
+import com.federicoberon.newapp.broadcastreceiver.ActionReceiver;
+import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.ui.alarm.AlarmActivity;
 import com.federicoberon.newapp.utils.AlarmManager;
+import com.federicoberon.newapp.utils.VibrationManager;
+import java.io.IOException;
+
+import javax.inject.Inject;
+
+import io.reactivex.disposables.CompositeDisposable;
 
 public class AlarmService extends Service {
+
+    private static final String LOG_TAG = "AlarmService";
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
+    private final CompositeDisposable mDisposable = new CompositeDisposable();
+
     @Override
     public void onCreate() {
+
+        ((SimpleRemindMeApplication) getApplicationContext())
+                .appComponent.inject(this);
+
         super.onCreate();
-
-        RingtoneManager manager = new RingtoneManager(this);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
-        //Cursor cursor = manager.getCursor();
-        //manager.getRingtoneUri(0);
-
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-
-
-        mediaPlayer = MediaPlayer.create(this, notification);
-        mediaPlayer.setLooping(true);
-
+        mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -51,26 +53,20 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
 
         Intent notificationIntent = new Intent(this, AlarmActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationIntent.putExtra(ALARM_ENTITY,alarmEntity);
 
-
-        int repeat_time = 0;
-        // todo aca llamar al alarmManager para que actualice la base de datos de las alarams (isStarted)y vea lo de repetir
-        if(intent.hasExtra(ACTION_DISCARD)){
-            stopSelf();
-        }else if(intent.hasExtra(ACTION_SNOOZE)){
-            if(intent.hasExtra(POSTPONE_TIME)){
-                repeat_time = intent.getIntExtra(POSTPONE_TIME, 10);
-
-                notificationIntent.putExtra(POSTPONE_TIME,repeat_time);
-            }
-            AlarmManager.getSnoozedAlarm(repeat_time);
+        if(intent.hasExtra(ACTION_SNOOZE)){
+            //AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime());
+            AlarmManager.schedule(this, AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime()));
             stopSelf();
         }
 
-
+        // else, is a new alarm
+        // wrap the AlarmActivity in a PendingIntent
         PendingIntent pendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             pendingIntent = PendingIntent.getActivity(this, 0,
@@ -80,36 +76,52 @@ public class AlarmService extends Service {
                     notificationIntent, 0);
         }
 
-        long[] pattern = { 0, 100, 1000 };
-        long[] default_pattern = {0, 250, 250, 250};
-        // todo estos 2 probar de lanzar de nuevo el AlarmService?
-        // snooze intent //
+        // create snooze intent //
         Intent snoozeIntent = new Intent(this, AlarmService.class);
         snoozeIntent.setAction(ACTION_SNOOZE);
         snoozeIntent.putExtra(ACTION_SNOOZE, 0);
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getService(this, 1, snoozeIntent,
-                        PendingIntent.FLAG_IMMUTABLE);
+        snoozeIntent.putExtra(ALARM_ENTITY, alarmEntity);
+        PendingIntent snoozePendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
+                    PendingIntent.FLAG_IMMUTABLE);
+        }else{
+            snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
+                    0);
+        }
 
-        // discard intent //
-        Intent discardIntent = new Intent(this, AlarmService.class);
-        discardIntent.setAction(ACTION_DISCARD);
-        discardIntent.putExtra(ACTION_DISCARD,0);
-        PendingIntent discardPendingIntent =
-                PendingIntent.getService(this, 2, discardIntent,
-                        PendingIntent.FLAG_IMMUTABLE);
+        Intent intentAction = new Intent(this, ActionReceiver.class);
+        intentAction.putExtra(ALARM_ENTITY, alarmEntity);
+        intentAction.setAction(ALARM_ENTITY);
+        PendingIntent discardPendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            discardPendingIntent = PendingIntent.getBroadcast(this, 2,
+                    intentAction, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+        }else{
+            discardPendingIntent = PendingIntent.getBroadcast(this, 2,
+                    intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         // full screen intent //
         Intent fullScreenIntent = new Intent(this, AlarmActivity.class);
-        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
-                fullScreenIntent, PendingIntent.FLAG_IMMUTABLE);
+        fullScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        // todo los drawables de los botones? sino borrarlos
-        String alarmTitle = String.format("%s Alarm", intent.getStringExtra(TITLE));
+        fullScreenIntent.putExtra(ALARM_ENTITY, alarmEntity);
+
+        PendingIntent fullScreenPendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+                        fullScreenIntent, PendingIntent.FLAG_IMMUTABLE);
+        }else{
+            fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+                    fullScreenIntent, 0);
+        }
+
+        String alarmTitle = String.format(getString(R.string.notification_title), alarmEntity.getTitle());
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(alarmTitle)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setVibrate(pattern)
+                .setVibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()))
                 .setContentText("Ring Ring .. Ring Ring")
                 .setSmallIcon(R.drawable.ic_alarm_black_24dp)
                 .setContentIntent(pendingIntent)
@@ -121,21 +133,28 @@ public class AlarmService extends Service {
                 .addAction(R.drawable.ic_discard, getString(R.string.discard),
                         discardPendingIntent)
                 .build();
-        mediaPlayer.start();
 
-        vibrator.vibrate(pattern, 0);
-
+        try {
+            mediaPlayer.reset();
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(alarmEntity.getMelodyUri()));
+            mediaPlayer.setLooping(true);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
         startForeground(101, notification);
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override
     public void onDestroy() {
-        Log.w("MIO", "ONDESTROY del AlarmService");
         stopForeground(true);
         stopSelf();
         mediaPlayer.stop();
+        mDisposable.clear();
         vibrator.cancel();
         super.onDestroy();
     }

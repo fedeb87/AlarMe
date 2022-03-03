@@ -16,7 +16,7 @@ public class CardItemClickListener implements PopupMenu.OnMenuItemClickListener 
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        //TODO
+        //TODO menu contextual de las alarmas
         /*
         switch (menuItem.getItemId()) {
 

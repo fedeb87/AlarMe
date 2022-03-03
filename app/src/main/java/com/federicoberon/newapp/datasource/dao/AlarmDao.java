@@ -7,6 +7,7 @@ import com.federicoberon.newapp.model.AlarmEntity;
 import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 /**
  * Data Access Object for the Alarm table.
@@ -25,4 +26,11 @@ public interface AlarmDao extends BaseDao<AlarmEntity>{
 
     @Query("DELETE FROM alarms WHERE id = :currentAlarmId")
     Completable deleteAlarm(long currentAlarmId);
+
+    /* 0 (false) and 1 (true). */
+    @Query("UPDATE alarms SET started = :status WHERE id = :id")
+    Maybe<Integer> disableAlarm(long id, boolean status);
+
+    @Query("UPDATE alarms SET started = :status WHERE id = :id")
+    Maybe<Integer> enableAlarm(long id, boolean status);
 }

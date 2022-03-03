@@ -15,8 +15,8 @@ public interface BaseDao<T>  {
     Maybe<Long> insert(T t);
 
     @Update
-    void update(T t);
+    Maybe<Integer> update(T t);
 
     @Delete
-    void delete(T t);
+    Maybe<Integer> delete(T t);
 }

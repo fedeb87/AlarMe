@@ -146,7 +146,7 @@
     <string name="no_alarm">No hay alarmas activas</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="on_string">Activado</string>
     <string name="off_string">Desactivado</string>
@@ -176,4 +176,6 @@
     <string name="no_postpone_string">No posponer</string>
     <string name="no_vibrate_string">Sin vibración</string>
     <string name="no_melody_string">Sin melodia</string>
+    <string name="no_alarm_entity">Se produjo un error inesperado al reproducir la alarma. Por favor contacte a soporte.</string>
+    <string name="notification_title">%s Alarm</string>
 </resources>

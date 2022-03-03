@@ -29,12 +29,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.federicoberon.newapp.ui.alarm.AlarmActivity" />
+        <activity
+            android:name="com.federicoberon.newapp.ui.alarm.AlarmActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <receiver android:name="com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name="com.federicoberon.newapp.broadcastreceiver.ActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY" />
             </intent-filter>
         </receiver>
 

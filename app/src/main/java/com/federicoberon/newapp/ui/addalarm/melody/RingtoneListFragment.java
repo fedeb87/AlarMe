@@ -47,9 +47,6 @@ public class RingtoneListFragment extends Fragment {
     private MediaPlayer mMediaPlayer;
 
     @Inject
-    RingtoneManager mRingtoneManager;
-
-    @Inject
     AudioManager mAudioManager;
 
     @Inject

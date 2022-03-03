@@ -1,15 +1,6 @@
 package com.federicoberon.newapp.utils;
 
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.REPEAT_TIME;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.POSTPONE_TIME;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.SUNDAY;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
+import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
@@ -28,22 +19,12 @@ import javax.inject.Singleton;
 
 @Singleton
 public class AlarmManager {
-    //todo aca iria el metodo para apagar o borrar una alarma ya creada
     @SuppressLint("UnspecifiedImmutableFlag")
     public static void schedule(Context context, AlarmEntity alarmEntity) {
         android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
-        intent.putExtra(MONDAY, alarmEntity.isMonday());
-        intent.putExtra(TUESDAY, alarmEntity.isTuesday());
-        intent.putExtra(WEDNESDAY, alarmEntity.isWednesday());
-        intent.putExtra(THURSDAY, alarmEntity.isThursday());
-        intent.putExtra(FRIDAY, alarmEntity.isFriday());
-        intent.putExtra(SATURDAY, alarmEntity.isSaturday());
-        intent.putExtra(SUNDAY, alarmEntity.isSunday());
-        intent.putExtra(REPEAT_TIME, alarmEntity.getRepeatTime());
-        intent.putExtra(POSTPONE_TIME, alarmEntity.getPostponeTime());
 
-        intent.putExtra(TITLE, alarmEntity.getTitle());
+        intent.putExtra(ALARM_ENTITY, alarmEntity);
 
         PendingIntent alarmPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -86,6 +67,28 @@ public class AlarmManager {
 
     }
 
+    public static void dismissAlarm(Context context, AlarmEntity alarmEntity){
+/*
+        Log.w("MIO", "getId----- " + alarmEntity.getId());
+        Log.w("MIO", "getHour----- " + alarmEntity.getHour());
+        Log.w("MIO", "getMinute----- " + alarmEntity.getMinute());*/
+
+        android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
+        intent.putExtra(ALARM_ENTITY, alarmEntity);
+
+        PendingIntent pendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            pendingIntent = PendingIntent.getBroadcast(context, (int)alarmEntity.getId(),
+                    intent, PendingIntent.FLAG_IMMUTABLE);
+        }else{
+            pendingIntent = PendingIntent.getBroadcast(context, (int)alarmEntity.getId(),
+                    intent, 0);
+        }
+        alarmManager.cancel(pendingIntent); //Remove any alarms with a matching Inten
+
+    }
+
     public static String getRecurringDaysText(AlarmEntity alarmEntity) {
         if (!recurring(alarmEntity)) {
             return null;
@@ -123,17 +126,14 @@ public class AlarmManager {
                 alarmEntity.isTuesday();
     }
 
-    public static AlarmEntity getSnoozedAlarm(int repeat_time){
+    public static AlarmEntity getSnoozedAlarm(AlarmEntity alarmEntity, int repeat_time){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.add(Calendar.MINUTE, repeat_time);
-        // todo
-        /*return new AlarmEntity(String title, Date alarmDate, int hour, int minute,
-                       boolean[] daysOfWeek, boolean melodyOn, long melodyId, String melodyName,
-                       boolean vibrationOn, String vibrationPatter, boolean postponeOn,
-                       int postponeTime, boolean repeatOn, int repeatTime, boolean started);
 
-         */
-        return null;
+        alarmEntity.setAlarmDate(calendar.getTime());
+        alarmEntity.setHour(calendar.get(Calendar.HOUR_OF_DAY));
+        alarmEntity.setMinute(Calendar.MINUTE);
+        return alarmEntity;
     }
 }

@@ -19,6 +19,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
+/**
+ * Simply call AlarmService for each alarm in the database
+ */
 public class RescheduleAlarmsService extends LifecycleService {
 
     private static final String LOG_TAG = "RescheduleAlarmsService";

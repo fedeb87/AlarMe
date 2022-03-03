@@ -1,15 +1,9 @@
 package com.federicoberon.newapp;
 
-import android.database.Cursor;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -29,6 +23,8 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+// todo agregarle para que pueda cambiar el tema, y sea un sol
+
 public class MainActivity extends AppCompatActivity  {
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
@@ -45,33 +41,6 @@ public class MainActivity extends AppCompatActivity  {
                 .appComponent.inject(this);
 
         super.onCreate(savedInstanceState);
-
-
-        RingtoneManager manager = new RingtoneManager(this);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
-        //Cursor cursor = manager.getCursor();
-        //manager.getRingtoneUri()
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-
-        Cursor cursor = manager.getCursor();
-        cursor.moveToNext();
-
-
-
-/*
-        RingtoneManager manager = new RingtoneManager(this);
-        manager.setType(RingtoneManager.TYPE_RINGTONE);
-        Cursor cursor = manager.getCursor();
-        while (cursor.moveToNext()) {
-            String title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
-            String title2 = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
-            Uri ringtoneURI = manager.getRingtoneUri(cursor.getPosition());
-            // Do something with the title and the URI of ringtone
-            Log.w("MIO", "ringtoneURI-------" + ringtoneURI.getPath());
-            Log.w("MIO", "title-------" + title);
-            Log.w("MIO", "title2-------" + title2);
-        }*/
-
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -162,11 +131,18 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void setHeader(String next_alarm){
-        binding.appBarMain.linearLayoutTitles.setVisibility(View.VISIBLE);
-        binding.appBarMain.timePicker.setVisibility(View.GONE);
-        binding.appBarMain.textViewFirstTitle.setText(R.string.next_alarm_string);
-        binding.appBarMain.textViewNextSecondTitle.setText(next_alarm);
-        binding.appBarMain.fab.setVisibility(View.VISIBLE);
+        if(next_alarm.isEmpty()){
+            binding.appBarMain.linearLayoutTitlesActive.setVisibility(View.GONE);
+            binding.appBarMain.linearLayoutTitlesInactive.setVisibility(View.VISIBLE);
+        }else {
+            binding.appBarMain.linearLayoutTitlesActive.setVisibility(View.VISIBLE);
+            binding.appBarMain.linearLayoutTitlesInactive.setVisibility(View.GONE);
+        }
+            binding.appBarMain.timePicker.setVisibility(View.GONE);
+            binding.appBarMain.textViewFirstTitle.setText(R.string.next_alarm_string);
+            binding.appBarMain.textViewNextSecondTitle.setText(next_alarm);
+            binding.appBarMain.fab.setVisibility(View.VISIBLE);
+        
     }
 
     public void setTimePickerHeader(Calendar calendar){
@@ -174,7 +150,8 @@ public class MainActivity extends AppCompatActivity  {
             binding.appBarMain.timePicker.setHour(calendar.get(Calendar.HOUR_OF_DAY));
             binding.appBarMain.timePicker.setMinute(calendar.get(Calendar.MINUTE));
         }
-        binding.appBarMain.linearLayoutTitles.setVisibility(View.GONE);
+        binding.appBarMain.linearLayoutTitlesActive.setVisibility(View.GONE);
+        binding.appBarMain.linearLayoutTitlesInactive.setVisibility(View.GONE);
         binding.appBarMain.timePicker.setVisibility(View.VISIBLE);
         binding.appBarMain.timePicker.setIs24HourView(true);
         binding.appBarMain.fab.setVisibility(View.GONE);

@@ -54,12 +54,12 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         super.onAttach(context);
         // Injects this activity to the just created Registration component
         ((SimpleRemindMeApplication)requireActivity().getApplication()).appComponent.inject(this);
-        addAlarmViewModel.restart();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        addAlarmViewModel.restart();
         binding = FragmentAddAlarmBinding.inflate(inflater, container, false);
 
         Bundle bundle = this.getArguments();
@@ -236,6 +236,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(id -> {
+                        addAlarmViewModel.setIdInsertedAlarm(id);
                         addAlarmViewModel.scheduledAlarm(requireActivity());
                         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_addAlarmFragment_to_nav_home);
                     },

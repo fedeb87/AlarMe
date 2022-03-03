@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 @Singleton
 public class HomeViewModel extends ViewModel {
@@ -36,12 +37,16 @@ public class HomeViewModel extends ViewModel {
         return currentAlarmId;
     }
 
-    public Flowable<AlarmEntity> getMilestoneById(long id) {
+    public Flowable<AlarmEntity> getAlarmById(long id) {
         this.currentAlarmId = id;
         return mAlarmRepository.getAlarmById(id);
     }
 
     public Completable deleteAlarm() {
         return mAlarmRepository.deleteAlarm(currentAlarmId);
+    }
+
+    public Maybe<Long> disableAlarm(AlarmEntity alarmEntity) {
+        return mAlarmRepository.insertOrUpdateAlarm(alarmEntity);
     }
 }

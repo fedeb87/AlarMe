@@ -6,6 +6,7 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
  * Immutable model class for a Milestone
  */
 @Entity(tableName = "alarms")
-public class AlarmEntity {
+public class AlarmEntity implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -29,7 +30,7 @@ public class AlarmEntity {
     private boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
 
     private boolean melodyOn;
-    private long melodyId;
+    private String melodyUri;
     private String melodyName;
 
     private boolean vibrationOn;
@@ -51,7 +52,7 @@ public class AlarmEntity {
     }
 
     public AlarmEntity(long id, @NonNull String title, Date alarmDate, int hour, int minute,
-                       boolean[] daysOfWeek, boolean melodyOn, long melodyId, String melodyName,
+                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
         this.id = id;
@@ -68,7 +69,7 @@ public class AlarmEntity {
         this.saturday = daysOfWeek[6];
         this.sunday = daysOfWeek[0];
         this.melodyOn = melodyOn;
-        this.melodyId = melodyId;
+        this.melodyUri = melodyUri;
         this.melodyName = melodyName;
         this.vibrationOn = vibrationOn;
         this.vibrationPatter = vibrationPatter;
@@ -81,7 +82,7 @@ public class AlarmEntity {
 
     @Ignore
     public AlarmEntity(@NonNull String title, Date alarmDate, int hour, int minute,
-                       boolean[] daysOfWeek, boolean melodyOn, long melodyId, String melodyName,
+                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
         this.title = title;
@@ -97,7 +98,7 @@ public class AlarmEntity {
         this.saturday = daysOfWeek[6];
         this.sunday = daysOfWeek[0];
         this.melodyOn = melodyOn;
-        this.melodyId = melodyId;
+        this.melodyUri = melodyUri;
         this.melodyName = melodyName;
         this.vibrationOn = vibrationOn;
         this.vibrationPatter = vibrationPatter;
@@ -149,12 +150,12 @@ public class AlarmEntity {
         this.postponeTime = postponeTime;
     }
 
-    public long getMelodyId() {
-        return melodyId;
+    public String getMelodyUri() {
+        return melodyUri;
     }
 
-    public void setMelodyId(long melodyId) {
-        this.melodyId = melodyId;
+    public void setMelodyUri(String melodyUri) {
+        this.melodyUri = melodyUri;
     }
 
     public boolean isMonday() {
@@ -238,6 +239,17 @@ public class AlarmEntity {
     }
 
     public boolean[] getDaysOfWeek() {
+        if (daysOfWeek == null) {
+            boolean[] array = new boolean[7];
+            array[1] = isMonday();
+            array[2] = isTuesday();
+            array[3] = isWednesday();
+            array[4] = isThursday();
+            array[5] = isFriday();
+            array[6] = isSaturday();
+            array[0] = isSunday();
+            return array;
+        }
         return daysOfWeek;
     }
 
@@ -251,6 +263,46 @@ public class AlarmEntity {
 
     public void setMelodyName(String melodyName) {
         this.melodyName = melodyName;
+    }
+
+    public boolean isMelodyOn() {
+        return melodyOn;
+    }
+
+    public boolean isVibrationOn() {
+        return vibrationOn;
+    }
+
+    public String getVibrationPatter() {
+        return vibrationPatter;
+    }
+
+    public boolean isPostponeOn() {
+        return postponeOn;
+    }
+
+    public boolean isRepeatOn() {
+        return repeatOn;
+    }
+
+    public void setMelodyOn(boolean melodyOn) {
+        this.melodyOn = melodyOn;
+    }
+
+    public void setVibrationOn(boolean vibrationOn) {
+        this.vibrationOn = vibrationOn;
+    }
+
+    public void setVibrationPatter(String vibrationPatter) {
+        this.vibrationPatter = vibrationPatter;
+    }
+
+    public void setPostponeOn(boolean postponeOn) {
+        this.postponeOn = postponeOn;
+    }
+
+    public void setRepeatOn(boolean repeatOn) {
+        this.repeatOn = repeatOn;
     }
 
     @Override

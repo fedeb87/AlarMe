@@ -4,11 +4,15 @@ import android.app.Application;
 import android.content.Context;
 
 import com.federicoberon.newapp.MainActivity;
+import com.federicoberon.newapp.broadcastreceiver.ActionReceiver;
+import com.federicoberon.newapp.datasource.dao.AlarmDao;
+import com.federicoberon.newapp.datasource.dao.MelodyDao;
 import com.federicoberon.newapp.di.ApplicationContext;
 import com.federicoberon.newapp.di.module.ApplicationModule;
 import com.federicoberon.newapp.di.module.AudioManagerModule;
 import com.federicoberon.newapp.di.module.DatabaseModule;
 import com.federicoberon.newapp.di.module.RingtoneManagerModule;
+import com.federicoberon.newapp.service.AlarmService;
 import com.federicoberon.newapp.service.RescheduleAlarmsService;
 import com.federicoberon.newapp.ui.about.AboutFragment;
 import com.federicoberon.newapp.ui.addalarm.AddAlarmFragment;
@@ -44,6 +48,9 @@ public interface ApplicationComponent {
     void inject (RingtonePickerFragment ringtonePickerFragment);
     void inject (PostponePickerFragment postponePickerFragment);
     void inject (RepeatPickerFragment repeatPickerFragment);
+    void inject (AlarmService alarmService);
+
+    void inject(ActionReceiver actionReceiver);
 
     //AddAlarmComponent.Factory addAlarmComponent();
 
@@ -51,4 +58,10 @@ public interface ApplicationComponent {
     Context getContext();
 
     Application getApplication();
+
+    AlarmDao getAlarmDao();
+
+    MelodyDao getMelodyDao();
+
+
 }

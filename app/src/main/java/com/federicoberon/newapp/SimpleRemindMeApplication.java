@@ -36,7 +36,6 @@ public class SimpleRemindMeApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .databaseModule(new DatabaseModule(this))
                 .audioManagerModule(new AudioManagerModule())
-                .ringtoneManagerModule(new RingtoneManagerModule())
                 .build();
     }
 

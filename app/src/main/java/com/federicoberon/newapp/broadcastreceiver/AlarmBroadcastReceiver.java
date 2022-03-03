@@ -4,30 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.service.AlarmService;
 import com.federicoberon.newapp.service.RescheduleAlarmsService;
 
 import java.util.Calendar;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
-    public static final String MONDAY = "MONDAY";
-    public static final String TUESDAY = "TUESDAY";
-    public static final String WEDNESDAY = "WEDNESDAY";
-    public static final String THURSDAY = "THURSDAY";
-    public static final String FRIDAY = "FRIDAY";
-    public static final String SATURDAY = "SATURDAY";
-    public static final String SUNDAY = "SUNDAY";
-    public static final String RECURRING = "RECURRING";
-    public static final String TITLE = "TITLE";
-    public static final String REPEAT_TIME = "REPEAT TIME";
-    public static final String POSTPONE_TIME = "POSTPONE TIME";
     public static final String ACTION_SNOOZE = "Snooze";
     public static final String ACTION_DISCARD = "Discard";
     public static final String ALARM_ENTITY = "AlarmEntity";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             String toastText = "Alarm Reboot";
@@ -36,44 +30,52 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         } else {
             String toastText = "Alarm Received";
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-            if (!intent.getBooleanExtra(RECURRING, false)) {
-                startAlarmService(context, intent);
-            } {
-                if (alarmIsToday(intent)) {
-                    startAlarmService(context, intent);
-                }
+            if (!containsTrue(alarmEntity.getDaysOfWeek())) {
+                startAlarmService(context, alarmEntity);
+            } else if (alarmIsToday(alarmEntity)) {
+                startAlarmService(context, alarmEntity);
             }
         }
     }
 
-    private boolean alarmIsToday(Intent intent) {
+    private boolean containsTrue(boolean[] daysOfWeek) {
+        for(boolean b : daysOfWeek) if(b) return true;
+        return false;
+    }
+
+    private boolean alarmIsToday(AlarmEntity alarmEntity) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int today = calendar.get(Calendar.DAY_OF_WEEK);
 
         switch(today) {
             case Calendar.MONDAY:
-                return intent.getBooleanExtra(MONDAY, false);
+                return alarmEntity.isMonday();
             case Calendar.TUESDAY:
-                return intent.getBooleanExtra(TUESDAY, false);
+                return alarmEntity.isTuesday();
             case Calendar.WEDNESDAY:
-                return intent.getBooleanExtra(WEDNESDAY, false);
+                return alarmEntity.isWednesday();
             case Calendar.THURSDAY:
-                return intent.getBooleanExtra(THURSDAY, false);
+                return alarmEntity.isThursday();
             case Calendar.FRIDAY:
-                return intent.getBooleanExtra(FRIDAY, false);
+                return alarmEntity.isFriday();
             case Calendar.SATURDAY:
-                return intent.getBooleanExtra(SATURDAY, false);
+                return alarmEntity.isSaturday();
             case Calendar.SUNDAY:
-                return intent.getBooleanExtra(SUNDAY, false);
+                return alarmEntity.isSunday();
         }
         return false;
     }
 
-    private void startAlarmService(Context context, Intent intent) {
+    /**
+     * Runs when creating new alarm create or on editing one
+     * @param context
+     * @param alarmEntity
+     */
+    private void startAlarmService(Context context, AlarmEntity alarmEntity) {
 
         Intent intentService = new Intent(context, AlarmService.class);
-        intentService.putExtra(TITLE, intent.getStringExtra(TITLE));
+        intentService.putExtra(ALARM_ENTITY, alarmEntity);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(intentService);
@@ -82,6 +84,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
+    /**
+     * Runs when restart device. Execute RescheduleAlarmsService
+     * @param context Application context
+     */
     private void startRescheduleAlarmsService(Context context) {
         Intent intentService = new Intent(context, RescheduleAlarmsService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

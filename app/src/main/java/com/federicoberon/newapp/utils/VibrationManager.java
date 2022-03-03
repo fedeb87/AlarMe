@@ -52,8 +52,8 @@ public class VibrationManager {
         return vibrations;
     }
 
-    public static LinkedHashMap<String, VibrationPattern> getVibrationByName(){
-        return vibrations;
+    public static long[] getVibrationByName(String name){
+        return vibrations.get(name).timestamps;
     }
 
     /**

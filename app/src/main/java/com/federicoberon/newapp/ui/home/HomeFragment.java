@@ -21,24 +21,21 @@ import com.federicoberon.newapp.databinding.FragmentHomeBinding;
 import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.utils.StringHelper;
 
-import java.util.Calendar;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements AlarmAdapter.EventListener {
 
     private static final String LOG_TAG = "HomeFragment";
 
-    // You want Dagger to provide an instance of HomeFragment from the graph
     @Inject
     HomeViewModel homeViewModel;
 
     private FragmentHomeBinding binding;
-    private MilestoneAdapter adapter;
+    private AlarmAdapter adapter;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
     @Override
@@ -66,16 +63,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupRecyclerView(binding.milestonesRecyclerView);
-        showAllMilestones();
+        showAllAlarms();
     }
 
     /**
      * Get all milestones without filters
      */
-    private void showAllMilestones() {
-
-        // todo para reflejar los cambios tendria que ver como actualizar solo 1, porque se va a modificar 1 sola fila en realiadad
-        // todo este fragmento cuando pinta no tiene en cuanta el estado on/off como para pintar bien los items
+    private void showAllAlarms() {
 
         mDisposable.add(homeViewModel.getAlarms("")
                 .subscribeOn(Schedulers.io())
@@ -94,8 +88,8 @@ public class HomeFragment extends Fragment {
 
     private void setFragmentHeader(AlarmEntity alarmEntity) {
         String header;
-        if (alarmEntity == null)
-            header = getResources().getString(R.string.no_alarm);
+        if (alarmEntity == null || !alarmEntity.isStarted())
+            header = "";
         else
             // todo podria hacer que diga el tiempo restante hasta la proxima alarma
             header = StringHelper.getFormatedAlarmDate(requireContext(), alarmEntity);
@@ -107,8 +101,8 @@ public class HomeFragment extends Fragment {
 
     private void setupRecyclerView(
             RecyclerView recyclerView) {
-        adapter = new MilestoneAdapter(
-                binding.getRoot());
+        adapter = new AlarmAdapter(
+                binding.getRoot(), this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
     }
@@ -119,5 +113,23 @@ public class HomeFragment extends Fragment {
         // clear all the subscriptions
         mDisposable.clear();
         binding = null;
+    }
+
+    /**
+     * Called when on / off alarm from the list
+     * @param alarmEntity
+     */
+    @Override
+    public void onEvent(AlarmEntity alarmEntity) {
+
+        mDisposable.add(homeViewModel.disableAlarm(alarmEntity)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(id -> {
+                    Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
+                    Log.w("MIO", "Alarma actualizada con el estado: " + alarmEntity.isStarted());
+                },
+                throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+        ;
     }
 }
