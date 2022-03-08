@@ -15,17 +15,26 @@ import io.reactivex.Maybe;
 @Dao
 public interface AlarmDao extends BaseDao<AlarmEntity>{
 
-    @Query("SELECT * FROM alarms ORDER BY alarm_date DESC")
+    @Query("SELECT * FROM alarms ORDER BY hourInMinutes DESC")
     Flowable<List<AlarmEntity>> getAllAlarm();
 
-    @Query("SELECT m.* FROM alarms m WHERE m.title LIKE :filter ORDER BY m.alarm_date DESC")
+    @Query("SELECT * FROM alarms ORDER BY started DESC, alarm_date ASC")
+    Flowable<List<AlarmEntity>> getFirstAlarmStarted();
+
+    @Query("SELECT m.* FROM alarms m WHERE m.title LIKE :filter ORDER BY m.hourInMinutes DESC")
     Flowable<List<AlarmEntity>> getAlarm(String filter);
 
     @Query("SELECT m.* FROM alarms m WHERE m.id = :id")
     Flowable<AlarmEntity> getAlarmById(long id);
 
+    @Query("SELECT m.* FROM alarms m WHERE m.id IN (:ids)")
+    Flowable<List<AlarmEntity>> getAlarmByIds(List<Long> ids);
+
     @Query("DELETE FROM alarms WHERE id = :currentAlarmId")
     Completable deleteAlarm(long currentAlarmId);
+
+    @Query("DELETE FROM alarms WHERE id IN (:ids)")
+    Completable deleteAlarms(List<Long> ids);
 
     /* 0 (false) and 1 (true). */
     @Query("UPDATE alarms SET started = :status WHERE id = :id")

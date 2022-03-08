@@ -1,59 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemCardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="96dp"
     android:layout_marginBottom="@dimen/vertical_margin_half"
     android:layout_marginLeft="@dimen/vertical_margin"
     android:layout_marginRight="@dimen/vertical_margin"
     android:layout_marginTop="@dimen/vertical_margin"
     card_view:cardCornerRadius="8dp"
     card_view:cardBackgroundColor="@android:color/transparent"
+    card_view:cardElevation="0dp"
     >
 
-
+    <!-- card_view:cardBackgroundColor="@android:color/transparent" -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_weight="2"
             >
 
             <TextView
                 android:id="@+id/textCardTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="12dp"
-                android:paddingRight="4dp"
+                android:layout_alignStart="@+id/textCardHour"
+                android:layout_marginStart="0dp"
+                android:maxLines="1"
+                android:gravity="left"
                 android:paddingTop="10dp"
                 android:textSize="14sp"
-                tools:text="Milestone title"
-                android:maxLines="1"
-                />
+                tools:text="Milestone title" />
 
             <TextView
                 android:id="@+id/textCardHour"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="87dp"
+                android:layout_height="43dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="31dp"
+                android:layout_marginEnd="43dp"
+                android:layout_marginBottom="22dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:paddingStart="12dp"
-                android:paddingBottom="16dp"
                 android:textSize="32sp"
-                tools:text="08:00"
                 tools:ignore="RtlSymmetry"
-                />
+                tools:text="08:00" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textCardDays"
@@ -80,5 +85,17 @@
             />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/checkedIcon"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="-32dp"
+        android:visibility="gone"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_checked"
+        android:layout_gravity="left|center_vertical"
+        android:contentDescription="@string/desc"
+        tools:ignore="RtlHardcoded" />
 
     </com.google.android.material.card.MaterialCardView>

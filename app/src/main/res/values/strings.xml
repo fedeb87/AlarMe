@@ -30,7 +30,7 @@
     <string name="VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION" translatable="false">Shows notifications whenever work starts</string>
     <string name="NOTIFICATION_ID" translatable="false">1</string>
     <string name="vibration_key" translatable="false">vibrar</string>
-    <string name="hit_search">Buscara eventos...</string>
+    <string name="hit_search">Buscar eventos…</string>
     <string name="event_type">Tipo del evento</string>
     <string name="new_event_title">Nueva Alarma</string>
     <string name="title_hint_milestone">Nombre de la alarma</string>
@@ -178,4 +178,12 @@
     <string name="no_melody_string">Sin melodia</string>
     <string name="no_alarm_entity">Se produjo un error inesperado al reproducir la alarma. Por favor contacte a soporte.</string>
     <string name="notification_title">%s Alarm</string>
+    <string name="snack_bar_text">Deshacer item borrado</string>
+    <string name="snack_bar_undo">Deshacer</string>
+    <string name="select_all_menu">All</string>
+    <string name="delete_alarm_title">Eliminar alarmas?</string>
+    <string name="delete_alarm_msg">Esta seguro que desea eliminar las alarmas seleccionadas?</string>
+    <string name="alarms_every">Todos los %s a las %s</string>
+    <string name="alarm_today">Hoy %s %d de %s - %s</string>
+    <string name="alarm_tomorrow">Mañana %s %d de %s - %s</string>
 </resources>

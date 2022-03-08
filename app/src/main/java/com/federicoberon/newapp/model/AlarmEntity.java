@@ -24,6 +24,7 @@ public class AlarmEntity implements Serializable {
     private Date alarmDate;
     private int hour;
     private int minute;
+    private int hourInMinutes;
 
     @Ignore
     private boolean[] daysOfWeek;
@@ -51,7 +52,7 @@ public class AlarmEntity implements Serializable {
     public AlarmEntity() {
     }
 
-    public AlarmEntity(long id, @NonNull String title, Date alarmDate, int hour, int minute,
+    public AlarmEntity(long id, @NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
@@ -60,6 +61,7 @@ public class AlarmEntity implements Serializable {
         this.alarmDate = alarmDate;
         this.hour = hour;
         this.minute = minute;
+        this.hourInMinutes = hourInMinutes;
         this.daysOfWeek = daysOfWeek;
         this.monday = daysOfWeek[1];
         this.tuesday = daysOfWeek[2];
@@ -81,7 +83,7 @@ public class AlarmEntity implements Serializable {
     }
 
     @Ignore
-    public AlarmEntity(@NonNull String title, Date alarmDate, int hour, int minute,
+    public AlarmEntity(@NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
@@ -89,6 +91,7 @@ public class AlarmEntity implements Serializable {
         this.alarmDate = alarmDate;
         this.hour = hour;
         this.minute = minute;
+        this.hourInMinutes = hourInMinutes;
         this.daysOfWeek = daysOfWeek;
         this.monday = daysOfWeek[1];
         this.tuesday = daysOfWeek[2];
@@ -236,6 +239,14 @@ public class AlarmEntity implements Serializable {
 
     public void setMinute(int minute) {
         this.minute = minute;
+    }
+
+    public int getHourInMinutes() {
+        return hourInMinutes;
+    }
+
+    public void setHourInMinutes(int hourInMinutes) {
+        this.hourInMinutes = hourInMinutes;
     }
 
     public boolean[] getDaysOfWeek() {

@@ -38,8 +38,18 @@ public class AlarmRepository implements AlarmDataSource {
     }
 
     @Override
+    public Flowable<List<AlarmEntity>> getFirstAlarmStarted() {
+        return mAlarmDao.getFirstAlarmStarted();
+    }
+
+    @Override
     public Flowable<AlarmEntity> getAlarmById(long id) {
         return mAlarmDao.getAlarmById(id);
+    }
+
+    @Override
+    public Flowable<List<AlarmEntity>> getAlarmByIds(List<Long> ids) {
+        return mAlarmDao.getAlarmByIds(ids);
     }
 
     @Override
@@ -58,6 +68,11 @@ public class AlarmRepository implements AlarmDataSource {
     @Override
     public Completable deleteAlarm(long currentMilestoneId) {
         return mAlarmDao.deleteAlarm(currentMilestoneId);
+    }
+
+    @Override
+    public Completable deleteAlarms(List<Long> ids) {
+        return mAlarmDao.deleteAlarms(ids);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.federicoberon.newapp.ui.addalarm;
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -184,16 +186,22 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public Maybe<Long> saveAlarm(String title) {
+
+        int hourInMinutes = mHour*60+mMinutes;
+
         if (insertedAlarm==null)
-            insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, this.daysOfWeek,
-                    this.isMelodyOn, this.selectedMelody.getUri(), this.selectedMelody.getTitle(),
-                    this.isVibrationOn, this.selectedVibration, this.isPostponeOn,
-                    this.selectedPostpone, this.isRepeatOn, this.selectedRepeat, true);
+            insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, hourInMinutes,
+                    this.daysOfWeek, this.isMelodyOn, this.selectedMelody.getUri(),
+                    this.selectedMelody.getTitle(), this.isVibrationOn, this.selectedVibration,
+                    this.isPostponeOn, this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
+                    true);
         else
-            insertedAlarm = new AlarmEntity(insertedAlarm.getId(), title, getDate(), mHour, mMinutes, this.daysOfWeek,
-                    this.isMelodyOn, this.selectedMelody.getUri(), this.selectedMelody.getTitle(),
+            insertedAlarm = new AlarmEntity(insertedAlarm.getId(), title, getDate(), mHour,
+                    mMinutes, hourInMinutes, this.daysOfWeek, this.isMelodyOn,
+                    this.selectedMelody.getUri(), this.selectedMelody.getTitle(),
                     this.isVibrationOn, this.selectedVibration, this.isPostponeOn,
-                    this.selectedPostpone, this.isRepeatOn, this.selectedRepeat, insertedAlarm.isStarted());
+                    this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
+                    insertedAlarm.isStarted());
 
         return mAlarmRepository.insertOrUpdateAlarm(insertedAlarm);
     }
@@ -223,7 +231,6 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedMelody(MelodyEntity melody) {
-        //todo puede que este me convenga que se un mutablelivedata
         this.selectedMelody = melody;
     }
 
@@ -276,11 +283,11 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public boolean isMelodyOn() {
-        return isMelodyOn;
+        return this.isMelodyOn;
     }
 
     public void setMelodyOn(boolean melodyOn) {
-        isMelodyOn = melodyOn;
+        this.isMelodyOn = melodyOn;
     }
 
     public void setIdInsertedAlarm(Long id) {

@@ -21,7 +21,11 @@ public interface AlarmDataSource {
      */
     Flowable<List<AlarmEntity>> getAllAlarms();
 
+    Flowable<List<AlarmEntity>> getAlarmByIds(List<Long> ids);
+
     Flowable<List<AlarmEntity>> getAlarms(String filter);
+
+    Flowable<List<AlarmEntity>> getFirstAlarmStarted();
 
     Flowable<AlarmEntity> getAlarmById(long id);
 
@@ -34,6 +38,8 @@ public interface AlarmDataSource {
     Maybe<Long> insertOrUpdateAlarm(AlarmEntity alarmEntity);
 
     Completable deleteAlarm(long currentMilestoneId);
+
+    Completable deleteAlarms(List<Long> ids);
 
     Flowable<List<MelodyEntity>> getAllMelodies();
 

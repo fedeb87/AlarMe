@@ -14,6 +14,7 @@ import com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver;
 import com.federicoberon.newapp.model.AlarmEntity;
 
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -65,6 +66,12 @@ public class AlarmManager {
             );
         }
 
+    }
+
+    public static void dismissAlarm(Context context, List<AlarmEntity> alarmsToDelete){
+        for(AlarmEntity ae: alarmsToDelete){
+            dismissAlarm(context, ae);
+        }
     }
 
     public static void dismissAlarm(Context context, AlarmEntity alarmEntity){

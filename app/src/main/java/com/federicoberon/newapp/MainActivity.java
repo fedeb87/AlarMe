@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import com.federicoberon.newapp.databinding.ActivityMainBinding;
+import com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.newapp.ui.home.HomeFragment;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity  {
 
     @Inject
     MainViewModel mMainViewModel;
+
+    @Inject
+    AddAlarmViewModel mAddAlarmViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class MainActivity extends AppCompatActivity  {
 
     /**
      * Show app title only when appbar are collapsed
-     * @param binding
+     * @param binding binding of main activity
      */
     private void setCollapsingToolbarBehaviour(ActivityMainBinding binding) {
         CollapsingToolbarLayout collapsingToolbarLayout = binding.appBarMain.collapsingToolbar;
@@ -94,11 +98,9 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void goToAddMilestone() {
-        navController.navigate(R.id.action_nav_home_to_addAlarmFragment);
-    }
 
-    public void goToHome() {
-        navController.navigate(R.id.action_addAlarmFragment_to_nav_home);
+        mAddAlarmViewModel.restart();
+        navController.navigate(R.id.action_nav_home_to_addAlarmFragment);
     }
 
     @Override
@@ -138,11 +140,10 @@ public class MainActivity extends AppCompatActivity  {
             binding.appBarMain.linearLayoutTitlesActive.setVisibility(View.VISIBLE);
             binding.appBarMain.linearLayoutTitlesInactive.setVisibility(View.GONE);
         }
-            binding.appBarMain.timePicker.setVisibility(View.GONE);
-            binding.appBarMain.textViewFirstTitle.setText(R.string.next_alarm_string);
-            binding.appBarMain.textViewNextSecondTitle.setText(next_alarm);
-            binding.appBarMain.fab.setVisibility(View.VISIBLE);
-        
+        binding.appBarMain.timePicker.setVisibility(View.GONE);
+        binding.appBarMain.textViewFirstTitle.setText(R.string.next_alarm_string);
+        binding.appBarMain.textViewNextSecondTitle.setText(next_alarm);
+        binding.appBarMain.fab.setVisibility(View.VISIBLE);
     }
 
     public void setTimePickerHeader(Calendar calendar){

@@ -2,9 +2,6 @@ package com.federicoberon.newapp.ui.addalarm.melody;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -13,13 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
+import androidx.transition.TransitionInflater;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -28,16 +23,12 @@ import android.widget.SeekBar;
 import com.federicoberon.newapp.MainActivity;
 import com.federicoberon.newapp.R;
 import com.federicoberon.newapp.SimpleRemindMeApplication;
-import com.federicoberon.newapp.databinding.FragmentAddAlarmBinding;
-import com.federicoberon.newapp.databinding.FragmentHomeBinding;
 import com.federicoberon.newapp.databinding.FragmentRingtonePickerBinding;
 import com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class RingtonePickerFragment extends Fragment {
 

@@ -5,31 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:animateLayoutChanges="true"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_toolbar"
+        android:animateLayoutChanges="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:contentScrim="@color/black_effective"
             >
 
             <FrameLayout
+                android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
                 android:layout_marginTop="32dp"
-                android:layout_height="208dp"
+                android:layout_height="174dp"
+                android:animateLayoutChanges="true"
                 app:layout_collapseMode="parallax">
 
                 <LinearLayout
                     android:id="@+id/linearLayoutTitlesActive"
+                    android:animateLayoutChanges="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -44,16 +51,19 @@
                         android:layout_height="wrap_content"
                         tools:text="Próxima alarma"
                         android:textSize="40sp"
+                        android:layout_marginTop="16dp"
                         android:textColor="@color/white" />
 
                     <TextView
                         android:id="@+id/textViewNextSecondTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="18 horas y 20 minutos"
+                        tools:text="Mañana dom. 13 de feb - 18:00\nhola"
                         android:textSize="32sp"
                         android:layout_marginTop="5dp"
-                        android:layout_gravity="clip_horizontal"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginHorizontal="32dp"
+                        android:textAlignment="center"
                         android:textColor="@color/white" />
 
                 </LinearLayout>
@@ -64,9 +74,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginTop="24dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:visibility="gone"
+                    android:animateLayoutChanges="true"
                     >
 
                     <TextView
@@ -96,6 +108,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 />
 
@@ -103,7 +116,9 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include
+        android:id="@+id/content_main_id"
+        layout="@layout/content_main" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -113,6 +128,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         app:srcCompat="@android:drawable/ic_input_add"
-        android:contentDescription="@string/desc" />
+        android:contentDescription="@string/desc"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

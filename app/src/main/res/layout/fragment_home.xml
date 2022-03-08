@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment"
+        android:animateLayoutChanges="true"
         >
 
         <ImageView
@@ -26,7 +27,10 @@
             android:paddingTop="@dimen/vertical_margin_half"
             android:paddingBottom="@dimen/vertical_margin_half"
             android:scrollbars="vertical"
-            tools:listitem="@layout/item_alarm" />
+            tools:listitem="@layout/item_alarm"
+
+            android:layoutAnimation="@anim/layout_animation"
+            />
 
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

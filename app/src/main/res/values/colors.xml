@@ -34,4 +34,8 @@
     <color name="seek_bar_progress">#ffb600</color>
     <color name="seek_bar_secondary_progress">#3399CC</color>
     <color name="colorPrimaryLight">#469cee</color>
+
+
+    <color name="colorCardChecked">#482F3D89</color>
+    <color name="transparent">#00000000</color>
 </resources>

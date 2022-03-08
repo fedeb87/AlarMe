@@ -59,7 +59,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        addAlarmViewModel.restart();
         binding = FragmentAddAlarmBinding.inflate(inflater, container, false);
 
         Bundle bundle = this.getArguments();
@@ -70,7 +69,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(alarmEntity -> {
-                            //todo voy a tener que ver como setear las demas variablbes necesarias en el viewmodel para el editar alarma
                             addAlarmViewModel.setInsertedAlarm(alarmEntity);
                             populateUI(alarmEntity);
                                 },
@@ -81,6 +79,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             addAlarmViewModel.setNextAlarm(Calendar.getInstance());
 
         //**** selected melody ****//
+
         binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
         if (addAlarmViewModel.getSelectedMelody() == null){
             Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(requireActivity()
@@ -281,11 +280,11 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         changeColorsView(binding.textViewVibration, binding.vibrationValue, addAlarmViewModel.isVibrationOn());
         changeColorsView(binding.textViewPostpone, binding.postponeValue, addAlarmViewModel.isPostponeOn());
         changeColorsView(binding.textViewRepeat, binding.repeatValue, addAlarmViewModel.isRepeatOn());
-
+/*
         binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
         binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
         binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
-        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
+        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());*/
 
     }
 

@@ -2,6 +2,8 @@ package com.federicoberon.newapp.utils;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+
+import com.federicoberon.newapp.R;
 import com.federicoberon.newapp.model.AlarmEntity;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -44,13 +46,42 @@ public class StringHelper {
                 }
                 i++;
             }
-            return String.format("Todos los %s a las %s", days,
+            return String.format(context.getString(R.string.alarms_every), days,
                     DateFormat.getTimeFormat(context).format(nextAlarm.getTime()));
+        }else if(iToday(nextAlarm)){
+            return String.format(context.getString(R.string.alarm_today),
+                    nextAlarm.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT,Locale.getDefault()),
+                    nextAlarm.get(Calendar.DAY_OF_MONTH),
+                    nextAlarm.getDisplayName(Calendar.MONTH, Calendar.SHORT,Locale.getDefault()),
+                    DateFormat.format("kk:mm", nextAlarm.getTime()).toString());
+        }else if(isTomorrow(nextAlarm)){
+            return String.format(context.getString(R.string.alarm_tomorrow),
+                    nextAlarm.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT,Locale.getDefault()),
+                    nextAlarm.get(Calendar.DAY_OF_MONTH),
+                    nextAlarm.getDisplayName(Calendar.MONTH, Calendar.SHORT,Locale.getDefault()),
+                    DateFormat.format("kk:mm", nextAlarm.getTime()).toString());
         }else
             return String.format("%s %s - %s", nextAlarm.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG,
-                    Locale.getDefault()),
-                    DateFormat.getDateFormat(context.getApplicationContext()).format(nextAlarm.getTime()),
-                    DateFormat.format("kk:mm", nextAlarm.getTime()).toString());
+                Locale.getDefault()),
+                DateFormat.getDateFormat(context.getApplicationContext()).format(nextAlarm.getTime()),
+                DateFormat.format("kk:mm", nextAlarm.getTime()).toString());
+    }
+
+    private static boolean isTomorrow(Calendar nextAlarm) {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, 1);
+        if(cal.get(Calendar.DAY_OF_MONTH) == nextAlarm.get(Calendar.DAY_OF_MONTH)){
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean iToday(Calendar nextAlarm) {
+        Calendar cal = Calendar.getInstance();
+        if(cal.get(Calendar.DAY_OF_MONTH) == nextAlarm.get(Calendar.DAY_OF_MONTH)){
+            return true;
+        }
+        return false;
     }
 
 

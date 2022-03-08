@@ -11,7 +11,9 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
+            app:destination="@id/addAlarmFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
@@ -35,16 +37,32 @@
             app:destination="@id/nav_home" />
         <action
             android:id="@+id/action_select_ringtone"
-            app:destination="@id/ringtonePickerFragment" />
+            app:destination="@id/ringtonePickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_vibrator"
-            app:destination="@id/vibratorListFragment" />
+            app:destination="@id/vibratorListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_postpone"
-            app:destination="@id/postponePickerFragment" />
+            app:destination="@id/postponePickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_repeat"
-            app:destination="@id/repeatPickerFragment" />
+            app:destination="@id/repeatPickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
 
     </fragment>
     <fragment
@@ -54,27 +72,22 @@
         tools:layout="@layout/fragment_ringtone_picker" >
         <action
             android:id="@+id/action_ringtoneListFragment"
-            app:destination="@id/ringtoneListFragment" />
-        <action
-            android:id="@+id/action_back_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
+            app:destination="@id/ringtoneListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/ringtoneListFragment"
         android:name="com.federicoberon.newapp.ui.addalarm.melody.RingtoneListFragment"
         android:label="fragment_ringtone_list"
         tools:layout="@layout/fragment_ringtone_list" >
-        <action
-            android:id="@+id/action_back_to_ringtonePickerFragment"
-            app:destination="@id/ringtonePickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/vibratorListFragment"
         android:name="com.federicoberon.newapp.ui.addalarm.vibration.VibratorListFragment"
         android:label="VibratorListFragment" >
-        <action
-            android:id="@+id/action_vibratorListFragment_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
     </fragment>
     <fragment
         android:id="@+id/postponePickerFragment"
