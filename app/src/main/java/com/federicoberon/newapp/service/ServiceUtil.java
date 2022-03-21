@@ -21,7 +21,7 @@ public class ServiceUtil {
                 ((SimpleRemindMeApplication)context.getApplicationContext()).appComponent.getMelodyDao());
     }
 
-    public Maybe<Long> disableAlarm(AlarmEntity alarmEntity){
+    public Maybe<Long> updateAlarm(AlarmEntity alarmEntity){
         return mAlarmRepository.insertOrUpdateAlarm(alarmEntity);
     }
 

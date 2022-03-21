@@ -8,20 +8,14 @@ import com.federicoberon.newapp.model.AlarmEntity;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class StringHelper {
 
     public static String getFormatedAlarmDate(Context context, AlarmEntity alarmEntity) {
 
-        boolean[] daysOfWeek = new boolean[7];
-        daysOfWeek[0] = alarmEntity.isSunday();
-        daysOfWeek[1] = alarmEntity.isMonday();
-        daysOfWeek[2] = alarmEntity.isThursday();
-        daysOfWeek[3] = alarmEntity.isWednesday();
-        daysOfWeek[4] = alarmEntity.isTuesday();
-        daysOfWeek[5] = alarmEntity.isFriday();
-        daysOfWeek[6] = alarmEntity.isSaturday();
+        boolean[] daysOfWeek = DateUtils.getArrayBooleanDays(alarmEntity);
 
         Calendar nextAlarm = Calendar.getInstance();
         nextAlarm.setTime(alarmEntity.getAlarmDate());
@@ -37,6 +31,11 @@ public class StringHelper {
         // Vie. 15 de abr
 
         if(containsTrue(daysOfWeek)){
+
+            if(allTrue(daysOfWeek))
+                return String.format(context.getString(R.string.alarms_everyDay),
+                        DateFormat.getTimeFormat(context).format(nextAlarm.getTime()));
+
             String days = "";
             int i=0;
             while(i<7){
@@ -85,9 +84,14 @@ public class StringHelper {
     }
 
 
-    private static boolean containsTrue(boolean[] daysOfWeek) {
+    public static boolean containsTrue(boolean[] daysOfWeek) {
         for(boolean b : daysOfWeek) if(b) return true;
         return false;
+    }
+
+    public static boolean allTrue(boolean[] daysOfWeek) {
+        for(boolean b : daysOfWeek) if(!b) return false;
+        return true;
     }
 
     public static String toDay(int day) {

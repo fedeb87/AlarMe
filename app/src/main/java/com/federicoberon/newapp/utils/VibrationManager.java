@@ -41,6 +41,35 @@ public class VibrationManager {
         put("Double Staccato",      new VibrationPattern(new long[]{DELAY, 75, 85, 60, 70, 70, 50, 50, 430, 70, 90, 70, 70, 60, 50, 50}));
     }};
 
+    private static final LinkedHashMap<VibrationPattern, String> vibrations_reverse = new LinkedHashMap<VibrationPattern, String>(){{
+        put(new VibrationPattern(new long[]{DELAY, 250, 250, 250}), DEFAULT_VIBRATION);
+        put(new VibrationPattern(new long[]{DELAY, 300}),   "Short");
+        put(new VibrationPattern(new long[]{DELAY, 500}), "Medium");
+        put(new VibrationPattern(new long[]{DELAY, 1200}), "Long");
+        put(new VibrationPattern(new long[]{DELAY, 150, 150, 150}),
+                "Short Double Skip");
+        put(new VibrationPattern(new long[]{DELAY, 300, 300, 300}),
+                "Double Skip");
+        put(new VibrationPattern(new long[]{DELAY, 200, 50, 200, 100, 200, 150, 200}),
+                "Short Multi Skip");
+        put(new VibrationPattern(new long[]{DELAY, 300, 75, 300, 150, 300, 175, 300}),
+                "Multi Skip");
+        put(new VibrationPattern(new long[]{DELAY, 300, 150, 200, 200, 500, 50, 100}),
+                "Skippidy Skip");
+        put(new VibrationPattern(new long[]{DELAY, 70, 70, 70, 55, 70, 55, 625}),
+                "Short Short Long");
+        put(new VibrationPattern(new long[]{DELAY, 220, 90, 60, 75, 70, 75, 60}),
+                "Long Short Short");
+        put(new VibrationPattern(new long[]{DELAY, 70, 70, 70, 70, 70, 70, 70, 70}),
+                "Staccato");
+        put(new VibrationPattern(new long[]{DELAY, 75, 85, 60, 70, 70, 50, 50, 430, 70, 90, 70, 70, 60, 50, 50}),
+                "Double Staccato");
+    }};
+
+    public static String getVibrationNameByPattern(String vibrationPatter) {
+        return vibrations_reverse.get(vibrationPatter);
+    }
+
     private static class VibrationPattern {
         final long[] timestamps;
         VibrationPattern(long[] _timestamps) {

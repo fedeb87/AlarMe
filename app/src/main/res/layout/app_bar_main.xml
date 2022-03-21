@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
-            app:contentScrim="@color/black_effective"
+            app:contentScrim="@color/colorAccent"
             >
 
             <FrameLayout

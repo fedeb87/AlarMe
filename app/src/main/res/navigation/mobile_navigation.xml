@@ -14,13 +14,24 @@
             app:destination="@id/addAlarmFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/previewAlarmActivity"
+            app:destination="@id/alarmActivity"
+            app:enterAnim="@anim/slide_in_vertical"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_vertical" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_about"
         android:name="com.federicoberon.newapp.ui.about.AboutFragment"
         android:label="@string/menu_about"
-        tools:layout="@layout/fragment_about" />
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/action_nav_about_to_termsDialogFragment"
+            app:destination="@id/termsDialogFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/addAlarmFragment"
@@ -32,6 +43,12 @@
             android:name="milestone_id"
             app:argType="long"
             android:defaultValue="0L" />
+
+        <argument
+            android:name="duplicateIt"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
         <action
             android:id="@+id/action_addAlarmFragment_to_nav_home"
             app:destination="@id/nav_home" />
@@ -97,4 +114,23 @@
         android:id="@+id/repeatPickerFragment"
         android:name="com.federicoberon.newapp.ui.addalarm.repeat.RepeatPickerFragment"
         android:label="RepeatPickerFragment" />
+    <activity
+        android:id="@+id/alarmActivity"
+        android:name="com.federicoberon.newapp.ui.alarm.AlarmActivity"
+        android:label="AlarmActivity" >
+        <argument
+            android:name="AlarmEntity"
+            app:argType="com.federicoberon.newapp.model.AlarmEntity" />
+    </activity>
+    <dialog
+        android:id="@+id/termsDialogFragment"
+        android:name="com.federicoberon.newapp.ui.about.TermsDialogFragment"
+        android:label="TermsDialogFragment">
+
+        <argument
+            android:name="type_of_content"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+    </dialog>
 </navigation>

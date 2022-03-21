@@ -1,13 +1,19 @@
 package com.federicoberon.newapp;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.AlarmClock;
 import android.view.Menu;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -68,6 +74,14 @@ public class MainActivity extends AppCompatActivity  {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController navController, @NonNull NavDestination navDestination, @Nullable Bundle bundle) {
+                binding.appBarMain.appBar.setExpanded(true, true);
+            }
+        });
+
     }
 
     /**
@@ -98,7 +112,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void goToAddMilestone() {
-
         mAddAlarmViewModel.restart();
         navController.navigate(R.id.action_nav_home_to_addAlarmFragment);
     }

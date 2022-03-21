@@ -2,14 +2,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/ctx_menu_active"
+        android:title="@string/select_all_menu"
+        android:icon="@drawable/ic_alarm_on"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/ctx_menu_inactive"
+        android:title="@string/select_all_menu"
+        android:icon="@drawable/ic_alarm_off"
+        app:showAsAction="always" />
+
     <item android:id="@+id/ctx_menu_select_all"
         android:title="@string/select_all_menu"
         android:icon="@drawable/ic_select_all"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item android:id="@+id/ctx_menu_remove"
         android:title="@string/delete_menu"
         android:icon="@drawable/ic_delete"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
 </menu>

@@ -23,4 +23,12 @@
     <string name="delete_menu">Delete</string>
     <string name="remember_alarm">Remember:</string>
     <string name="about_title">FRAGMENT ABOUT</string>
+    <string name="horoscopeEnable">Horoscope enable</string>
+    <string name="show_horoscope_option">Show daily horoscope</string>
+    <string name="sagittarius">Sagittarius</string>
+    <string name="capricorn">Capricorn</string>
+    <string name="aquarius">Aquarius</string>
+    <string name="pisces">Pisces</string>
+    <string name="taurus">Taurus</string>
+    <string name="gemini">Gemini</string>
 </resources>

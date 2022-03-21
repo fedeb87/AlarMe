@@ -1,9 +1,13 @@
 package com.federicoberon.newapp.ui.home;
 
+import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -14,6 +18,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +37,7 @@ import com.federicoberon.newapp.databinding.FragmentHomeBinding;
 import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.service.AlarmService;
 import com.federicoberon.newapp.ui.addalarm.AddAlarmFragment;
+import com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.newapp.utils.AlarmManager;
 import com.federicoberon.newapp.utils.StringHelper;
 
@@ -49,6 +56,9 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
     @Inject
     HomeViewModel homeViewModel;
+
+    @Inject
+    AddAlarmViewModel addAlarmViewModel;
 
     private FragmentHomeBinding binding;
     private AlarmAdapter adapter;
@@ -71,8 +81,8 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     @Override
     public void onResume() {
         super.onResume();
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
-        lp.height = (int) getResources().getDimension(R.dimen.nav_header_height);
+        //CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
+        //lp.height = (int) getResources().getDimension(R.dimen.nav_header_height);
 
         setupViewModel();
     }
@@ -156,7 +166,6 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
     public void multi_select(int position) {
         if (homeViewModel.getActionMode() != null) {
-
             if (homeViewModel.getMultiselect_list().contains(homeViewModel.getAlarms().get(position))) {
                 homeViewModel.removeMultiselect_list(homeViewModel.getAlarms().get(position));
                 adapter.removeSelectedAlarmsList(homeViewModel.getAlarms().get(position));
@@ -165,11 +174,17 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 adapter.addSelectedAlarmsList(homeViewModel.getAlarms().get(position));
             }
 
-            if (homeViewModel.getMultiselect_list().size() > 0)
+
+            if (homeViewModel.getMultiselect_list().size() > 0) {
                 homeViewModel.getActionMode().setTitle("" + homeViewModel.getMultiselect_list().size());
-            else
+                adapter.onBindViewHolder((AlarmAdapter.AlarmViewHolder)
+                                binding.milestonesRecyclerView.findViewHolderForAdapterPosition(position),
+                        position);
+            }else {
                 homeViewModel.getActionMode().setTitle("");
-            refreshAdapter();
+                homeViewModel.finishActionMode();
+                refreshAdapter();
+            }
         }
     }
 
@@ -199,22 +214,26 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     }
 
     @Override
-    public void onItemClicked(View view, int position) {
+    public void onItemClicked(View view, int position, boolean duplicate) {
         if (homeViewModel.isMultiSelect())
             multi_select(position);
         else {
+            addAlarmViewModel.restart();
             long alarmId = (long) view.getTag();
             Bundle args = new Bundle();
 
             args.putLong(AddAlarmFragment.KEY_ALARM_ID, alarmId);
+            args.putBoolean(AddAlarmFragment.KEY_DUPLICATE_ALARM, duplicate);
 
+/*
             View itemDetailFragmentContainer = binding.getRoot()!=null?binding.getRoot().findViewById(R.id.item_detail_nav_container):null;
             if (itemDetailFragmentContainer != null) {
                 Navigation.findNavController(itemDetailFragmentContainer)
                         .navigate(R.id.fragment_item_detail, args);
             } else {
                 Navigation.findNavController(view).navigate(R.id.action_nav_home_to_addAlarmFragment, args);
-            }
+            }*/
+            Navigation.findNavController(view).navigate(R.id.action_nav_home_to_addAlarmFragment, args);
         }
     }
 
@@ -232,14 +251,87 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         multi_select(position);
     }
 
+    @Override
+    public void onDeleteMenuClicked(int position) {
+        deleteAlarm(position);
+    }
+
+    @Override
+    public void onDeleteSwiped(AlarmEntity alarmEntity) {
+        mDisposable.add(homeViewModel.deleteAlarm(alarmEntity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(id -> {
+                Log.w("MIO", "Alarma borrada correctamente");
+            },
+            throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable)));
+    }
+
+    private void deleteAlarm(int position) {
+        new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom))
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getString(R.string.delete_alarm_title))
+                .setMessage(getString(R.string.delete_alarm_msg))
+                .setPositiveButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
+                    @SuppressLint("CheckResult")
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // stop alarm service
+                        AlarmEntity alarmEntity = homeViewModel.getAlarms().get(position);
+                        AlarmManager.dismissAlarm(requireContext(), alarmEntity);
+
+                        homeViewModel.deleteAlarm(alarmEntity)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(id -> {
+
+                                    adapter.removeAlarmFromList(position);
+                                    Log.w("MIO", "Alarma borrada correctamente");
+                                },
+                                throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
+
+                    }
+
+                })
+                .setNegativeButton(getString(R.string.cancel_button), null)
+                .show();
+    }
+
+    @Override
+    public void onPreviewMenuClicked(AlarmEntity alarmEntity) {
+        // open alarm activity
+        Navigation.findNavController(binding.getRoot()).navigate(HomeFragmentDirections.previewAlarmActivity(alarmEntity));
+
+        // start service
+        startAlarmService(alarmEntity);
+    }
+
+    private void startAlarmService(AlarmEntity alarmEntity) {
+
+        Intent intentService = new Intent(requireContext(), AlarmService.class);
+        intentService.putExtra(ALARM_ENTITY, alarmEntity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            requireContext().startForegroundService(intentService);
+        } else {
+            requireContext().startService(intentService);
+        }
+    }
+
     // ************** esto es para multipple selccion
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             // Inflate a menu resource providing context menu items
+
+            mode.setTitle(null);
             MenuInflater inflater = mode.getMenuInflater();
             inflater.inflate(R.menu.ctx_menu, menu);
+            for (int i = 0; i < 4; i++) {
+                menu.getItem(i).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            }
+
             return true;
         }
 
@@ -252,8 +344,14 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
+                case R.id.ctx_menu_active:
+                    activateAlarms();
+                    return true;
+                case R.id.ctx_menu_inactive:
+                    inactiveAlarms();
+                    return true;
                 case R.id.ctx_menu_remove:
-                    deleteAlarm();
+                    deleteAlarms();
                     return true;
                 case R.id.ctx_menu_select_all:
                     select_all();
@@ -265,13 +363,81 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
+
+            homeViewModel.getActionMode().setTitle("");
+            homeViewModel.finishActionMode();
+
             homeViewModel.setActionMode(null);
             homeViewModel.setMultiSelect(false);
             homeViewModel.clearMultiselect_list();
             adapter.setSelectedAlarmsList(new ArrayList<>());
+
+
             refreshAdapter();
         }
     };
+
+    private void inactiveAlarms() {
+        List<Long> alarmsIdToActivate = new ArrayList<>();
+        for (AlarmEntity alarm : homeViewModel.getMultiselect_list()) {
+            alarmsIdToActivate.add(alarm.getId());
+        }
+
+        // cancel scheduled alarms
+        mDisposable.add(homeViewModel.getAlarmsToDelete(alarmsIdToActivate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(alarmsToActivate -> {
+                    // dismiss alarms
+                    AlarmManager.dismissAlarm(requireContext(), alarmsToActivate);
+
+                },
+                throwable -> Log.e("MIO", "Unable to dismiss alarms", throwable)));
+
+
+        //
+        mDisposable.add(homeViewModel.inactiveAlarms(alarmsIdToActivate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    adapter.setAlarms(homeViewModel.getAlarms());
+                    Log.w("MIO", "Alarmas desactivados correctamente " + alarmsIdToActivate.size());
+                },
+                throwable -> Log.e("MIO", "Unable to activate alarms", throwable)));
+    }
+
+    private void activateAlarms() {
+        List<Long> alarmsIdToActivate = new ArrayList<>();
+        for (AlarmEntity alarm : homeViewModel.getMultiselect_list()) {
+            alarmsIdToActivate.add(alarm.getId());
+        }
+
+        // schedule alarms
+        mDisposable.add(homeViewModel.getAlarmsToDelete(alarmsIdToActivate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(alarmsToActivate -> {
+
+                    // start alarm service
+                    for(AlarmEntity alarmEntity : alarmsToActivate){
+                        if(!alarmEntity.isStarted())
+                            AlarmManager.schedule(requireContext(), alarmEntity);
+
+                    }
+                },
+                throwable -> Log.e("MIO", "Unable to schedule alarms", throwable)));
+
+
+        //
+        mDisposable.add(homeViewModel.activeAlarms(alarmsIdToActivate)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> {
+                    adapter.setAlarms(homeViewModel.getAlarms());
+                    Log.w("MIO", "Alarmas activadas correctamente " + alarmsIdToActivate.size());
+                },
+                throwable -> Log.e("MIO", "Unable to activate alarms", throwable)));
+    }
 
 
     public void refreshAdapter() {
@@ -294,12 +460,11 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         }
     }
 
-    private void deleteAlarm() {
-
+    private void deleteAlarms() {
         new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom))
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle(getString(R.string.delete_alarm_title))
-                .setMessage(getString(R.string.delete_alarm_msg))
+                .setTitle(getString(R.string.delete_alarms_title))
+                .setMessage(getString(R.string.delete_alarms_msg))
                 .setPositiveButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
                     @SuppressLint("CheckResult")
                     @Override
@@ -314,21 +479,21 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(alarmsToDelete -> {
-                                            // stop alarm service
-                                            AlarmManager.dismissAlarm(requireContext(), alarmsToDelete);
+                                        // stop alarm service
+                                        AlarmManager.dismissAlarm(requireContext(), alarmsToDelete);
 
-                                            homeViewModel.deleteAlarms(alarmsIdToDelete)
-                                                    .subscribeOn(Schedulers.io())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(() -> {
-                                                                // stop alarm service
-                                                                Log.w("MIO", "Alarma borrada correctamente");
-                                                            },
-                                                            throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
+                                        homeViewModel.deleteAlarms(alarmsIdToDelete)
+                                                .subscribeOn(Schedulers.io())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe(() -> {
+                                                            // stop alarm service
+                                                            Log.w("MIO", "Alarma borrada correctamente");
+                                                        },
+                                                        throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
 
-                                            adapter.setAlarms(homeViewModel.getAlarms());
-                                        },
-                                        throwable -> Log.e("MIO", "Unable to cancel alarm: ", throwable)));
+                                        adapter.setAlarms(homeViewModel.getAlarms());
+                                },
+                                throwable -> Log.e("MIO", "Unable to cancel alarm: ", throwable)));
 
                         homeViewModel.finishActionMode();
                     }

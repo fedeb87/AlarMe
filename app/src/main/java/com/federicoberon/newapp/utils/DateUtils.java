@@ -1,5 +1,7 @@
 package com.federicoberon.newapp.utils;
 
+import com.federicoberon.newapp.model.AlarmEntity;
+
 import java.util.Calendar;
 
 public class DateUtils {
@@ -17,5 +19,20 @@ public class DateUtils {
         if (alarmHour <= currentHour) // es mañana
             currentCalendar.add(Calendar.DAY_OF_MONTH, 1);
         return currentCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+
+    public static boolean[] getArrayBooleanDays(AlarmEntity alarmEntity){
+
+        boolean[] daysOfWeek = new boolean[7];
+        daysOfWeek[0] = alarmEntity.isSunday();
+        daysOfWeek[1] = alarmEntity.isMonday();
+        daysOfWeek[2] = alarmEntity.isThursday();
+        daysOfWeek[3] = alarmEntity.isWednesday();
+        daysOfWeek[4] = alarmEntity.isTuesday();
+        daysOfWeek[5] = alarmEntity.isFriday();
+        daysOfWeek[6] = alarmEntity.isSaturday();
+
+        return daysOfWeek;
     }
 }

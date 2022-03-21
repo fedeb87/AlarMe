@@ -12,10 +12,12 @@ import com.federicoberon.newapp.di.module.ApplicationModule;
 import com.federicoberon.newapp.di.module.AudioManagerModule;
 import com.federicoberon.newapp.di.module.DatabaseModule;
 import com.federicoberon.newapp.di.module.RingtoneManagerModule;
+import com.federicoberon.newapp.retrofit.HoroscopeService;
 import com.federicoberon.newapp.service.AlarmService;
 import com.federicoberon.newapp.service.RescheduleAlarmsService;
 import com.federicoberon.newapp.ui.about.AboutFragment;
 import com.federicoberon.newapp.ui.addalarm.AddAlarmFragment;
+import com.federicoberon.newapp.ui.addalarm.horoscope.HoroscopeDialogFragment;
 import com.federicoberon.newapp.ui.addalarm.postpone.PostponePickerFragment;
 import com.federicoberon.newapp.ui.addalarm.melody.RingtoneListFragment;
 import com.federicoberon.newapp.ui.addalarm.melody.RingtonePickerFragment;
@@ -49,10 +51,9 @@ public interface ApplicationComponent {
     void inject (PostponePickerFragment postponePickerFragment);
     void inject (RepeatPickerFragment repeatPickerFragment);
     void inject (AlarmService alarmService);
+    void inject (HoroscopeDialogFragment horoscopeDialogFragment);
 
     void inject(ActionReceiver actionReceiver);
-
-    //AddAlarmComponent.Factory addAlarmComponent();
 
     @ApplicationContext
     Context getContext();
@@ -62,6 +63,4 @@ public interface ApplicationComponent {
     AlarmDao getAlarmDao();
 
     MelodyDao getMelodyDao();
-
-
 }

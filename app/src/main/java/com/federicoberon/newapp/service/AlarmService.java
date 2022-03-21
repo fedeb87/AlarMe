@@ -144,6 +144,7 @@ public class AlarmService extends Service {
             e.printStackTrace();
         }
         vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
+
         startForeground(101, notification);
 
         return START_NOT_STICKY;

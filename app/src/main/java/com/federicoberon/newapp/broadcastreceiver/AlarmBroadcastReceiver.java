@@ -20,7 +20,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {

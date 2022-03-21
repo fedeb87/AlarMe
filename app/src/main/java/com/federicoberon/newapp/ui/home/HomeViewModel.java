@@ -92,12 +92,20 @@ public class HomeViewModel extends ViewModel {
         return mAlarmRepository.getAlarmById(id);
     }
 
-    public Completable deleteAlarm() {
-        return mAlarmRepository.deleteAlarm(currentAlarmId);
+    public Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity) {
+        return mAlarmRepository.deleteAlarm(alarmEntity);
     }
 
     public Completable deleteAlarms(List<Long> ids) {
         return mAlarmRepository.deleteAlarms(ids);
+    }
+
+    public Completable activeAlarms(List<Long> ids) {
+        return mAlarmRepository.updateAlarms(ids, true);
+    }
+
+    public Completable inactiveAlarms(List<Long> ids) {
+        return mAlarmRepository.updateAlarms(ids, false);
     }
 
     public Maybe<Long> disableAlarm(AlarmEntity alarmEntity) {

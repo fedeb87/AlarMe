@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        >
+
+        <ImageView
+            android:id="@+id/activity_ring_clock"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_alarm_black_24dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/horoscopeCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_margin_half"
+            android:layout_marginTop="@dimen/vertical_margin"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="12dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/signImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/taurus"
+                    android:layout_marginRight="8dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/signTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.AppCompat.Headline"
+                        tools:text="TAURUS"
+                        android:textColor="@color/black_effective" />
+
+                    <TextView
+                        android:id="@+id/signDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="You have the ability to understand others feelings and emotions. It makes you empathize with them and their situations. But today, it's best that you explain your views and opinions clearly so that you are not misunderstood.Women who dedicate their days taking care of their families need to take car."
+                        android:textColor="@color/black_effective" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="16dp"
+        >
+
+        <Button
+            android:id="@+id/activity_ring_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dismiss"
+            app:layout_constraintBottom_toTopOf="@+id/activity_ring_snooze"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/activity_ring_snooze"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Snooze"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,6 +1,7 @@
 package com.federicoberon.newapp.ui.addalarm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -17,14 +18,17 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
-
 import com.federicoberon.newapp.MainActivity;
 import com.federicoberon.newapp.R;
 import com.federicoberon.newapp.SimpleRemindMeApplication;
 import com.federicoberon.newapp.databinding.FragmentAddAlarmBinding;
 import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.ui.CustomDatePicker;
+import com.federicoberon.newapp.ui.addalarm.horoscope.HoroscopeDialogFragment;
+import com.federicoberon.newapp.utils.DateUtils;
+import com.federicoberon.newapp.utils.HoroscopeManager;
 import com.federicoberon.newapp.utils.PostponeManager;
 import com.federicoberon.newapp.utils.RepeatManager;
 import com.federicoberon.newapp.utils.StringHelper;
@@ -42,12 +46,17 @@ import io.reactivex.schedulers.Schedulers;
 public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChangedListener {
 
     public static final String KEY_ALARM_ID = "alarm_id";
+    public static final String KEY_DUPLICATE_ALARM = "duplicate selected alarm";
     private static final String LOG_TAG = "AddAlarmFragment";
 
     @Inject
     AddAlarmViewModel addAlarmViewModel;
     private FragmentAddAlarmBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private SharedPreferences.OnSharedPreferenceChangeListener mListener;
+
+    @Inject
+    SharedPreferences sharedPref;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -61,64 +70,36 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
         binding = FragmentAddAlarmBinding.inflate(inflater, container, false);
 
+        //sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
         Bundle bundle = this.getArguments();
+
         if (bundle!=null){
             if(bundle.containsKey(KEY_ALARM_ID)){
 
-                mDisposable.add(addAlarmViewModel.getAlarmById((Long) bundle.get(KEY_ALARM_ID))
+                    mDisposable.add(addAlarmViewModel.getAlarmById((Long) bundle.get(KEY_ALARM_ID))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(alarmEntity -> {
-                            addAlarmViewModel.setInsertedAlarm(alarmEntity);
+
+                            if(addAlarmViewModel.getInsertedAlarm()==null) {
+                                addAlarmViewModel.setInsertedAlarm(alarmEntity);
+                            }
+                            if(bundle.containsKey(KEY_DUPLICATE_ALARM))
+                                if(((boolean)bundle.get(KEY_DUPLICATE_ALARM)))
+                                    addAlarmViewModel.setDuplicate();
+
                             populateUI(alarmEntity);
-                                },
-                                throwable -> Log.e(LOG_TAG, "Unable to load alarm: ", throwable)));
-            }else
+                    },
+                    throwable -> Log.e(LOG_TAG, "Unable to load alarm: ", throwable)));
+            }else {
                 addAlarmViewModel.setNextAlarm(Calendar.getInstance());
-        }else
-            addAlarmViewModel.setNextAlarm(Calendar.getInstance());
-
-        //**** selected melody ****//
-
-        binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
-        if (addAlarmViewModel.getSelectedMelody() == null){
-            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(requireActivity()
-                    .getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
-            Ringtone defaultRingtone = RingtoneManager
-                    .getRingtone(getActivity(), defaultRingtoneUri);
-            defaultRingtone.getTitle(requireContext());
-
-            mDisposable.add(addAlarmViewModel.getMelodyByName(defaultRingtone.getTitle(requireContext()))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(melody -> {
-                                addAlarmViewModel.setSelectedMelody(melody);
-                                if(addAlarmViewModel.isMelodyOn())
-                                    binding.ringtoneValue.setText(melody.getTitle());
-                                else
-                                    binding.ringtoneValue.setText(getString(R.string.no_melody_string));
-                            },
-                            throwable -> Log.e("MIO", "Unable to get alarm: ", throwable)));
-
+                retrieveAlarmValues();
+            }
         }else {
-            if (addAlarmViewModel.isMelodyOn())
-                binding.ringtoneValue.setText(addAlarmViewModel.getSelectedMelody().getTitle());
-            else
-                binding.ringtoneValue.setText(getString(R.string.no_melody_string));
+            addAlarmViewModel.setNextAlarm(Calendar.getInstance());
+            retrieveAlarmValues();
         }
-
-        //**** selected vibration ****//
-        binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
-        updateVibrationValue(addAlarmViewModel.isVibrationOn());
-
-        //**** selected postpone ****//
-        binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
-        updatePosptponeValue(addAlarmViewModel.isPostponeOn());
-
-        //**** selected repeat ****//
-        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
-        updateRepeatValue(addAlarmViewModel.isRepeatOn());
-
 
         return binding.getRoot();
     }
@@ -163,10 +144,12 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
      * @param alarmEntity data to load
      */
     private void populateUI(AlarmEntity alarmEntity) {
-
         Calendar cal = Calendar.getInstance();
         cal.setTime(alarmEntity.getAlarmDate());
         ((MainActivity)requireActivity()).setTimePickerHeader(cal);
+
+        addAlarmViewModel.setDaysOfWeek(DateUtils.getArrayBooleanDays(alarmEntity));
+
         binding.cbMonday.setChecked(alarmEntity.isMonday());
         binding.cbTuesday.setChecked(alarmEntity.isTuesday());
         binding.cbWednesday.setChecked(alarmEntity.isWednesday());
@@ -175,6 +158,76 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding.cbSaturday.setChecked(alarmEntity.isSaturday());
         binding.cbSunday.setChecked(alarmEntity.isSunday());
         binding.editTextAlarmName.setText(alarmEntity.getTitle());
+
+        // only update viewmodel
+        if(addAlarmViewModel.getSelectedMelody() == null && addAlarmViewModel.getInsertedAlarm() != null) {
+            addAlarmViewModel.setMelodyOn(alarmEntity.isMelodyOn());
+            mDisposable.add(addAlarmViewModel.getMelodyByName(alarmEntity.getMelodyName())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(melody -> {
+                                addAlarmViewModel.setSelectedMelody(melody);
+                                addAlarmViewModel.setPostponeOn(alarmEntity.isPostponeOn());
+                                addAlarmViewModel.setRepeatOn(alarmEntity.isRepeatOn());
+                                addAlarmViewModel.setVibrationOn(alarmEntity.isVibrationOn());
+                                addAlarmViewModel.setHoroscopeOn(alarmEntity.isHoroscopeOn());
+                                addAlarmViewModel.setSelectedPostpone(alarmEntity.getPostponeTime());
+                                addAlarmViewModel.setSelectedRepeat(alarmEntity.getRepeatTime());
+                                addAlarmViewModel.setSelectedVibration(alarmEntity.getVibrationPatter());
+                                retrieveAlarmValues();
+                            },
+                            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
+        }else{
+            retrieveAlarmValues();
+        }
+    }
+
+    private void retrieveAlarmValues() {
+        //**** selected melody ****//
+        if (addAlarmViewModel.getSelectedMelody() == null){
+            Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(requireActivity()
+                    .getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
+            Ringtone defaultRingtone = RingtoneManager
+                    .getRingtone(getActivity(), defaultRingtoneUri);
+            defaultRingtone.getTitle(requireContext());
+
+            mDisposable.add(addAlarmViewModel.getMelodyByName(defaultRingtone.getTitle(requireContext()))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(melody -> {
+                                addAlarmViewModel.setSelectedMelody(melody);
+                                if(addAlarmViewModel.isMelodyOn())
+                                    binding.ringtoneValue.setText(melody.getTitle());
+                                else
+                                    binding.ringtoneValue.setText(getString(R.string.no_melody_string));
+                            },
+                            throwable -> Log.e("MIO", "Unable to get alarm: ", throwable)));
+
+        }else {
+            if (addAlarmViewModel.isMelodyOn())
+                binding.ringtoneValue.setText(addAlarmViewModel.getSelectedMelody().getTitle());
+            else
+                binding.ringtoneValue.setText(getString(R.string.no_melody_string));
+        }
+        binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
+
+        //**** selected vibration ****//
+        binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
+        updateVibrationValue(addAlarmViewModel.isVibrationOn());
+
+        //**** selected postpone ****//
+        binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
+        updatePosptponeValue(addAlarmViewModel.isPostponeOn());
+
+        //**** selected repeat ****//
+        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
+        updateRepeatValue(addAlarmViewModel.isRepeatOn());
+
+        //**** selected repeat ****//
+        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
+
+        String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
+        binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
     }
 
     @Override
@@ -219,11 +272,20 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         // pick date listener
         ((MainActivity)requireActivity()).getBinding().appBarMain
                 .timePicker.setOnTimeChangedListener(this);
+
+
+        // Listener for de SharedPreference
+        mListener = (prefs, key) -> {
+            String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
+            binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
+        };
+        sharedPref.registerOnSharedPreferenceChangeListener(mListener);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        sharedPref.unregisterOnSharedPreferenceChangeListener(mListener);
         // clear all the subscriptions
         mDisposable.clear();
         binding = null;
@@ -254,6 +316,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         addAlarmViewModel.setTime(hour, minute);
     }
 
+    // callbacks from layout
     public void openRingtoneSelector(){
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_select_ringtone);
     }
@@ -280,12 +343,13 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         changeColorsView(binding.textViewVibration, binding.vibrationValue, addAlarmViewModel.isVibrationOn());
         changeColorsView(binding.textViewPostpone, binding.postponeValue, addAlarmViewModel.isPostponeOn());
         changeColorsView(binding.textViewRepeat, binding.repeatValue, addAlarmViewModel.isRepeatOn());
-/*
+        changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, addAlarmViewModel.isHoroscopeOn());
+
         binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
         binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
         binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
-        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());*/
-
+        binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
+        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
     }
 
     public void offRingtone(){
@@ -328,5 +392,17 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         }
         textView1.setTextColor(color1);
         textView2.setTextColor(color2);
+    }
+
+    public void openSignSelector(){
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        HoroscopeDialogFragment horoscopeDialogFragment = HoroscopeDialogFragment.newInstance();
+        horoscopeDialogFragment.show(fm, "fragment_terms_dialog");
+    }
+
+    public void offSign(){
+        boolean isChecked = binding.horoscopeSwitch.isChecked();
+        addAlarmViewModel.setHoroscopeOn(isChecked);
+        changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, isChecked);
     }
 }

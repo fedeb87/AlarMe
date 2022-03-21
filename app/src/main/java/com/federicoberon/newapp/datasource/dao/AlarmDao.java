@@ -2,6 +2,7 @@ package com.federicoberon.newapp.datasource.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.federicoberon.newapp.model.AlarmEntity;
 import java.util.List;
@@ -30,16 +31,14 @@ public interface AlarmDao extends BaseDao<AlarmEntity>{
     @Query("SELECT m.* FROM alarms m WHERE m.id IN (:ids)")
     Flowable<List<AlarmEntity>> getAlarmByIds(List<Long> ids);
 
-    @Query("DELETE FROM alarms WHERE id = :currentAlarmId")
-    Completable deleteAlarm(long currentAlarmId);
-
     @Query("DELETE FROM alarms WHERE id IN (:ids)")
     Completable deleteAlarms(List<Long> ids);
 
     /* 0 (false) and 1 (true). */
-    @Query("UPDATE alarms SET started = :status WHERE id = :id")
-    Maybe<Integer> disableAlarm(long id, boolean status);
+    @Query("UPDATE alarms SET started = 1 WHERE id IN (:ids)")
+    Completable activateAlarms(List<Long> ids);
 
-    @Query("UPDATE alarms SET started = :status WHERE id = :id")
-    Maybe<Integer> enableAlarm(long id, boolean status);
+    @Query("UPDATE alarms SET started = 0 WHERE id IN (:ids)")
+    Completable inactivateAlarms(List<Long> ids);
+
 }

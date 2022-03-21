@@ -1,22 +1,23 @@
 package com.federicoberon.newapp.ui.addalarm;
 
+import android.app.Application;
 import android.content.Context;
-import android.util.Log;
-
+import android.content.SharedPreferences;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.federicoberon.newapp.MainActivity;
+import com.federicoberon.newapp.R;
 import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.model.MelodyEntity;
 import com.federicoberon.newapp.repositories.AlarmRepository;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import com.federicoberon.newapp.utils.AlarmManager;
 import com.federicoberon.newapp.utils.DateUtils;
 import com.federicoberon.newapp.utils.RepeatManager;
-
+import com.federicoberon.newapp.utils.StringHelper;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -45,9 +46,11 @@ public class AddAlarmViewModel extends ViewModel {
     private boolean isVibrationOn;
     private boolean isPostponeOn;
     private boolean isRepeatOn;
+    private boolean duplicate;
+    private boolean isHoroscopeOn;
 
     @Inject
-    public AddAlarmViewModel(AlarmRepository alarmRepository) {
+    public AddAlarmViewModel(Application app, AlarmRepository alarmRepository) {
         this.nextAlarm = new MutableLiveData<>();
         this.daysOfWeek = new boolean[7];
         this.mAlarmRepository = alarmRepository;
@@ -57,6 +60,8 @@ public class AddAlarmViewModel extends ViewModel {
         this.isVibrationOn = true;
         this.isPostponeOn = true;
         this.isMelodyOn = true;
+        this.duplicate = false;
+        this.isHoroscopeOn = false;
     }
 
     public void restart(){
@@ -69,10 +74,20 @@ public class AddAlarmViewModel extends ViewModel {
         this.isPostponeOn = true;
         this.isMelodyOn = true;
         this.insertedAlarm = null;
+        this.selectedMelody = null;
+        this.selectedVibration = null;
+        this.duplicate = false;
+        this.isHoroscopeOn = false;
+
     }
 
     public boolean[] getDaysOfWeek() {
         return daysOfWeek;
+    }
+
+    public void setDaysOfWeek(boolean[] array) {
+        this.daysOfWeek = new boolean[7];
+        this.daysOfWeek = array;
     }
 
     public void setDaysOfWeek(int position) {
@@ -189,19 +204,19 @@ public class AddAlarmViewModel extends ViewModel {
 
         int hourInMinutes = mHour*60+mMinutes;
 
-        if (insertedAlarm==null)
+        if (insertedAlarm==null || this.duplicate)
             insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, hourInMinutes,
                     this.daysOfWeek, this.isMelodyOn, this.selectedMelody.getUri(),
                     this.selectedMelody.getTitle(), this.isVibrationOn, this.selectedVibration,
                     this.isPostponeOn, this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
-                    true);
+                    this.isHoroscopeOn, true);
         else
             insertedAlarm = new AlarmEntity(insertedAlarm.getId(), title, getDate(), mHour,
                     mMinutes, hourInMinutes, this.daysOfWeek, this.isMelodyOn,
                     this.selectedMelody.getUri(), this.selectedMelody.getTitle(),
                     this.isVibrationOn, this.selectedVibration, this.isPostponeOn,
                     this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
-                    insertedAlarm.isStarted());
+                    this.isHoroscopeOn, insertedAlarm.isStarted());
 
         return mAlarmRepository.insertOrUpdateAlarm(insertedAlarm);
     }
@@ -211,7 +226,19 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void scheduledAlarm(Context context){
-        AlarmManager.schedule(context, insertedAlarm);
+        if(!StringHelper.containsTrue(daysOfWeek)){
+            if(insertedAlarm.getAlarmDate().compareTo(new Date())<0) {
+                int alarmDay = DateUtils.isTomorrow(insertedAlarm.getHour(), insertedAlarm.getMinute());
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(insertedAlarm.getAlarmDate());
+                cal.set(Calendar.DAY_OF_MONTH, alarmDay);
+                insertedAlarm.setAlarmDate(cal.getTime());
+            }
+        }
+        if(insertedAlarm.isStarted()) {
+            AlarmManager.dismissAlarm(context, insertedAlarm);
+            AlarmManager.schedule(context, insertedAlarm);
+        }
     }
 
     public Flowable<List<MelodyEntity>> getMelodies() {
@@ -231,10 +258,20 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedMelody(MelodyEntity melody) {
+        // set the melody inside the AlarmEntity
+
+        if(this.insertedAlarm!=null) {
+            AlarmEntity alarmEntity = getInsertedAlarm();
+            alarmEntity.setMelodyUri(melody.getUri());
+            alarmEntity.setMelodyName(melody.getTitle());
+            this.insertedAlarm = alarmEntity;
+        }
         this.selectedMelody = melody;
     }
 
     public void setSelectedVibration(String vibName) {
+        if (this.insertedAlarm!=null)
+            this.insertedAlarm.setVibrationPatter(vibName);
         this.selectedVibration = vibName;
     }
 
@@ -243,6 +280,8 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedPostpone(int i) {
+        if (this.insertedAlarm!=null)
+            this.insertedAlarm.setPostponeTime(i);
         this.selectedPostpone = i;
     }
 
@@ -251,6 +290,8 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedRepeat(int i) {
+        if (this.insertedAlarm!=null)
+            this.insertedAlarm.setRepeatTime(i);
         this.selectedRepeat = i;
     }
 
@@ -278,8 +319,16 @@ public class AddAlarmViewModel extends ViewModel {
         return isRepeatOn;
     }
 
+    public boolean isHoroscopeOn() {
+        return isHoroscopeOn;
+    }
+
     public void setRepeatOn(boolean repeatOn) {
         isRepeatOn = repeatOn;
+    }
+
+    public void setHoroscopeOn(boolean horoscopeOn) {
+        this.isHoroscopeOn = horoscopeOn;
     }
 
     public boolean isMelodyOn() {
@@ -294,7 +343,8 @@ public class AddAlarmViewModel extends ViewModel {
         this.insertedAlarm.setId(id);
     }
 
-    public Maybe<Long> disableAlarm(AlarmEntity alarmEntity){
-        return mAlarmRepository.insertOrUpdateAlarm(alarmEntity);
+    public void setDuplicate() {
+        this.duplicate = true;
     }
+
 }

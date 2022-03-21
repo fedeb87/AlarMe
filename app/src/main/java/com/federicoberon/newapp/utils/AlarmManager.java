@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,7 +29,7 @@ public class AlarmManager {
         intent.putExtra(ALARM_ENTITY, alarmEntity);
 
         PendingIntent alarmPendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmPendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, PendingIntent.FLAG_IMMUTABLE);
         }else{
             alarmPendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, 0);
@@ -39,32 +40,23 @@ public class AlarmManager {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        if (!recurring(alarmEntity)) {
-            String toastText = String.format("One Time Alarm %s scheduled for %s at %s",
-                        alarmEntity.getTitle(),
-                        StringHelper.toDay(calendar.get(Calendar.DAY_OF_WEEK)),
-                        DateFormat.getTimeFormat(context).format(calendar.getTime()));
-            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+        String toastText = String.format("One Time Alarm %s scheduled for %s at %s",
+                    alarmEntity.getTitle(),
+                    StringHelper.toDay(calendar.get(Calendar.DAY_OF_WEEK)),
+                    DateFormat.getTimeFormat(context).format(calendar.getTime()));
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            alarmManager.setExactAndAllowWhileIdle(
+                    android.app.AlarmManager.RTC_WAKEUP,
+                    calendar.getTimeInMillis(),
+                    alarmPendingIntent);
+        else
             alarmManager.setExact(
                     android.app.AlarmManager.RTC_WAKEUP,
                     calendar.getTimeInMillis(),
                     alarmPendingIntent
             );
-        } else {
-            String toastText = String.format("Recurring Alarm %s scheduled for %s at %s",
-                    alarmEntity.getTitle(), getRecurringDaysText(alarmEntity),
-                    DateFormat.getTimeFormat(context).format(calendar.getTime()));
-            Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
-
-            final long RUN_DAILY = 24 * 60 * 60 * 1000;
-            alarmManager.setRepeating(
-                    android.app.AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    RUN_DAILY,
-                    alarmPendingIntent
-            );
-        }
 
     }
 
@@ -75,10 +67,6 @@ public class AlarmManager {
     }
 
     public static void dismissAlarm(Context context, AlarmEntity alarmEntity){
-/*
-        Log.w("MIO", "getId----- " + alarmEntity.getId());
-        Log.w("MIO", "getHour----- " + alarmEntity.getHour());
-        Log.w("MIO", "getMinute----- " + alarmEntity.getMinute());*/
 
         android.app.AlarmManager alarmManager = (android.app.AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
@@ -127,9 +115,9 @@ public class AlarmManager {
         return days;
     }
 
-    private static boolean recurring(AlarmEntity alarmEntity) {
-        return alarmEntity.isMonday() && alarmEntity.isFriday() && alarmEntity.isSaturday() &&
-                alarmEntity.isWednesday() && alarmEntity.isSunday() && alarmEntity.isThursday() &&
+    public static boolean recurring(AlarmEntity alarmEntity) {
+        return alarmEntity.isMonday() || alarmEntity.isFriday() || alarmEntity.isSaturday() ||
+                alarmEntity.isWednesday() || alarmEntity.isSunday() || alarmEntity.isThursday() ||
                 alarmEntity.isTuesday();
     }
 

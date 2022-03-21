@@ -37,7 +37,7 @@ public interface AlarmDataSource {
      */
     Maybe<Long> insertOrUpdateAlarm(AlarmEntity alarmEntity);
 
-    Completable deleteAlarm(long currentMilestoneId);
+    Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity);
 
     Completable deleteAlarms(List<Long> ids);
 

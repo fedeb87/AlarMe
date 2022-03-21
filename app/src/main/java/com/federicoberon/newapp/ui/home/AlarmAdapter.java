@@ -5,9 +5,9 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -45,8 +45,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     public interface EventListener {
         void onEvent(AlarmEntity alarmEntity);
-        void onItemClicked(View view, int position);
+        void onItemClicked(View view, int position, boolean duplicate);
         void onItemLongClicked(View view, int position);
+        void onDeleteMenuClicked(int position);
+        void onDeleteSwiped(AlarmEntity alarmEntity);
+        void onPreviewMenuClicked(AlarmEntity alarmEntity);
     }
 
     public AlarmAdapter(View root, EventListener listener) {
@@ -79,14 +82,24 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
-        holder.onBind(position);
+    public void onBindViewHolder(@NonNull AlarmViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         AlarmEntity alarmEntity = alarms.get(position);
+
+        // set correct day
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(alarmEntity.getAlarmDate());
+        calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(alarmEntity.getHour(),
+                alarmEntity.getMinute()));
+        alarmEntity.setAlarmDate(calendar.getTime());
+
+
+        holder.onBind(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClicked(v, position);
+                listener.onItemClicked(v, position, false);
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -96,7 +109,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
                 return true;
             }
         });
-
 
         holder.mBinding.switchAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,9 +142,13 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             }
         });
 
-
+        // lo contiene y no tiene el fondo correcto
         if(selectedAlarmsList.contains(alarmEntity)) {
             // is selected
+            // disable context menu for the item
+            holder.mBinding.imageMenu.setEnabled(false);
+            holder.mBinding.imageMenu.setColorFilter((ContextCompat.getColor(getContext(), R.color.colorGray)));
+
             holder.mBinding.itemCardView.setCardBackgroundColor((ContextCompat.getColor(getContext(), R.color.colorCardChecked)));
             holder.mBinding.checkedIcon.setVisibility(View.VISIBLE);
 
@@ -153,37 +169,34 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             animatorSet.start();
 
         }else{
+            // disable context menu for the item
+            holder.mBinding.imageMenu.setEnabled(true);
+            holder.mBinding.imageMenu.setColorFilter((ContextCompat.getColor(getContext(), R.color.colorGrayLight)));
+            holder.mBinding.itemCardView.setCardBackgroundColor((ContextCompat.getColor(getContext(), R.color.transparent)));
 
-            if(holder.mBinding.checkedIcon.getVisibility() == View.VISIBLE){
+            //move hour
+            ObjectAnimator animation_left_hour = ObjectAnimator.ofFloat(holder.mBinding.textCardHour, "translationX", 0f);
+            animation_left_hour.setDuration(400);
 
-                holder.mBinding.itemCardView.setCardBackgroundColor((ContextCompat.getColor(getContext(), R.color.transparent)));
+            //move title
+            ObjectAnimator animation_left_title = ObjectAnimator.ofFloat(holder.mBinding.textCardTitle, "translationX", 0f);
+            animation_left_hour.setDuration(400);
 
-                //move hour
-                ObjectAnimator animation_left_hour = ObjectAnimator.ofFloat(holder.mBinding.textCardHour, "translationX", 0f);
-                animation_left_hour.setDuration(400);
+            //move title
+            ObjectAnimator animation_left_icon = ObjectAnimator.ofFloat(holder.mBinding.checkedIcon, "translationX", 0f);
+            animation_left_icon.setDuration(400);
 
-                //move title
-                ObjectAnimator animation_left_title = ObjectAnimator.ofFloat(holder.mBinding.textCardTitle, "translationX", 0f);
-                animation_left_hour.setDuration(400);
+            AnimatorSet animatorSet = new AnimatorSet();
+            animatorSet.play(animation_left_hour).with(animation_left_title).with(animation_left_icon);
+            animatorSet.start();
 
-                //move title
-                ObjectAnimator animation_left_icon = ObjectAnimator.ofFloat(holder.mBinding.checkedIcon, "translationX", 0f);
-                animation_left_icon.setDuration(400);
+            holder.mBinding.checkedIcon.setVisibility(View.GONE);//transparent
 
-                AnimatorSet animatorSet = new AnimatorSet();
-                animatorSet.play(animation_left_hour).with(animation_left_title).with(animation_left_icon);
-                animatorSet.start();
-
-                holder.mBinding.checkedIcon.setVisibility(View.GONE);//transparent
-
-            }
         }
     }
 
     public void deleteItem(int position) {
-        // todo borrarla del viewmodel
-        // todo cancelar la alarma
-        // ya lo hize para cuando borra muchas juntas, ver
+        listener.onDeleteSwiped(alarms.get(position));
         mRecentlyDeletedItem = alarms.get(position);
         mRecentlyDeletedItemPosition = position;
         alarms.remove(position);
@@ -227,6 +240,12 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         return alarms.size();
     }
 
+    public void removeAlarmFromList(int position){
+        alarms.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position,alarms.size());
+    }
+
     public class AlarmViewHolder extends RecyclerView.ViewHolder {
         private final ItemAlarmBinding mBinding;
 
@@ -236,12 +255,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         }
 
         public void onBind(int position) {
-
             AlarmEntity alarm = alarms.get(position);
-            //Log.w("MIO", "<<< el titulo >>>");
-            //Log.w("MIO", alarm.getTitle());
-            if(alarm.getTitle().isEmpty())
-                mBinding.textCardTitle.setVisibility(View.GONE);
 
             mBinding.textCardTitle.setText(alarm.getTitle());
 
@@ -266,8 +280,35 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             PopupMenu popup = new PopupMenu(wrapper,mBinding.imageMenu);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.cardview_menu, popup.getMenu());
-            popup.setOnMenuItemClickListener(new CardItemClickListener(position));
+            popup.setOnMenuItemClickListener(new CardItemClickListener(itemView, position));
             popup.show();
+        }
+    }
+
+    public class CardItemClickListener implements PopupMenu.OnMenuItemClickListener {
+        private final View itemView;
+        private int position;
+        public CardItemClickListener(View itemView, int position) {
+            this.itemView = itemView;
+            this.position = position;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            switch (item.getItemId()) {
+
+                case R.id.previewCard:
+                    listener.onPreviewMenuClicked(alarms.get(position));
+                    return true;
+                case R.id.duplicateCard:
+                    listener.onItemClicked(itemView, position, true);
+                    return true;
+                case R.id.deleteCard:
+                    listener.onDeleteMenuClicked(position);
+                default:
+                    return false;
+            }
         }
     }
 }

@@ -181,9 +181,240 @@
     <string name="snack_bar_text">Deshacer item borrado</string>
     <string name="snack_bar_undo">Deshacer</string>
     <string name="select_all_menu">All</string>
-    <string name="delete_alarm_title">Eliminar alarmas?</string>
-    <string name="delete_alarm_msg">Esta seguro que desea eliminar las alarmas seleccionadas?</string>
+    <string name="activate_menu">Activar</string>
+    <string name="inactivate_menu">Desactivar</string>
+    <string name="delete_alarms_title">Eliminar alarmas?</string>
+    <string name="delete_alarms_msg">Esta seguro que desea eliminar las alarmas seleccionadas?</string>
+    <string name="delete_alarm_title">Eliminar alarma?</string>
+    <string name="delete_alarm_msg">Esta seguro que desea eliminar las alarma?</string>
     <string name="alarms_every">Todos los %s a las %s</string>
+    <string name="alarms_everyDay">Todos dias a las %s</string>
     <string name="alarm_today">Hoy %s %d de %s - %s</string>
     <string name="alarm_tomorrow">Mañana %s %d de %s - %s</string>
+    <string name="preview_card_menu">Vista Previa</string>
+    <string name="duplicate_card_menu">Duplicar</string>
+    <string name="delete_card_menu">Borrar</string>
+    <string name="brew_personal_desc">Estoy entusiasmado con las tecnologías móviles. Creador de ideas, curioso y amante de la naturaleza.</string>
+
+
+    <string name="terms_of_services">Terminos y Condiciones</string>
+    <string name="privacy_policy">Politica de Privacidad</string>
+    <string name="terms_of_services_string">He leído y acepto los</string>
+    <string name="terms_of_services_body">"
+Estos términos y condiciones de uso (“Términos”) se aplican a la aplicación móvil denominada EscuelaApp (“Aplicación”) y cualquier documentación que pongamos a su disposición en relación con la Aplicación (“Documentos”).
+
+
+INFORMACIÓN RELEVANTE
+
+Es requisito necesario para el uso de los servicios que se ofrecen en este sitio, que lea y acepte los siguientes Términos y Condiciones que a continuación se redactan. El uso de nuestros servicios implicará que usted ha leído y aceptado los Términos y Condiciones de Uso en el presente documento. Para adquirir un producto o usar un servicio, será necesario el registro por parte del usuario, con ingreso de datos personales fidedignos y definición de una contraseña, o accediendo con una cuenta de gmail existente.
+
+El usuario puede elegir y cambiar la clave para su acceso de administración de la cuenta en cualquier momento, en caso de que se haya registrado. No asumimos la responsabilidad en caso de que entregue dicha clave a terceros.
+
+
+1. Reconocimiento
+1.1 Estos Términos se aplican a la Aplicación, los Documentos y cualquier Servicio (incluidas las actualizaciones o suplementos de la Aplicación, a menos que incluyan términos separados, en cuyo caso esos términos se aplicarán a dichas actualizaciones o suplementos).
+
+1.2 Podemos realizar cambios comercialmente razonables a estos Términos (en su totalidad o en parte) en cualquier momento. Le notificaremos de dichos cambios por cualquier medio razonable, incluso haciendo que los Términos revisados estén disponibles a través de la Aplicación. Puede determinar cuándo se revisaron por última vez estos Términos consultando la leyenda “Última actualización” en la parte superior de estos Términos. Su acceso o uso de la Aplicación después de que dichos Términos revisados estén disponibles significará su aceptación de dichos Términos revisados y su aceptación de estar sujeto a ellos. En cualquier caso, las revisiones de estos Términos no se aplicarán a ninguna disputa entre usted y nosotros que surja antes de la fecha en la que pusimos a disposición los Términos revisados que contienen dichas revisiones.
+
+1.3 De vez en cuando, las actualizaciones de la aplicación pueden estar disponibles a través de la Play Store. Dependiendo de la actualización, es posible que no pueda utilizar la Aplicación o cualquier Servicio hasta que haya instalado la última versión de la Aplicación. Su acceso o uso de la Aplicación actualizada significará su aceptación de los Términos revisados relacionados con la Aplicación actualizada que se le notifiquen de acuerdo con la Sección 1.2 anterior.
+
+1.6 Su envío de información a través o en conexión con la Aplicación o cualquier Servicio se rige por nuestra política de privacidad. Los términos de nuestra política de privacidad que se actualizan periódicamente están disponibles aquí (“Política de privacidad”).
+
+1.7 Al usar la Aplicación y cualquier Servicio, usted da su consentimiento para que recopilemos y usemos información técnica sobre un Dispositivo (y cualquier software, hardware y periféricos relacionados para servicios basados en Internet o inalámbricos) para mejorar nuestros productos y brindarle servicios.
+
+
+2. Licencia
+2.1 En consideración a su aceptación de cumplir con estos Términos, le otorgamos una licencia intransferible, no sublicenciable, no exclusiva y revocable para usar la Aplicación y los Servicios en los Dispositivos, sujeto a estos Términos (incluidas, entre otras, las Secciones 2.2, 3 y 4 a continuación), la Política de privacidad y las Reglas de la Play Store. Salvo que se disponga expresamente en estos Términos, nos reservamos todos los demás derechos sobre la Aplicación y los Servicios.
+
+2.2 Puede descargar una copia de la Aplicación en un Dispositivo y ver, usar y mostrar la Aplicación en el Dispositivo solo para sus propósitos personales o para los propósitos de la entidad en cuyo nombre ingresó estos Términos, sujeto a estos Términos (incluyendo , sin limitación, las Secciones 1.2, 3 y 4 a continuación), la Política de privacidad y las Reglas de la Play Store.
+
+
+3. Restricciones De La Licencia
+3.1 Salvo que se establezca expresamente en estos Términos o lo permita la ley aplicable, usted acepta:
+
+(a) para usar la Aplicación y los Servicios en relación con la organización y administración de sus clases y estudiantes únicamente, y para ningún otro propósito;
+
+(b) no copiar la Aplicación o los Documentos, excepto cuando dicha copia sea incidental al uso normal de la Aplicación para los fines previstos, o cuando sea necesario para fines de respaldo o seguridad operativa;
+
+(c) no alquilar, arrendar, sublicenciar, prestar, distribuir, compartir tiempo, traducir, fusionar, adaptar, variar o modificar la Aplicación o los Documentos;
+
+(d) que tiene todos los derechos necesarios en relación con cualquier información, contenido o materiales como texto, gráficos, imágenes, fotografías u otros materiales que envíe, publique o transmita utilizando la Aplicación o cualquier Servicio (“Información”) y que toda dicha información cumple con todas las leyes y regulaciones aplicables;
+
+(e) que toda la Información es verdadera, precisa y completa y que mantendrá y actualizará dicha Información según sea necesario para garantizar que dicha Información siga siendo verdadera, precisa y completa;
+
+(f) que usted es responsable de obtener y ha obtenido todas y cada una de las autorizaciones, consentimientos y permisos necesarios de todos los estudiantes y / o sus padres o tutores (según corresponda) y cualquier otro tercero en la medida en que envíe, publique, transmita o procesar sus datos personales utilizando la Aplicación;
+
+(g) no realizar alteraciones o modificaciones de la totalidad o parte de la Aplicación, ni permitir que la Aplicación o cualquier parte de ella se combine o se incorpore a cualquier otro programa;
+
+(h) no desensamblar, descompilar, realizar ingeniería inversa o crear trabajos derivados basados ​​en la totalidad o parte de la Aplicación, ni intentar hacer tal cosa, excepto en la medida en que dichas actividades estén permitidas por la ley aplicable;
+
+(i) mantener seguras todas las copias de la Aplicación y mantener registros precisos y actualizados del número y la ubicación de todas las copias de la Aplicación;
+
+(j) no eliminar ningún aviso de derechos de autor, marca comercial u otros derechos de propiedad de la Aplicación o los Documentos, y de incluir nuestro aviso de derechos de autor en cualquier copia que haga de la Aplicación en cualquier medio;
+
+(k) no vender, revender, vincular, explotar, proporcionar o poner a disposición la Aplicación en su totalidad o en parte (incluido el objeto y el código fuente), de ninguna forma a ninguna persona sin nuestro consentimiento previo por escrito; y
+
+(l) para cumplir con todas las leyes y regulaciones de control de tecnología o de exportación que se apliquen a la tecnología utilizada o respaldada por el
+
+
+4. RESTRICCIONES DE USO ACEPTABLE
+4.1 Estás de acuerdo:
+
+(a) no usar la Aplicación o cualquier Dispositivo en relación con la Aplicación de manera ilegal, para cualquier propósito ilegal o de cualquier manera inconsistente con estos Términos, o actuar de manera fraudulenta o maliciosa, por ejemplo, pirateando o insertando código, incluidos virus o datos dañinos, en la Aplicación, cualquier Servicio o cualquier sistema operativo;
+
+(b) no utilizar la Aplicación para registrar, publicar o transmitir cualquier Información que esté protegida por derechos de autor, marca comercial, confidencialidad o cualquier otro derecho de propiedad sin el consentimiento del propietario;
+
+(c) no utilizar la Aplicación para registrar, publicar o transmitir cualquier Información que sea difamatoria, amenazante, abusiva, ofensiva, obscena, indecente, pornográfica, que promueva la discriminación por motivos de raza, sexo, religión, nacionalidad, discapacidad, orientación sexual o edad o es objetable de otro modo;
+
+(d) no usar la Aplicación de una manera que pueda dañar, deshabilitar, sobrecargar, deteriorar o comprometer nuestros sistemas o seguridad o interferir con otros usuarios, o restringir o inhibir a otros usuarios del uso de la Aplicación (incluso pirateando o desfigurando el Aplicación);
+
+(e) no crear una base de datos descargando y almacenando cualquier contenido disponible a través de la Aplicación, los Documentos o cualquier Servicio; y
+
+(f) no recopilar ni recopilar información o datos de ningún Servicio o nuestros sistemas ni intentar descifrar ninguna transmisión hacia o desde los servidores que ejecutan cualquier Servicio, incluido, entre otros, mediante el uso de robots, arañas, aplicaciones de búsqueda / recuperación de sitios u otro dispositivo manual o automático para recuperar, indexar, "raspar", "extraer datos" o de alguna manera recopilar el contenido de la Aplicación o Documento o reproducir o eludir la estructura de navegación o presentación de la Aplicación sin nuestro consentimiento previo por escrito.
+
+
+5. Nombres De Usuario Y Contraseñas
+5.1 No puede usar (y podemos negarnos a otorgarle) ningún nombre de usuario o correo electrónico.
+dirección que pertenece o ya está siendo utilizada por otra persona; que puede interpretarse como hacerse pasar por otra persona; que viole la propiedad intelectual u otros derechos de otra persona; que sea ofensivo o que rechacemos por cualquier otra razón válida a nuestro criterio.
+Usted es responsable de mantener la confidencialidad de cualquier contraseña que utilice para acceder a la Aplicación y acepta no transferir dichas contraseñas o nombres de usuario ni prestar o transferir su uso o acceso a la Aplicación a terceros. Usted acepta notificarnos de cualquier uso no autorizado de sus contraseñas o nombres de usuario o cualquier otra violación de seguridad relacionada con su cuenta de la que tenga conocimiento. Usted es completamente responsable de todo uso de la Aplicación y de cualquier Servicio que ocurra en relación con su nombre de usuario, excepto en la medida en que cualquier uso no autorizado no sea causado por incumplimiento de sus obligaciones bajo estos Términos .
+
+5.2 Además, debe asegurarse de que su Dispositivo esté protegido por un número PIN o contraseña adecuados para que, en caso de pérdida o robo las credenciales de acceso no se vean comprometidas.
+
+
+6. Derechos De Propiedad Intelectual
+6.1 Usted reconoce que todos los derechos de propiedad intelectual en la Aplicación y / o los Documentos en cualquier parte del mundo nos pertenecen a nosotros, que los derechos de la Aplicación y los Documentos se le otorgan bajo licencia (no se venden) y que no tiene ningún derecho sobre la Aplicación o los Documentos, además del derecho a usar cada uno de ellos de acuerdo con estos Términos.
+
+6.2 Todos los nombres comerciales, marcas comerciales y marcas de servicio en la Aplicación y los Documentos son propiedad nuestra o de nuestros licenciantes. No puede utilizar nuestros nombres comerciales, marcas comerciales o marcas de servicio en relación con ningún producto o servicio que no sea nuestro, o de cualquier manera que pueda causar confusión. Nada de lo contenido en este documento o en la Aplicación o los Documentos debe interpretarse como una concesión de licencia o derecho de uso de nombres comerciales, marcas comerciales o marcas de servicio sin el consentimiento previo expreso por escrito del propietario.
+
+6.3 Usted reconoce que no tiene derecho a tener acceso a la Aplicación en forma de código fuente.
+
+
+7. DISPONIBILIDAD
+7.1 Nos reservamos el derecho, temporal o permanentemente, en su totalidad o en parte, de modificar, suspender o descontinuar la Aplicación sin previo aviso por razones comerciales válidas sin responsabilidad ante usted.
+
+7.2 Además, reconoce que la Aplicación se proporciona a través de Internet y redes móviles, por lo que la calidad y disponibilidad de la Aplicación pueden verse afectadas por factores fuera de nuestro control razonable. En consecuencia, no podemos aceptar ninguna responsabilidad por los problemas de conectividad que pueda experimentar al usar la aplicación. Además, usted reconoce y acepta que usted (y no nosotros) es responsable de obtener y mantener todas las telecomunicaciones, banda ancha y hardware, equipo y servicios necesarios para acceder y utilizar la Aplicación o cualquier Servicio, y de pagar cualquier cargo por datos que pueda Su proveedor de red le cobrará en relación con su uso de la Aplicación.
+
+7.3 Intentamos asegurarnos de que la información proporcionada en o en relación con la Aplicación sea completa, precisa y actualizada. A pesar de nuestros esfuerzos, dicha información puede ocasionalmente ser inexacta, incompleta o desactualizada. En consecuencia, no garantizamos la integridad, precisión o actualidad de dicha información, incluidas todas las descripciones, imágenes, referencias, características, contenido, especificaciones, productos y precios de los productos y servicios descritos o representados en la Aplicación. Dicha información también está sujeta a cambios en cualquier momento sin previo aviso. La inclusión de cualquier producto o servicio en esta Aplicación en un momento en particular no implica ni garantiza que estos productos o servicios estarán disponibles en cualquier momento.
+
+
+8. LIMITACIÓN DE RESPONSABILIDAD
+8.1 Usted reconoce que la Aplicación no ha sido desarrollada para cumplir con sus requisitos individuales y que, por lo tanto, es su responsabilidad asegurarse de que las instalaciones y funciones de la Aplicación cumplan con sus requisitos.
+
+8.2 En la medida en que lo permita la ley aplicable, usted reconoce que no tenemos ninguna responsabilidad ante usted por cualquier pérdida de ganancias, pérdida de negocios, pérdida de ingresos, pérdida de datos, interrupción del negocio o pérdida de oportunidad comercial que surja de su uso del App. Además, reconoce que no seremos responsables ante usted por ninguna pérdida indirecta o consecuente o cualquier daño ejemplar, especial o punitivo.
+
+
+9. COMPENSACIÓN
+Usted acepta compensarnos por cualquier reclamo, acción, demanda, pérdida, responsabilidad, daños, costos y gastos (incluidos los gastos legales y otros costos, como los honorarios de abogados) en los que nosotros incurramos razonablemente que surjan de su uso de la Aplicación o cualquier Servicio que incumpla estos Términos. Nos reservamos el derecho de asumir la defensa y el control exclusivos de cualquier reclamo presentado por un tercero en relación con su uso de la Aplicación y / o los Servicios y usted acepta ayudarnos y cooperar con nosotros en relación con dicho reclamo.
+
+
+10. EVENTOS FUERA DE NUESTRO CONTROL
+No seremos responsables por cualquier incumplimiento o retraso en el cumplimiento de cualquiera de nuestras obligaciones en virtud de estos Términos que sea causado por cualquier acto o evento fuera de nuestro control razonable, incluida cualquier falla de las redes de telecomunicaciones públicas o privadas.
+
+
+11. RECLAMACIONES POR INFRACCIÓN DE DERECHOS DE AUTOR
+La Ley de derechos de autor del milenio digital de 1998 (la "DMCA") proporciona recursos para los propietarios de derechos de autor que creen que el material que aparece en Internet infringe sus derechos de conformidad con la ley de derechos de autor de Argentina. Si cree de buena fe que los materiales disponibles o accesibles a través de la Aplicación infringen sus derechos de autor, usted (o su agente) puede enviarnos un aviso solicitando que eliminemos o bloqueemos los materiales o que deshabilitemos el acceso a ellos. Si cree de buena fe que alguien ha presentado por error una notificación de infracción de derechos de autor en su contra, la DMCA le permite enviarnos una contranotificación. Las notificaciones y contranotificaciones deben cumplir con los requisitos legales vigentes en ese momento impuestos por la DMCA.
+
+
+12. LEY Y JURISDICCIÓN
+En la medida en que lo permita la ley aplicable, estos Términos, su objeto y su formación, se rigen por la ley Argentina y usted acepta la jurisdicción no exclusiva de los tribunales argentinos. Nos reservamos el derecho de iniciar acciones legales contra usted por incumplimiento de estos Términos en su país de residencia u otro país relevante."</string>
+    <string name="privacy_policy_body">"
+Nos comprometemos a proteger y respetar su privacidad.
+Esta política de privacidad (“Política de privacidad”) se aplica a la aplicación móvil llamada EscuelApp,
+(“Aplicación”) y cualquier servicio proporcionado a través de la Aplicación (“Servicios”) y describe nuestro
+prácticas relacionadas con cualquier Información personal que recopilemos de usted, o que nos proporcione en relación con la Aplicación y cualquier Servicio. Al proporcionarnos Información personal, usted acepta los términos y condiciones de esta Política de privacidad y da su consentimiento para que usemos su Información personal de la manera que se establece a continuación.
+
+1. Información recogida
+La Aplicación podrá recoger información personal con el fin de proporcionar una experiencia de uso agradable. Tales como:
+Nombre
+Dirección de correo electrónico
+ID de la cuenta
+Telefono
+
+
+2. Uso de la información recogida
+¿Cómo Podemos Recopilar Información Personal?
+Podemos recopilar la siguiente información personal sobre usted:
+
+Información personal que nos proporciona en el momento de descargar la Aplicación, publicar material o solicitar servicios adicionales; e Información personal que nos proporciona cuando informa un problema con la Aplicación o se comunica con nosotros .
+
+Otra Información Que Podemos Recopilar
+“Otra información” es cualquier información que recopilamos en relación con su uso de la Aplicación y los Servicios que no lo identifica como individuo, como se indica a continuación.
+
+• Información del dispositivo: podemos recopilar información sobre un Dispositivo o cualquier computadora que use para descargar o transmitir una copia de la Aplicación a su Dispositivo, incluidos, cuando estén disponibles, los identificadores únicos del dispositivo o la computadora, el sistema operativo, el tipo de navegador y la información de la red móvil. así como el número de teléfono del Dispositivo.
+Podemos utilizar esta información para asegurarnos de que los Servicios y la Aplicación funcionen correctamente y para los fines comerciales que se detallan a continuación .
+• Información de registro: podemos recopilar y almacenar automáticamente cierta información sobre su uso de la Aplicación y cualquier Servicio en los registros del servidor, que incluyen, entre otros, direcciones de protocolo de Internet, proveedor de servicios de Internet, datos de flujo de clics, tipo de navegador e idioma, páginas visitadas y de salida y sellos de fecha u hora. Podemos utilizar esta información para asegurarnos de que los Servicios y la Aplicación funcionen correctamente y para los fines comerciales que se detallan a continuación.
+• Números de aplicación únicos: cuando instala o desinstala la Aplicación o un Servicio que contiene un número de aplicación único o cuando la Aplicación o el Servicio busca actualizaciones automáticas, ese número y la información sobre su instalación, por ejemplo, el tipo de sistema operativo, pueden enviarse. para nosotros. Podemos utilizar esta información para asegurarnos de que los Servicios y la Aplicación funcionen correctamente y para los fines comerciales que se detallan a continuación.
+
+
+3. ¿Cómo Podemos Recopilar Información Personal?
+Podemos divulgar su información personal y otra información a terceros:
+– en el caso de que vendamos o compremos cualquier negocio o activo, en cuyo caso podemos divulgar su Información personal al posible vendedor o comprador de dicho negocio o activo;
+– si la totalidad o parte de nuestro negocio, activos o acciones son adquiridos por un tercero (incluso en relación con cualquier procedimiento de quiebra o similar), en cuyo caso la información personal será uno de los activos transferidos.
+– si tenemos la obligación de divulgar o compartir su información personal para cumplir con cualquier obligación o solicitud legal o reglamentaria;
+– para proteger nuestros derechos, propiedad, privacidad o seguridad o los de nuestros clientes, usted u otros. Esto puede incluir el intercambio de información con otras empresas y organizaciones para
+fines de protección contra el fraude y reducción del riesgo crediticio.
+– para hacer cumplir los términos de esta Política de privacidad o los Términos de uso;
+– para permitirnos buscar los recursos disponibles o limitar los daños que podamos sufrir; y / o
+– cuando nos haya proporcionado su consentimiento para hacerlo .
+
+4. Acceso A Su Información
+Según la ley aplicable, es posible que tenga derecho a acceder a la información personal que tenemos. En la medida en que lo permita la ley aplicable, podemos cobrarle una tarifa razonable para cubrir nuestros costos al brindarle detalles de su Información personal, sujeto a los límites impuestos por la ley aplicable.
+Si desea revisar, corregir, actualizar, suprimir, eliminar o limitar nuestro uso de sus Datos personales previamente proporcionados para su uso, comuníquese con nosotros de acuerdo con la sección Comuníquese con nosotros” a continuación, dejando en claro su nombre y detalles de contacto. y la naturaleza de su solicitud. Intentaremos cumplir con cualquier solicitud tan pronto como sea razonablemente posible o, a menos que tengamos que conservar su información para fines comerciales o legales legítimos “.
+
+
+5. ¿Cómo Usamos Su Información?
+En primer lugar, debe saber que TeacherKit no vende ni alquila su información personal ni la de su hijo a ningún tercero para ningún fin, incluso con fines publicitarios o
+Con fines de marketing, no permitimos la publicidad de terceros en Teacherkit y la información personal recopilada de los estudiantes nunca se utiliza para publicidad dirigida al comportamiento de
+estudiantes. Tenga en cuenta que la información o el contenido que divulga voluntariamente a otros, incluido otro uso de Teacherkit con el que interactúa a través del Servicio, puede ser
+visto, copia, almacenado y utilizado por las personas con las que comparte.
+No podemos controlar las acciones de las personas con las que elige compartir información y no somos responsables de la recopilación, uso o divulgación de dicha información o contenido por
+otros.
+
+
+6. Seguridad De Su Información
+Buscamos utilizar medidas organizativas, técnicas y administrativas razonables para proteger la Información personal bajo nuestro control. Desafortunadamente, no se puede garantizar que la transmisión de datos a través de Internet o el sistema de almacenamiento de datos sea 100% seguro. Si tiene motivos para creer que su interacción con nosotros ya no es segura (por ejemplo, si cree que la seguridad de cualquier cuenta que pueda tener con nosotros se ha visto comprometida), notifíquenos de inmediato el problema comunicándose con nosotros de acuerdo con con la sección “Comuníquese con nosotros” a continuación. Su cuenta TeacherKit está protegida por una contraseña. Puede ayudarnos a protegernos contra el acceso no autorizado a su cuenta manteniendo su contraseña en secreto en todo momento.
+Nuestro equipo de ingenieros se dedica a mantener segura su información personal. Trabajamos con un equipo de investigadores de seguridad para probar continuamente las prácticas de TeacherKit en busca de vulnerabilidades. Revisamos periódicamente nuestras prácticas de recopilación, almacenamiento y procesamiento de información, incluidas las medidas de seguridad física para protegernos contra el acceso no autorizado a los sistemas. Desarrollamos e implementamos continuamente funciones para mantener segura su información personal; por ejemplo, cuando ingresa cualquier información en cualquier lugar del Servicio, encriptamos la transmisión de esa información utilizando (SSL / TLS) de forma predeterminada.
+Nos aseguramos de que las contraseñas se almacenen y transfieran de forma segura mediante cifrado. Eliminamos automáticamente las cuentas activas después de un período de tiempo específico.
+Aunque hacemos esfuerzos concertados de buena fe para mantener la seguridad de la información personal y trabajamos arduamente para garantizar la integridad y seguridad de nuestros sistemas, ninguna práctica es 100% inmune y no podemos garantizar la seguridad de la información.
+Las interrupciones, los ataques, los errores humanos, las fallas del sistema, el uso no autorizado y otros factores pueden comprometer la seguridad de la información del usuario en cualquier momento. Si una brecha de seguridad aumentara a nuestro
+conocimiento, intentaremos notificarle electrónicamente \ | (sujeto a las leyes aplicables) para que pueda tomar los procedimientos de protección
+
+
+7. Uso De Servicios Por Menores
+La Aplicación y los Servicios están destinados a ser utilizados por personas mayores a 13 años. Para evitar dudas, la Aplicación y los Servicios no están dirigidos a menores de edad ni deben ser utilizados por ellos. En los Estados Unidos, esto significa personas menores de trece (13) años. En otras jurisdicciones pueden aplicarse diferentes restricciones de edad
+
+
+8. Actualizaciones De La Política De Privacidad
+Podemos hacer cambios a esta Política de privacidad. Cualquier cambio que podamos hacer a nuestra política de privacidad en el futuro se publicará en esta página y, cuando corresponda, se le notificará por cualquier medio razonable, incluso a través de la Aplicación. Eche un vistazo a la leyenda ÚLTIMA ACTUALIZACIÓN” en la parte superior de esta página para ver cuándo se revisó por última vez esta Política de privacidad. Los nuevos términos pueden aparecer en la pantalla y es posible que deba leerlos y aceptarlos para continuar usando la Aplicación y cualquier Servicio. Cualquier cambio a esta Política de privacidad entrará en vigencia cuando publiquemos la Política de privacidad revisada en la Aplicación. El uso que haga de la Aplicación después de estos cambios significa que acepta la Política de privacidad revisada “.
+
+
+9. Enlaces a Terceros
+
+Este sitio web pudiera contener enlaces a otros sitios o documentos que pudieran ser de su interés. Una vez que usted de clic en estos enlaces y abandone nuestra página, ya no tenemos control sobre al sitio al que es redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de sus datos en esos otros sitios terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consulte para confirmar que usted está de acuerdo con estas."</string>
+    <string name="policy_string">He leído y acepto la</string>
+    <string name="error_must_accept_terms">Debe aceptar los terminos y condiciones de uso para utilizar EscuelApp</string>
+    <string name="error_must_accept_policy">Debe aceptar la politica de privacidad para utilizar EscuelApp</string>
+    <string name="copyright_string" translatable="false">"Copyright Argentina Federico Beron
+Copyright 2021 - 2022
+All Rights Reserved"</string>
+
+    <!-- keys to retrieve from settings -->
+    <string name="sign_format_1" translatable="false">sign format 1</string>
+    <string name="sign_format_2" translatable="false">sign format 2</string>
+    <string name="sign_name" translatable="false">sign</string>
+
+    <string name="horoscopeEnable">Horoscopo habilitado</string>
+    <string name="show_horoscope_option">Mostrar horoscopo del día</string>
+    <string name="aries" translatable="false">Aries</string>
+    <string name="taurus">Tauro</string>
+    <string name="gemini">Geminis</string>
+    <string name="cancer" translatable="false">Cancer</string>
+    <string name="leo" translatable="false">Leo</string>
+    <string name="virgo" translatable="false">Virgo</string>
+    <string name="libra" translatable="false">Libra</string>
+    <string name="scorpio" translatable="false">Scorpio</string>
+    <string name="sagittarius">Sagitario</string>
+    <string name="capricorn">Capricornio</string>
+    <string name="aquarius">Acuario</string>
+    <string name="pisces">Piscis</string>
 </resources>

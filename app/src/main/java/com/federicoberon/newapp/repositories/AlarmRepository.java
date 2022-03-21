@@ -1,7 +1,5 @@
 package com.federicoberon.newapp.repositories;
 
-import android.util.Log;
-
 import com.federicoberon.newapp.datasource.dao.AlarmDao;
 import com.federicoberon.newapp.datasource.dao.MelodyDao;
 import com.federicoberon.newapp.model.AlarmEntity;
@@ -65,15 +63,22 @@ public class AlarmRepository implements AlarmDataSource {
        return mAlarmDao.insert(alarmEntity);
     }
 
-    @Override
-    public Completable deleteAlarm(long currentMilestoneId) {
-        return mAlarmDao.deleteAlarm(currentMilestoneId);
+    public Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity) {
+        return mAlarmDao.delete(alarmEntity);
     }
 
     @Override
     public Completable deleteAlarms(List<Long> ids) {
         return mAlarmDao.deleteAlarms(ids);
     }
+
+    public Completable updateAlarms(List<Long> ids, boolean active) {
+        if(active)
+            return mAlarmDao.activateAlarms(ids);
+        else
+            return mAlarmDao.inactivateAlarms(ids);
+    }
+
 
     @Override
     public Flowable<List<MelodyEntity>> getAllMelodies() {

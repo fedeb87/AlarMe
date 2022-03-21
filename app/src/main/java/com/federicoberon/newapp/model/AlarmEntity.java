@@ -46,6 +46,7 @@ public class AlarmEntity implements Serializable {
     private int repeatTime;
     //private String discardMethod;
 
+    private boolean horoscopeOn;
     private boolean started;
 
 
@@ -55,7 +56,7 @@ public class AlarmEntity implements Serializable {
     public AlarmEntity(long id, @NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
-                       int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
+                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn, boolean started) {
         this.id = id;
         this.title = title;
         this.alarmDate = alarmDate;
@@ -80,13 +81,14 @@ public class AlarmEntity implements Serializable {
         this.repeatOn = repeatOn;
         this.repeatTime = repeatTime;
         this.started = started;
+        this.horoscopeOn = horoscopeOn;
     }
 
     @Ignore
     public AlarmEntity(@NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
-                       int postponeTime, boolean repeatOn, int repeatTime, boolean started) {
+                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn, boolean started) {
         this.title = title;
         this.alarmDate = alarmDate;
         this.hour = hour;
@@ -110,6 +112,7 @@ public class AlarmEntity implements Serializable {
         this.repeatOn = repeatOn;
         this.repeatTime = repeatTime;
         this.started = started;
+        this.horoscopeOn = horoscopeOn;
     }
 
     public long getId() {
@@ -327,5 +330,13 @@ public class AlarmEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(title, alarmDate);
+    }
+
+    public void setHoroscopeOn(boolean horoscopeOn) {
+        this.horoscopeOn = horoscopeOn;
+    }
+
+    public boolean isHoroscopeOn() {
+        return this.horoscopeOn;
     }
 }

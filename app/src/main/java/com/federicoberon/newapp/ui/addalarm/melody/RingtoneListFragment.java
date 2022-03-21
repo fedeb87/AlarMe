@@ -127,15 +127,14 @@ public class RingtoneListFragment extends Fragment {
             public void onClick(View view) {
 
                 mDisposable.add(viewModel.getMelodyById(binding.radioGroupRingtone.getCheckedRadioButtonId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(melody -> {
-                            viewModel.setSelectedMelody(melody);
-
-                            Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
-                            //Navigation.findNavController(binding.getRoot()).navigate(R.id.action_back_to_ringtonePickerFragment);
-                            },
-                                throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(melody -> {
+                        viewModel.setSelectedMelody(melody);
+                        Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
+                        //Navigation.findNavController(binding.getRoot()).navigate(R.id.action_back_to_ringtonePickerFragment);
+                        },
+                throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
 
             }
         });

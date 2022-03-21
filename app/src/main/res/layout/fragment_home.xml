@@ -6,31 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
-        android:animateLayoutChanges="true"
-        >
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/background" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/milestonesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/layout_animation"
+        android:paddingTop="@dimen/vertical_margin_half"
+        android:paddingBottom="@dimen/vertical_margin_half"
+        android:scrollbars="vertical"
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/milestonesRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/vertical_margin_half"
-            android:paddingBottom="@dimen/vertical_margin_half"
-            android:scrollbars="vertical"
-            tools:listitem="@layout/item_alarm"
+        tools:listitem="@layout/item_alarm" />
 
-            android:layoutAnimation="@anim/layout_animation"
-            />
 
-    </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
