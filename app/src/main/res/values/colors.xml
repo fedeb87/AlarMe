@@ -38,6 +38,7 @@
 
     <color name="colorCardChecked">#482F3D89</color>
     <color name="transparent">#00000000</color>
+    <color name="transparent2">#22000000</color>
     <color name="background_dark_theme">#424242</color>
 
 

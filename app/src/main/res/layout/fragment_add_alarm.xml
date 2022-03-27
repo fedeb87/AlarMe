@@ -522,6 +522,53 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/weatherLinearLayout"
+                        android:layout_width="256dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewWeather"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_weather_option"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/weatherSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onCheckedChanged="@{() -> fragment.offWeather()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
                     android:background="@color/colorGray"
                     android:visibility="gone" />
 
@@ -570,16 +617,17 @@
                     android:background="@color/colorGray"
                     android:visibility="gone" />
 
+
                 <Button
                     android:id="@+id/okButton"
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="24dp"
                     android:background="@color/colorAccent"
                     android:text="@string/save_button"
-                    android:textColor="@android:color/primary_text_dark" />
+                    android:textColor="@android:color/primary_text_dark"
+                    />
 
             </LinearLayout>
 

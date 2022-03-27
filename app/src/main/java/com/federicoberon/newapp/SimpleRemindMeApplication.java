@@ -15,6 +15,8 @@ import com.federicoberon.newapp.di.module.DatabaseModule;
 import com.federicoberon.newapp.di.module.RingtoneManagerModule;
 import com.federicoberon.newapp.retrofit.HoroscopeService;
 import com.federicoberon.newapp.retrofit.HoroscopeServiceTwo;
+import com.federicoberon.newapp.retrofit.WeatherService;
+import com.federicoberon.newapp.retrofit.WeatherServiceTwo;
 import com.federicoberon.newapp.ui.addalarm.AddAlarmComponent;
 
 /**
@@ -27,6 +29,8 @@ public class SimpleRemindMeApplication extends Application {
     public ApplicationComponent appComponent = initializeComponent();
     private HoroscopeService horoscopeService;
     private HoroscopeServiceTwo horoscopeServiceTwo;
+    private WeatherService weatherService;
+    private WeatherServiceTwo weatherServiceTwo;
 
 
     @Override
@@ -66,6 +70,20 @@ public class SimpleRemindMeApplication extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
+    }
+
+    public WeatherService getWeatherService() {
+        if (this.weatherService == null) {
+            this.weatherService = WeatherService.Factory.create();
+        }
+        return weatherService;
+    }
+
+    public WeatherServiceTwo getWeatherServiceTwo() {
+        if (this.weatherServiceTwo == null) {
+            this.weatherServiceTwo = WeatherServiceTwo.Factory.create();
+        }
+        return weatherServiceTwo;
     }
 
     public HoroscopeService getHoroscopeService() {

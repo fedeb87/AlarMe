@@ -33,6 +33,7 @@ public class AlarmEntity implements Serializable {
     private boolean melodyOn;
     private String melodyUri;
     private String melodyName;
+    private int volume;
 
     private boolean vibrationOn;
     private String vibrationPatter;
@@ -46,6 +47,7 @@ public class AlarmEntity implements Serializable {
     private int repeatTime;
     //private String discardMethod;
 
+    private boolean weatherOn;
     private boolean horoscopeOn;
     private boolean started;
 
@@ -54,9 +56,10 @@ public class AlarmEntity implements Serializable {
     }
 
     public AlarmEntity(long id, @NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
-                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
+                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
-                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn, boolean started) {
+                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
+                       boolean weatherOn, boolean started) {
         this.id = id;
         this.title = title;
         this.alarmDate = alarmDate;
@@ -74,6 +77,7 @@ public class AlarmEntity implements Serializable {
         this.melodyOn = melodyOn;
         this.melodyUri = melodyUri;
         this.melodyName = melodyName;
+        this.volume = volume;
         this.vibrationOn = vibrationOn;
         this.vibrationPatter = vibrationPatter;
         this.postponeOn = postponeOn;
@@ -82,13 +86,15 @@ public class AlarmEntity implements Serializable {
         this.repeatTime = repeatTime;
         this.started = started;
         this.horoscopeOn = horoscopeOn;
+        this.weatherOn = weatherOn;
     }
 
     @Ignore
     public AlarmEntity(@NonNull String title, Date alarmDate, int hour, int minute, int hourInMinutes,
-                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName,
+                       boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
-                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn, boolean started) {
+                       int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
+                       boolean weatherOn, boolean started) {
         this.title = title;
         this.alarmDate = alarmDate;
         this.hour = hour;
@@ -105,6 +111,7 @@ public class AlarmEntity implements Serializable {
         this.melodyOn = melodyOn;
         this.melodyUri = melodyUri;
         this.melodyName = melodyName;
+        this.volume = volume;
         this.vibrationOn = vibrationOn;
         this.vibrationPatter = vibrationPatter;
         this.postponeOn = postponeOn;
@@ -113,6 +120,7 @@ public class AlarmEntity implements Serializable {
         this.repeatTime = repeatTime;
         this.started = started;
         this.horoscopeOn = horoscopeOn;
+        this.weatherOn = weatherOn;
     }
 
     public long getId() {
@@ -267,6 +275,14 @@ public class AlarmEntity implements Serializable {
         return daysOfWeek;
     }
 
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
     public void setDaysOfWeek(boolean[] daysOfWeek) {
         this.daysOfWeek = daysOfWeek;
     }
@@ -338,5 +354,13 @@ public class AlarmEntity implements Serializable {
 
     public boolean isHoroscopeOn() {
         return this.horoscopeOn;
+    }
+
+    public boolean isWeatherOn() {
+        return weatherOn;
+    }
+
+    public void setWeatherOn(boolean weatherOn) {
+        this.weatherOn = weatherOn;
     }
 }

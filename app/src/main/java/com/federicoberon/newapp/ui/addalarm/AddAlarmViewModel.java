@@ -2,12 +2,11 @@ package com.federicoberon.newapp.ui.addalarm;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.media.AudioManager;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.federicoberon.newapp.MainActivity;
-import com.federicoberon.newapp.R;
 import com.federicoberon.newapp.model.AlarmEntity;
 import com.federicoberon.newapp.model.MelodyEntity;
 import com.federicoberon.newapp.repositories.AlarmRepository;
@@ -26,6 +25,9 @@ import io.reactivex.Maybe;
 
 @Singleton
 public class AddAlarmViewModel extends ViewModel {
+
+    @Inject
+    AudioManager mAudioManager;
 
     private final AlarmRepository mAlarmRepository;
     private AlarmEntity insertedAlarm;
@@ -48,6 +50,8 @@ public class AddAlarmViewModel extends ViewModel {
     private boolean isRepeatOn;
     private boolean duplicate;
     private boolean isHoroscopeOn;
+    private boolean weatherOn;
+    private int volume;
 
     @Inject
     public AddAlarmViewModel(Application app, AlarmRepository alarmRepository) {
@@ -62,6 +66,8 @@ public class AddAlarmViewModel extends ViewModel {
         this.isMelodyOn = true;
         this.duplicate = false;
         this.isHoroscopeOn = false;
+        this.weatherOn = false;
+        this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
     public void restart(){
@@ -78,6 +84,8 @@ public class AddAlarmViewModel extends ViewModel {
         this.selectedVibration = null;
         this.duplicate = false;
         this.isHoroscopeOn = false;
+        this.weatherOn = false;
+        this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
     }
 
@@ -207,16 +215,16 @@ public class AddAlarmViewModel extends ViewModel {
         if (insertedAlarm==null || this.duplicate)
             insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, hourInMinutes,
                     this.daysOfWeek, this.isMelodyOn, this.selectedMelody.getUri(),
-                    this.selectedMelody.getTitle(), this.isVibrationOn, this.selectedVibration,
+                    this.selectedMelody.getTitle(), this.volume, this.isVibrationOn, this.selectedVibration,
                     this.isPostponeOn, this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
-                    this.isHoroscopeOn, true);
+                    this.isHoroscopeOn, this.weatherOn, true);
         else
             insertedAlarm = new AlarmEntity(insertedAlarm.getId(), title, getDate(), mHour,
                     mMinutes, hourInMinutes, this.daysOfWeek, this.isMelodyOn,
-                    this.selectedMelody.getUri(), this.selectedMelody.getTitle(),
+                    this.selectedMelody.getUri(), this.selectedMelody.getTitle(), this.volume,
                     this.isVibrationOn, this.selectedVibration, this.isPostponeOn,
                     this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
-                    this.isHoroscopeOn, insertedAlarm.isStarted());
+                    this.isHoroscopeOn, this.weatherOn, insertedAlarm.isStarted());
 
         return mAlarmRepository.insertOrUpdateAlarm(insertedAlarm);
     }
@@ -323,6 +331,14 @@ public class AddAlarmViewModel extends ViewModel {
         return isHoroscopeOn;
     }
 
+    public boolean isWeatherOn() {
+        return weatherOn;
+    }
+
+    public void setWeatherOn(boolean weatherOn) {
+        this.weatherOn = weatherOn;
+    }
+
     public void setRepeatOn(boolean repeatOn) {
         isRepeatOn = repeatOn;
     }
@@ -347,4 +363,11 @@ public class AddAlarmViewModel extends ViewModel {
         this.duplicate = true;
     }
 
+    public void setVolume(int progress) {
+        this.volume = progress;
+    }
+
+    public int getVolume() {
+        return this.volume;
+    }
 }

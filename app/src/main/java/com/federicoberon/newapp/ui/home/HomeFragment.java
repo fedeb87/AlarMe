@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(alarms -> {
-                    if(alarms.isEmpty())
+                    if(alarms.isEmpty() || alarms==null)
                         setFragmentHeader(null);
                     else
                         getFirstAlarmEnable();
@@ -300,7 +300,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     @Override
     public void onPreviewMenuClicked(AlarmEntity alarmEntity) {
         // open alarm activity
-        Navigation.findNavController(binding.getRoot()).navigate(HomeFragmentDirections.previewAlarmActivity(alarmEntity));
+        //Navigation.findNavController(binding.getRoot()).navigate(HomeFragmentDirections.previewAlarmActivity(alarmEntity));
 
         // start service
         startAlarmService(alarmEntity);

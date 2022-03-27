@@ -405,6 +405,7 @@ All Rights Reserved"</string>
 
     <string name="horoscopeEnable">Horoscopo habilitado</string>
     <string name="show_horoscope_option">Mostrar horoscopo del día</string>
+    <string name="show_weather_option">Mostrar el clima del dia</string>
     <string name="aries" translatable="false">Aries</string>
     <string name="taurus">Tauro</string>
     <string name="gemini">Geminis</string>
@@ -417,4 +418,7 @@ All Rights Reserved"</string>
     <string name="capricorn">Capricornio</string>
     <string name="aquarius">Acuario</string>
     <string name="pisces">Piscis</string>
+    <string name="min_max_temp_c">%d°/%d°</string>
+    <string name="rain_chance">"Probabilidad de lluvia %s %%"</string>
+    <string name="today">Hoy</string>
 </resources>

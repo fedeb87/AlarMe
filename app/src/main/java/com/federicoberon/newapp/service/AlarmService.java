@@ -10,11 +10,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import static com.federicoberon.newapp.SimpleRemindMeApplication.CHANNEL_ID;
-import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ACTION_DISCARD;
 import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
 import static com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import com.federicoberon.newapp.R;
@@ -25,8 +23,6 @@ import com.federicoberon.newapp.ui.alarm.AlarmActivity;
 import com.federicoberon.newapp.utils.AlarmManager;
 import com.federicoberon.newapp.utils.VibrationManager;
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -138,6 +134,7 @@ public class AlarmService extends Service {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(alarmEntity.getMelodyUri()));
             mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(alarmEntity.getVolume(), alarmEntity.getVolume());
             mediaPlayer.prepare();
             mediaPlayer.start();
         } catch (IOException e) {

@@ -81,6 +81,7 @@ public class RingtonePickerFragment extends Fragment {
                 binding.getRoot()).navigate(R.id.action_ringtoneListFragment));
 
         // seekbar behaviour
+        viewModel.setVolume(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         binding.seekBarVolume.setProgress(mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         binding.seekBarVolume.setMax(mAudioManager
                 .getStreamMaxVolume(AudioManager.STREAM_MUSIC));
@@ -90,6 +91,7 @@ public class RingtonePickerFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
                         progress, 0);
+                viewModel.setVolume(progress);
             }
 
             @Override

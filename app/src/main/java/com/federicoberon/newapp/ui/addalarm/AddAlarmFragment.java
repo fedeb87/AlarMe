@@ -2,6 +2,8 @@ package com.federicoberon.newapp.ui.addalarm;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -51,6 +54,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     @Inject
     AddAlarmViewModel addAlarmViewModel;
+
     private FragmentAddAlarmBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private SharedPreferences.OnSharedPreferenceChangeListener mListener;
@@ -171,6 +175,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                                 addAlarmViewModel.setRepeatOn(alarmEntity.isRepeatOn());
                                 addAlarmViewModel.setVibrationOn(alarmEntity.isVibrationOn());
                                 addAlarmViewModel.setHoroscopeOn(alarmEntity.isHoroscopeOn());
+                                addAlarmViewModel.setWeatherOn(alarmEntity.isWeatherOn());
                                 addAlarmViewModel.setSelectedPostpone(alarmEntity.getPostponeTime());
                                 addAlarmViewModel.setSelectedRepeat(alarmEntity.getRepeatTime());
                                 addAlarmViewModel.setSelectedVibration(alarmEntity.getVibrationPatter());
@@ -226,8 +231,13 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         //**** selected repeat ****//
         binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
 
+        //**** selected sign ****//
         String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
         binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
+
+
+        //**** selected weather ****//
+        binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
     }
 
     @Override
@@ -272,7 +282,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         // pick date listener
         ((MainActivity)requireActivity()).getBinding().appBarMain
                 .timePicker.setOnTimeChangedListener(this);
-
 
         // Listener for de SharedPreference
         mListener = (prefs, key) -> {
@@ -344,12 +353,14 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         changeColorsView(binding.textViewPostpone, binding.postponeValue, addAlarmViewModel.isPostponeOn());
         changeColorsView(binding.textViewRepeat, binding.repeatValue, addAlarmViewModel.isRepeatOn());
         changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, addAlarmViewModel.isHoroscopeOn());
+        changeColorsView(binding.textViewWeather, null, addAlarmViewModel.isWeatherOn());
 
         binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
         binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
         binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
         binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
         binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
+        binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
     }
 
     public void offRingtone(){
@@ -391,7 +402,8 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             color2 = ContextCompat.getColor(requireContext(), R.color.white_transparent);
         }
         textView1.setTextColor(color1);
-        textView2.setTextColor(color2);
+        if(textView2!=null)
+            textView2.setTextColor(color2);
     }
 
     public void openSignSelector(){
@@ -404,5 +416,26 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         boolean isChecked = binding.horoscopeSwitch.isChecked();
         addAlarmViewModel.setHoroscopeOn(isChecked);
         changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, isChecked);
+    }
+
+    public void offWeather(){
+        boolean isChecked = binding.weatherSwitch.isChecked();
+
+        if(isChecked){
+            if (ContextCompat.checkSelfPermission(requireContext(),
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(requireContext(),
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                            PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(requireActivity()
+                        , new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
+                        , android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
+
+            }
+        }
+
+        addAlarmViewModel.setWeatherOn(isChecked);
+        changeColorsView(binding.textViewWeather, null, isChecked);
     }
 }
