@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +56,11 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
                 .appComponent.inject(this);
 
         super.onCreate(savedInstanceState);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                + WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|
+                + WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|
+                + WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
         binding = FragmentAlarmBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
