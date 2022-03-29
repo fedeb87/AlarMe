@@ -81,8 +81,8 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     @Override
     public void onResume() {
         super.onResume();
-        //CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
-        //lp.height = (int) getResources().getDimension(R.dimen.nav_header_height);
+        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
+        lp.height = (int) getResources().getDimension(R.dimen.nav_header_height);
 
         setupViewModel();
     }

@@ -40,6 +40,7 @@
         <activity
             android:name="com.federicoberon.newapp.ui.alarm.AlarmActivity"
             android:theme="@style/SimpleRemindMeNotitle"
+            android:excludeFromRecents="true"
             android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <receiver android:name="com.federicoberon.newapp.broadcastreceiver.AlarmBroadcastReceiver"

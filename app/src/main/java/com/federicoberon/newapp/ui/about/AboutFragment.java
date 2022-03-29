@@ -37,7 +37,6 @@ public class AboutFragment extends Fragment {
         ((MainActivity)requireActivity()).getBinding().appBarMain.appBar.setExpanded(false, false);
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
         lp.height = 140;
-
         ((MainActivity) requireActivity()).getBinding().appBarMain.fab.setVisibility(View.GONE);
     }
 

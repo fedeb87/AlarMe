@@ -2,9 +2,10 @@ package com.federicoberon.newapp.datasource.dao;
 
 import androidx.room.Dao;
 import androidx.room.Query;
-import androidx.room.Transaction;
-
 import com.federicoberon.newapp.model.AlarmEntity;
+
+import org.simpleframework.xml.core.Replace;
+
 import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -40,5 +41,6 @@ public interface AlarmDao extends BaseDao<AlarmEntity>{
 
     @Query("UPDATE alarms SET started = 0 WHERE id IN (:ids)")
     Completable inactivateAlarms(List<Long> ids);
+
 
 }

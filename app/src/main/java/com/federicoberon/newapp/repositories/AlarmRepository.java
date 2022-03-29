@@ -63,6 +63,10 @@ public class AlarmRepository implements AlarmDataSource {
        return mAlarmDao.insert(alarmEntity);
     }
 
+    public Maybe<Integer> updateAlarm(AlarmEntity alarmEntity) {
+       return mAlarmDao.update(alarmEntity);
+    }
+
     public Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity) {
         return mAlarmDao.delete(alarmEntity);
     }

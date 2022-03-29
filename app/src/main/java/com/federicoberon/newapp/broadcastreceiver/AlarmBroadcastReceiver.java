@@ -15,7 +15,6 @@ import java.util.Calendar;
 
 public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String ACTION_SNOOZE = "Snooze";
-    public static final String ACTION_DISCARD = "Discard";
     public static final String ALARM_ENTITY = "AlarmEntity";
 
     @Override

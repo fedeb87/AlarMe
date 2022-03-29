@@ -64,7 +64,6 @@ public class AlarmViewModel extends ViewModel {
     private double minTempF;
     private double maxTempF;
     private boolean inCelsius;
-    //LocationManager locationManager;
 
     @Inject
     public AlarmViewModel(Application app, AlarmRepository alarmRepository) {
@@ -82,10 +81,6 @@ public class AlarmViewModel extends ViewModel {
         return this.sign;
     }
 
-    public Maybe<Long> updateAlarm(AlarmEntity alarmEntity) {
-        return mAlarmRepository.insertOrUpdateAlarm(alarmEntity);
-    }
-
     @SuppressLint("MissingPermission")
     public void loadWeather(AlarmActivity activity) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
@@ -101,7 +96,6 @@ public class AlarmViewModel extends ViewModel {
                     //callWeatherAPITwo(location.getLatitude(), location.getLongitude());
 
                 } else {
-                    Log.w("MIO", "<<< NO ESTA VOY A PEDIR UNA NUEVA >>>");
                     requestNewLocation();
                 }
             });
@@ -204,8 +198,7 @@ public class AlarmViewModel extends ViewModel {
 
                     @Override
                     public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
-                        // todo poner el de anajo
-                        //callWeatherAPITwo(latitude, longitude);
+                        callWeatherAPITwo(latitude, longitude);
                         Log.e(TAG, "Error loading weather ", t);
                         listener.onWeatherChanged(null);
                     }

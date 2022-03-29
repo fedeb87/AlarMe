@@ -24,6 +24,7 @@ import com.federicoberon.newapp.retrofit.HoroscopeTwo;
 import com.federicoberon.newapp.retrofit.WeatherResponse;
 import com.federicoberon.newapp.retrofit.WeatherResponseTwo;
 import com.federicoberon.newapp.service.AlarmService;
+import com.federicoberon.newapp.service.ServiceUtil;
 import com.federicoberon.newapp.utils.AlarmManager;
 import com.federicoberon.newapp.utils.HoroscopeManager;
 import java.util.Arrays;
@@ -66,9 +67,8 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
         if(intent.hasExtra(ALARM_ENTITY)) {
             mAlarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
         }else {
-            Toast.makeText(this,
-                    getString(R.string.no_alarm_entity),
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.no_alarm_entity),
+                    Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -76,15 +76,17 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
         binding.activityRingDismiss.setOnClickListener(v -> {
             if(!AlarmManager.recurring(mAlarmEntity)) {
                 mAlarmEntity.setStarted(false);
-                mDisposable.add(alarmViewModel.updateAlarm(mAlarmEntity)
+                mDisposable.add(new ServiceUtil(this).updateAlarm(mAlarmEntity)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(id -> Log.w(LOG_TAG, ""),
-                        throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+                    .subscribe(id -> {
+                        Log.w(LOG_TAG, "<<< DESACTIVWE LA ALARMA WEY >>> " + id);
+                        finish();
+                    },
+                    throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
 
                 Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
                 getApplicationContext().stopService(intentService);
-                finish();
             }
         });
 

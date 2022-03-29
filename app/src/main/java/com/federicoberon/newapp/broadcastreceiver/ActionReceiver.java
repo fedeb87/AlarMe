@@ -69,12 +69,12 @@ public class ActionReceiver extends BroadcastReceiver {
         }
 
         serviceUtil.updateAlarm(alarmEntity)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(id -> {
-                            // stop alarm service
-                            Log.w("MIO", "Alarm disable: " + id);
-                        },
-                        throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(id -> {
+                // stop alarm service
+                Log.w("MIO", "Alarm disable: " + id);
+            },
+            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
     }
 }

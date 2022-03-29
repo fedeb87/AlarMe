@@ -45,7 +45,7 @@ public class HoroscopeDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        //SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
         String selectedSign = sharedPref.getString(getString(R.string.sign_name), "aries");
 
         configRootView();

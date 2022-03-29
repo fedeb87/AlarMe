@@ -1,8 +1,8 @@
 package com.federicoberon.newapp.ui.addalarm;
 
-import android.app.Application;
 import android.content.Context;
 import android.media.AudioManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -25,10 +25,7 @@ import io.reactivex.Maybe;
 
 @Singleton
 public class AddAlarmViewModel extends ViewModel {
-
-    @Inject
-    AudioManager mAudioManager;
-
+    private final AudioManager mAudioManager;
     private final AlarmRepository mAlarmRepository;
     private AlarmEntity insertedAlarm;
     private MutableLiveData<Calendar> nextAlarm;
@@ -52,12 +49,15 @@ public class AddAlarmViewModel extends ViewModel {
     private boolean isHoroscopeOn;
     private boolean weatherOn;
     private int volume;
+    private Long insertedIdAlarm;
 
     @Inject
-    public AddAlarmViewModel(Application app, AlarmRepository alarmRepository) {
+    public AddAlarmViewModel(AudioManager audioManager, AlarmRepository alarmRepository) {
+        this.mAudioManager = audioManager;
         this.nextAlarm = new MutableLiveData<>();
         this.daysOfWeek = new boolean[7];
         this.mAlarmRepository = alarmRepository;
+        this.insertedAlarm = null;
         this.selectedPostpone = 5;
         this.selectedRepeat = RepeatManager.DEFAULT_REPEAT;
         this.isRepeatOn = false;
@@ -68,6 +68,7 @@ public class AddAlarmViewModel extends ViewModel {
         this.isHoroscopeOn = false;
         this.weatherOn = false;
         this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
     }
 
     public void restart(){
@@ -86,7 +87,6 @@ public class AddAlarmViewModel extends ViewModel {
         this.isHoroscopeOn = false;
         this.weatherOn = false;
         this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
     }
 
     public boolean[] getDaysOfWeek() {
@@ -208,17 +208,18 @@ public class AddAlarmViewModel extends ViewModel {
         return this.insertedAlarm;
     }
 
+    // TODO por aca, separarlo porque necesito recuperar el Id insertado en el caso de que sea una nueva
     public Maybe<Long> saveAlarm(String title) {
 
         int hourInMinutes = mHour*60+mMinutes;
 
-        if (insertedAlarm==null || this.duplicate)
+        if (insertedAlarm==null || this.duplicate) // insert case
             insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, hourInMinutes,
                     this.daysOfWeek, this.isMelodyOn, this.selectedMelody.getUri(),
                     this.selectedMelody.getTitle(), this.volume, this.isVibrationOn, this.selectedVibration,
                     this.isPostponeOn, this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
                     this.isHoroscopeOn, this.weatherOn, true);
-        else
+        else // update case
             insertedAlarm = new AlarmEntity(insertedAlarm.getId(), title, getDate(), mHour,
                     mMinutes, hourInMinutes, this.daysOfWeek, this.isMelodyOn,
                     this.selectedMelody.getUri(), this.selectedMelody.getTitle(), this.volume,
@@ -355,10 +356,6 @@ public class AddAlarmViewModel extends ViewModel {
         this.isMelodyOn = melodyOn;
     }
 
-    public void setIdInsertedAlarm(Long id) {
-        this.insertedAlarm.setId(id);
-    }
-
     public void setDuplicate() {
         this.duplicate = true;
     }
@@ -369,5 +366,10 @@ public class AddAlarmViewModel extends ViewModel {
 
     public int getVolume() {
         return this.volume;
+    }
+
+    public void setIdInsertedAlarm(Long id) {
+        this.insertedAlarm.setId(id);
+        this.insertedIdAlarm = id;
     }
 }

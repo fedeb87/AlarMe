@@ -10,6 +10,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import static com.federicoberon.newapp.SimpleRemindMeApplication.CHANNEL_ID;
@@ -56,17 +58,14 @@ public class AlarmService extends Service {
         notificationIntent.putExtra(ALARM_ENTITY,alarmEntity);
 
         if(intent.hasExtra(ACTION_SNOOZE)){
-            //AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime());
             AlarmManager.schedule(this, AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime()));
             stopSelf();
         }
 
-        // else, is a new alarm
-        // wrap the AlarmActivity in a PendingIntent
         PendingIntent pendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
         }else{
             pendingIntent = PendingIntent.getActivity(this, 0,
                     notificationIntent, 0);
@@ -78,24 +77,25 @@ public class AlarmService extends Service {
         snoozeIntent.putExtra(ACTION_SNOOZE, 0);
         snoozeIntent.putExtra(ALARM_ENTITY, alarmEntity);
         PendingIntent snoozePendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
-                    PendingIntent.FLAG_IMMUTABLE);
+                    PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
         }else{
             snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
-                    0);
+                    PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
-        Intent intentAction = new Intent(this, ActionReceiver.class);
-        intentAction.putExtra(ALARM_ENTITY, alarmEntity);
-        intentAction.setAction(ALARM_ENTITY);
+        // discard action //
+        Intent intentDiscard = new Intent(this, ActionReceiver.class);
+        intentDiscard.putExtra(ALARM_ENTITY, alarmEntity);
+        intentDiscard.setAction(ALARM_ENTITY);
         PendingIntent discardPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             discardPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentAction, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                    intentDiscard, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
         }else{
             discardPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentAction, PendingIntent.FLAG_UPDATE_CURRENT);
+                    intentDiscard, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         // full screen intent //
@@ -105,12 +105,12 @@ public class AlarmService extends Service {
         fullScreenIntent.putExtra(ALARM_ENTITY, alarmEntity);
 
         PendingIntent fullScreenPendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
-                        fullScreenIntent, PendingIntent.FLAG_IMMUTABLE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
+                        fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
         }else{
-            fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
-                    fullScreenIntent, 0);
+            fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
+                    fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         String alarmTitle = String.format(getString(R.string.notification_title), alarmEntity.getTitle());
