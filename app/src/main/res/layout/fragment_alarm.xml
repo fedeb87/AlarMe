@@ -204,6 +204,7 @@
             android:layout_marginTop="@dimen/vertical_margin"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/transparent2"
+            android:visibility="gone"
             app:cardElevation="4dp">
 
             <LinearLayout

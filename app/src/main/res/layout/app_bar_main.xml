@@ -50,7 +50,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="Próxima alarma"
-                        android:textSize="40sp"
+                        android:textSize="32sp"
                         android:layout_marginTop="16dp"
                         android:textColor="@color/white" />
 
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/no_alarm"
                         android:textAlignment="center"
-                        android:textSize="40sp"
+                        android:textSize="32sp"
                         android:textColor="@color/white" />
 
                 </LinearLayout>

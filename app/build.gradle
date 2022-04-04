@@ -7,7 +7,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.federicoberon.simpleremindme"
+        applicationId "com.federicoberon.alarme"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -143,6 +143,9 @@ dependencies {
 
     // location api
     implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    // ads AdMob
+    implementation 'com.google.android.gms:play-services-ads:20.6.0'
 
 
 }
