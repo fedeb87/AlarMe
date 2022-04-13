@@ -8,7 +8,6 @@ import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.retrofit.Horoscope;
@@ -95,7 +95,14 @@ public class AlarmActivity extends AppCompatActivity implements
 
         // ----- Config dismiss alarm action
         binding.activityRingDismiss.setOnClickListener(v -> {
-            if(!AlarmManager.recurring(mAlarmEntity)) {
+                    // todo creo que aca falta que pasaria si es recurrente, no lo tengo creo que no anda
+                    Intent i = new Intent(this, ActionReceiver.class);
+                    i.putExtra(ALARM_ENTITY, mAlarmEntity);
+                    i.setAction(ALARM_ENTITY);
+                    sendBroadcast(i);
+                    finish();
+                });
+            /*if(!AlarmManager.recurring(mAlarmEntity)) {
                 mAlarmEntity.setStarted(false);
                 mDisposable.add(new ServiceUtil(this).updateAlarm(mAlarmEntity)
                     .subscribeOn(Schedulers.io())
@@ -109,9 +116,8 @@ public class AlarmActivity extends AppCompatActivity implements
                 Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
                 getApplicationContext().stopService(intentService);
             }else {
-                // todo creo que aca falta que pasaria si es recurrente, no lo tengo creo que no anda
             }
-        });
+        });*/
 
         // ----- Hide snooze button if the alarm isn't configured it for that
         int postpone_time;
