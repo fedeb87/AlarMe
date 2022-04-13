@@ -6,8 +6,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-
-import com.android.billingclient.api.BillingClient;
 import com.federicoberon.alarme.datasource.AppDatabase;
 import com.federicoberon.alarme.di.component.ApplicationComponent;
 import com.federicoberon.alarme.di.component.DaggerApplicationComponent;
@@ -31,7 +29,6 @@ public class AlarMe extends Application {
     private HoroscopeServiceTwo horoscopeServiceTwo;
     private WeatherService weatherService;
     private WeatherServiceTwo weatherServiceTwo;
-    private BillingClient billingClient;
 
 
     @Override
@@ -71,14 +68,6 @@ public class AlarMe extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
-    }
-
-    public BillingClient getBillingClient(Context context) {
-        if (this.billingClient == null)
-            this.billingClient = BillingClient.newBuilder(context)
-                .enablePendingPurchases()
-                .build();
-        return this.billingClient;
     }
 
     public WeatherService getWeatherService() {

@@ -17,10 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.federicoberon.alarme.databinding.ActivityMainBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.ui.home.HomeFragment;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -58,18 +54,6 @@ public class MainActivity extends AppCompatActivity  {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // todo esto hacerlo si no tiene comprada la app, sino oculto la adview
-        // initialize MobileAds
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        binding.appBarMain.contentMainId.adView.loadAd(adRequest);
-
         setSupportActionBar(binding.appBarMain.toolbar);
 
         setCollapsingToolbarBehaviour(binding);
@@ -102,30 +86,6 @@ public class MainActivity extends AppCompatActivity  {
             editor.apply();
         }
 
-    }
-
-    @Override
-    public void onPause() {
-        if (binding.appBarMain.contentMainId.adView != null) {
-            binding.appBarMain.contentMainId.adView.pause();
-        }
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (binding.appBarMain.contentMainId.adView != null) {
-            binding.appBarMain.contentMainId.adView.resume();
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (binding.appBarMain.contentMainId.adView != null) {
-            binding.appBarMain.contentMainId.adView.destroy();
-        }
-        super.onDestroy();
     }
 
     /**
