@@ -2,6 +2,8 @@ package com.federicoberon.alarme.ui.addalarm.melody;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,8 @@ import com.federicoberon.alarme.AlarMe;
 import com.federicoberon.alarme.databinding.FragmentRingtonePickerBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -37,6 +41,7 @@ public class RingtonePickerFragment extends Fragment {
 
     @Inject
     AddAlarmViewModel viewModel;
+    private MediaPlayer mMediaPlayer;
 
     public RingtonePickerFragment() { // Required empty public constructor
     }
@@ -72,6 +77,7 @@ public class RingtonePickerFragment extends Fragment {
             }
         });
 
+        mMediaPlayer = new MediaPlayer();
         binding.onOffSwitch.setChecked(viewModel.isMelodyOn());
 
         binding.melodyLayout.setOnClickListener(view1 -> Navigation.findNavController(
@@ -89,6 +95,7 @@ public class RingtonePickerFragment extends Fragment {
                 mAudioManager.setStreamVolume(AudioManager.STREAM_ALARM,
                         progress, 0);
                 viewModel.setVolume(progress);
+                playMelody(progress);
             }
 
             @Override
@@ -104,6 +111,24 @@ public class RingtonePickerFragment extends Fragment {
 
         if (viewModel.getSelectedMelody() != null)
             binding.textviewMelodyValue.setText(viewModel.getSelectedMelody().getTitle());
+    }
+
+    private void playMelody(int progress) {
+
+        if (mMediaPlayer.isPlaying())
+            mMediaPlayer.stop();
+        try {
+            mMediaPlayer.reset();
+            mMediaPlayer.setWakeMode(requireContext(), AudioManager.MODE_RINGTONE);
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+            mMediaPlayer.setDataSource(requireContext(), Uri.parse(viewModel.getSelectedMelody().getUri()));
+            mMediaPlayer.setLooping(true);
+            mMediaPlayer.setVolume(progress, progress);
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void enableAllControls(boolean isEnabled) {
@@ -132,6 +157,8 @@ public class RingtonePickerFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (mMediaPlayer.isPlaying())
+            mMediaPlayer.stop();
         mDisposable.clear();
         binding = null;
     }

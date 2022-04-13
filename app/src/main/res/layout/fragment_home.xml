@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:id="@+id/fragmentHome"
+<androidx.coordinatorlayout.widget.CoordinatorLayout android:id="@+id/fragmentHome"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/milestonesRecyclerView"
@@ -22,8 +16,6 @@
         android:paddingTop="@dimen/vertical_margin_half"
         android:paddingBottom="@dimen/vertical_margin_half"
         android:scrollbars="vertical"
-
         tools:listitem="@layout/item_alarm" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

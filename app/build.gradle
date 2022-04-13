@@ -12,7 +12,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.federicoberon.newapp.CustomTestRunner"
+        testInstrumentationRunner "com.federicoberon.alarme.CustomTestRunner"
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     
@@ -34,6 +34,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
+            testCoverageEnabled = true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
@@ -146,6 +147,9 @@ dependencies {
 
     // ads AdMob
     implementation 'com.google.android.gms:play-services-ads:20.6.0'
+
+    // in-app purchase
+    implementation "com.android.billingclient:billing:4.1.0"
 
 
 }

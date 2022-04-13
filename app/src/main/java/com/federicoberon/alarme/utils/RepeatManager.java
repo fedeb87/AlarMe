@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class RepeatManager {
     public static final Integer DEFAULT_REPEAT = 8;
-    private static final Integer NONE_REPEAT = 0;
 
     private static LinkedHashMap<Integer, String> repeatOptions;
 

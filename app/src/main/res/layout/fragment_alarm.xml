@@ -46,6 +46,20 @@
             tools:text="18:05:12"
             />
 
+        <!-- Current phrase -->
+        <TextView
+            android:id="@+id/textPhrase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="24dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            tools:text="“I am convinced that at least half of what separates successful entrepreneurs from unsuccessful ones is sheer perseverance” - Steve Jobs"
+            />
+
         <!-- Weather -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/weatherCardView"
@@ -202,6 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/vertical_margin_half"
             android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginHorizontal="32dp"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/transparent2"
             android:visibility="gone"
@@ -217,8 +232,8 @@
 
                 <ImageView
                     android:id="@+id/signImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
                     tools:background="@drawable/taurus"
                     android:layout_marginRight="16dp"
                     />
@@ -285,5 +300,18 @@
 
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        app:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/ic_volume"
+        android:contentDescription="@string/desc"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

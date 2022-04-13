@@ -21,6 +21,7 @@ import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 @Singleton
 public class AddAlarmViewModel extends ViewModel {
@@ -69,6 +70,9 @@ public class AddAlarmViewModel extends ViewModel {
         this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         this.mHour = -1;
         this.mMinutes = -1;
+        this.mYear = -1;
+        this.mMonth = -1;
+        this.mDay = -1;
     }
 
     public void restart(){
@@ -89,6 +93,9 @@ public class AddAlarmViewModel extends ViewModel {
         this.volume = mAudioManager.getStreamVolume(AudioManager.STREAM_ALARM);
         this.mHour = -1;
         this.mMinutes = -1;
+        this.mYear = -1;
+        this.mMonth = -1;
+        this.mDay = -1;
     }
 
     public boolean[] getDaysOfWeek() {
@@ -144,15 +151,28 @@ public class AddAlarmViewModel extends ViewModel {
     private void setNextAlarm(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        setNextAlarm(calendar);
+        _setNextAlarm(calendar);
     }
 
-    public void setNextAlarm(Calendar calendar) {
+    private void _setNextAlarm(Calendar calendar) {
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         mHour = calendar.get(Calendar.HOUR_OF_DAY);
         mMinutes = calendar.get(Calendar.MINUTE);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        this.nextAlarm.setValue(calendar);
+    }
+
+    public void setNextAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        mHour = mHour == -1? calendar.get(Calendar.HOUR_OF_DAY) : mHour;
+        mMinutes = mMinutes == -1? calendar.get(Calendar.MINUTE) : mMinutes;
+        mYear = mYear == -1? calendar.get(Calendar.YEAR) : mYear;
+        mMonth = mMonth == -1? calendar.get(Calendar.MONTH) : mMonth;
+        mDay = mDay == -1? calendar.get(Calendar.DAY_OF_MONTH) : mDay;
+
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         this.nextAlarm.setValue(calendar);
@@ -170,17 +190,18 @@ public class AddAlarmViewModel extends ViewModel {
         mHour = hourOfDay;
         mMinutes = minute;
         Calendar calendar = nextAlarm.getValue();
-        if (calendar != null) {
-            calendar.set(Calendar.HOUR_OF_DAY, mHour);
-            calendar.set(Calendar.MINUTE, mMinutes);
-
-            if (scheduledDay == null && !containsTrue()) {
-                // no tiene seteado nada mas
-                calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(mHour, mMinutes));
-            }
-
-            nextAlarm.setValue(calendar);
+        if (calendar == null) {
+            calendar = Calendar.getInstance();
         }
+        calendar.set(Calendar.HOUR_OF_DAY, mHour);
+        calendar.set(Calendar.MINUTE, mMinutes);
+
+        if (scheduledDay == null && !containsTrue()) {
+            // no tiene seteado nada mas
+            calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(mHour, mMinutes));
+        }
+
+        nextAlarm.setValue(calendar);
     }
 
     private Date getDate(){
@@ -277,7 +298,7 @@ public class AddAlarmViewModel extends ViewModel {
         return mAlarmRepository.getMelodyId(id);
     }
 
-    public Flowable<MelodyEntity> getMelodyByName(String name) {
+    public Single<MelodyEntity> getMelodyByName(String name) {
         return mAlarmRepository.getMelodyName(name);
     }
 

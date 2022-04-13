@@ -8,6 +8,7 @@ import com.federicoberon.alarme.model.MelodyEntity;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Data Access Object for the Alarm table.
@@ -23,5 +24,5 @@ public interface MelodyDao extends BaseDao<AlarmEntity>{
     Flowable<MelodyEntity> getMelody(long id);
 
     @Query("SELECT * FROM melodies where title = :name")
-    Flowable<MelodyEntity> getMelodyByTitle(String name);
+    Single<MelodyEntity> getMelodyByTitle(String name);
 }

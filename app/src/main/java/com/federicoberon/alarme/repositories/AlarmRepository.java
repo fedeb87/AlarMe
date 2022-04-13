@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 /**
  * Using the Room database as a data source.
@@ -93,7 +94,7 @@ public class AlarmRepository implements AlarmDataSource {
         return mMelodyDao.getMelody(id);
     }
 
-    public Flowable<MelodyEntity> getMelodyName(String name) {
+    public Single<MelodyEntity> getMelodyName(String name) {
         return mMelodyDao.getMelodyByTitle(name);
     }
 

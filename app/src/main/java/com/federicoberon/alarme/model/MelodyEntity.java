@@ -18,6 +18,12 @@ public class MelodyEntity {
     public MelodyEntity() {
     }
 
+    @Ignore
+    public MelodyEntity(@NonNull String title, String uri) {
+        this.title = title;
+        this.uri = uri;
+    }
+
     public MelodyEntity(long id, @NonNull String title, String uri) {
         this.id = id;
         this.title = title;

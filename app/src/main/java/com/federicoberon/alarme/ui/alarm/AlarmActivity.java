@@ -1,23 +1,28 @@
 package com.federicoberon.alarme.ui.alarm;
 
+import static com.federicoberon.alarme.MainActivity.GENERATED_USER_CODE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
-
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.AlarMe;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
@@ -30,8 +35,12 @@ import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.service.ServiceUtil;
 import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.HoroscopeManager;
+import com.federicoberon.alarme.utils.CustomMediaPlayer;
+import com.federicoberon.alarme.utils.PhrasesManager;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -39,11 +48,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.OnResponseUpdateListener {
+public class AlarmActivity extends AppCompatActivity implements
+        AlarmViewModel.OnResponseUpdateListener, TextToSpeech.OnInitListener{
     private static final String LOG_TAG = "AlarmActivity";
     private FragmentAlarmBinding binding;
     private AlarmEntity mAlarmEntity;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
+    private TextToSpeech mTextToSpeech;
+    private Handler handler;
+    private Runnable delayedRunnable;
 
     @Inject
     SharedPreferences sharedPref;
@@ -88,13 +101,15 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(id -> {
-                        Log.w(LOG_TAG, "<<< DESACTIVWE LA ALARMA WEY >>> " + id);
+                        Log.w(LOG_TAG, "<<< DESACTIVE LA ALARMA WEY >>> " + id);
                         finish();
                     },
                     throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
 
                 Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
                 getApplicationContext().stopService(intentService);
+            }else {
+                // todo creo que aca falta que pasaria si es recurrente, no lo tengo creo que no anda
             }
         });
 
@@ -145,6 +160,23 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
                 changeUnit(alarmViewModel.getCurrentTempF(), alarmViewModel.getMinTempF(), alarmViewModel.getMaxTempF());
             }
         });
+
+        // phrases
+        Calendar calendar = Calendar.getInstance();
+        int position = calendar.get(Calendar.DAY_OF_YEAR) + sharedPref.getInt(GENERATED_USER_CODE, 0);
+        if (position > PhrasesManager.getPhrasesSize())
+            position = position - PhrasesManager.getPhrasesSize();
+        String phrase = getString(PhrasesManager.getPhraseId(position));
+        binding.textPhrase.setText(phrase);
+
+        // listener for play button
+        binding.fabPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textToSpeak();
+            }
+        });
+
     }
 
     private void changeUnitColor(int fColor, int sColor) {
@@ -159,8 +191,28 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
     }
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP ||
+                keyCode == KeyEvent.KEYCODE_VOLUME_MUTE){
+
+            Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
+            getApplicationContext().stopService(intentService);
+        }
+        return true;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (mTextToSpeech != null) {
+            mTextToSpeech.stop();
+            mTextToSpeech.shutdown();
+        }
+
+        if(handler!=null)
+            handler.removeCallbacks(delayedRunnable);
+
         mDisposable.clear();
         binding = null;
     }
@@ -220,11 +272,58 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
     }
 
     @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            Locale locale;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                locale = getResources().getConfiguration().getLocales().get(0);
+            } else{
+                //noinspection deprecation
+                locale = getResources().getConfiguration().locale;
+            }
+
+            if(!locale.getLanguage().equals("en")){
+                locale = new Locale("spa", "MEX");
+            }
+            //int result = mTextToSpeech.setLanguage(Locale.ENGLISH);
+            int result = mTextToSpeech.setLanguage(locale);
+            mTextToSpeech.setSpeechRate(0.8f);
+            mTextToSpeech.setPitch(0.7f);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("error", "This Language is not supported");
+            } else {
+                String hourText = String.format(getString(R.string.hour_speach), mAlarmEntity.getHour()
+                        , mAlarmEntity.getMinute());
+
+                String tempText = "";
+                if(mAlarmEntity.isWeatherOn())
+                    tempText = String.format(getString(R.string.temp_speach),
+                        alarmViewModel.getCurrentTempC(), alarmViewModel.getCurrentTempF());
+
+
+                mTextToSpeech.speak(hourText + ". " + tempText, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        } else {
+            Log.e("error", "Failed to Initialize");
+        }
+    }
+
+    private void textToSpeak() {
+
+        binding.fabPlay.setVisibility(View.GONE);
+
+        CustomMediaPlayer.getMediaPlayerInstance().stopAudioFile();
+        mTextToSpeech = new TextToSpeech(this, this);
+
+        handler = new Handler(Looper.getMainLooper());
+        delayedRunnable = () -> {CustomMediaPlayer.getMediaPlayerInstance().playAudioFile();
+            binding.fabPlay.setVisibility(View.VISIBLE);};
+        handler.postDelayed(delayedRunnable, 1000*13); // 13 seg
+    }
+
+    @Override
     public void onWeatherChanged(WeatherResponse weatherResponse) {
         if(weatherResponse!=null) {
-
-            Log.w("MIO", "<<< Me llego un clima >>>");
-
             // current data
             alarmViewModel.setCurrentTempF((double) weatherResponse.getCurrentWeather().getTemp_f());
             alarmViewModel.setCurrentTempC(weatherResponse.getCurrentWeather().getTemp_c());
@@ -253,6 +352,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
                     weatherResponse.getDayForecast().getForecastday().getDay().getDaily_chance_of_rain()));
 
             binding.weatherCardView.setVisibility(View.VISIBLE);
+            textToSpeak();
         }
     }
 
@@ -283,7 +383,7 @@ public class AlarmActivity extends AppCompatActivity implements AlarmViewModel.O
         binding.textViewRainingChance.setVisibility(View.GONE);
 
         binding.weatherCardView.setVisibility(View.VISIBLE);
-
+        textToSpeak();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")

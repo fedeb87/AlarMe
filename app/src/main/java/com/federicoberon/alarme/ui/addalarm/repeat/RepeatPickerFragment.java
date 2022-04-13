@@ -63,7 +63,6 @@ public class RepeatPickerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         ArrayList<String> vibNames = new ArrayList<>(RepeatManager.getRepeatOptions(requireContext()).values());
         adapter = new RepeatListItemAdapter(requireContext(), 0,
                 vibNames , RepeatManager.getRepeat(viewModel.getSelectedRepeat()), viewModel.isRepeatOn());

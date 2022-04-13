@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -241,6 +242,8 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     public void removeAlarmFromList(int position){
+        // todo error: esto una vez pincho por index out of bound exception
+        Log.w("MIO", "POSITION ---- " + position);
         alarms.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,alarms.size());

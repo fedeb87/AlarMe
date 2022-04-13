@@ -30,7 +30,6 @@ public class AboutFragment extends Fragment {
     @Inject
     AboutViewModel aboutViewModel;
 
-
     @Override
     public void onResume() {
         super.onResume();

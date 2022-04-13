@@ -635,7 +635,6 @@
                     android:background="@color/colorGray"
                     android:visibility="gone" />
 
-
                 <Button
                     android:id="@+id/okButton"
                     style="@style/TextAppearance.AppCompat.Large"

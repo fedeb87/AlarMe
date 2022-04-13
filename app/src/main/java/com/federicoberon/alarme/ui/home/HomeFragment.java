@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(alarms -> {
-                    if(alarms.get(0).isStarted())
+                    if(alarms.size() > 0 &&  alarms.get(0).isStarted())
                         setFragmentHeader(alarms.get(0));
                     else
                         setFragmentHeader(null);
@@ -276,11 +276,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                         homeViewModel.deleteAlarm(alarmEntity)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(id -> {
-
-                                    adapter.removeAlarmFromList(position);
-                                    Log.w("MIO", "Alarma borrada correctamente");
-                                },
+                                .subscribe(id -> adapter.removeAlarmFromList(position),
                                 throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
 
                     }

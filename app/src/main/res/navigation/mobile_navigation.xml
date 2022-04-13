@@ -120,7 +120,7 @@
         android:label="AlarmActivity" >
         <argument
             android:name="AlarmEntity"
-            app:argType="com.federicoberon.newapp.model.AlarmEntity" />
+            app:argType="com.federicoberon.alarme.model.AlarmEntity" />
     </activity>
     <dialog
         android:id="@+id/termsDialogFragment"

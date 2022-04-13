@@ -9,7 +9,6 @@ import java.util.Set;
 
 public class PostponeManager {
     private static final Integer DEFAULT_POSTPONE = 5;
-    private static final Integer NONE_POSTPONE = 0;
 
     private static LinkedHashMap<Integer, String> postponeOptions;
 

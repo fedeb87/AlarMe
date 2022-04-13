@@ -1,0 +1,158 @@
+package com.federicoberon.alarme.utils;
+
+import com.federicoberon.alarme.R;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class PhrasesManager {
+    private static ArrayList<Integer> phrases;
+
+    private static void startPhrasesOptions(){
+
+        phrases = new ArrayList<>(
+            Arrays.asList(R.string.phrase_enero_1,R.string.phrase_enero_2,
+                R.string.phrase_enero_3,R.string.phrase_enero_4,R.string.phrase_enero_5,
+                R.string.phrase_enero_6,R.string.phrase_enero_7,R.string.phrase_enero_8,
+                R.string.phrase_enero_9,R.string.phrase_enero_10,R.string.phrase_enero_11,
+                R.string.phrase_enero_12,R.string.phrase_enero_13,R.string.phrase_enero_14,
+                R.string.phrase_enero_15,R.string.phrase_enero_16,R.string.phrase_enero_17,
+                R.string.phrase_enero_18,R.string.phrase_enero_19,R.string.phrase_enero_20,
+                R.string.phrase_enero_21,R.string.phrase_enero_22,R.string.phrase_enero_23,
+                R.string.phrase_enero_24,R.string.phrase_enero_25,R.string.phrase_enero_26,
+                R.string.phrase_enero_27,R.string.phrase_enero_28,R.string.phrase_enero_29,
+                R.string.phrase_enero_30,R.string.phrase_febrero_1,R.string.phrase_febrero_2,
+                R.string.phrase_febrero_3,R.string.phrase_febrero_4,R.string.phrase_febrero_5,
+                R.string.phrase_febrero_6,R.string.phrase_febrero_7,R.string.phrase_febrero_8,
+                R.string.phrase_febrero_9,R.string.phrase_febrero_10,R.string.phrase_febrero_11,
+                R.string.phrase_febrero_12,R.string.phrase_febrero_13,R.string.phrase_febrero_14,
+                R.string.phrase_febrero_15,R.string.phrase_febrero_16,R.string.phrase_febrero_17,
+                R.string.phrase_febrero_18,R.string.phrase_febrero_19,R.string.phrase_febrero_20,
+                R.string.phrase_febrero_21,R.string.phrase_febrero_22,R.string.phrase_febrero_23,
+                R.string.phrase_febrero_24,R.string.phrase_febrero_25,R.string.phrase_febrero_26,
+                R.string.phrase_febrero_27,R.string.phrase_febrero_28,R.string.phrase_febrero_29,
+                R.string.phrase_marzo_1,R.string.phrase_marzo_2,R.string.phrase_marzo_3,
+                R.string.phrase_marzo_4,R.string.phrase_marzo_5,R.string.phrase_marzo_6,
+                R.string.phrase_marzo_7,R.string.phrase_marzo_8,R.string.phrase_marzo_9,
+                R.string.phrase_marzo_10,R.string.phrase_marzo_11,R.string.phrase_marzo_12,
+                R.string.phrase_marzo_13,R.string.phrase_marzo_14,R.string.phrase_marzo_15,
+                R.string.phrase_marzo_16,R.string.phrase_marzo_17,R.string.phrase_marzo_18,
+                R.string.phrase_marzo_19,R.string.phrase_marzo_20,R.string.phrase_marzo_21,
+                R.string.phrase_marzo_22,R.string.phrase_marzo_23,R.string.phrase_marzo_24,
+                R.string.phrase_marzo_25,R.string.phrase_marzo_26,R.string.phrase_marzo_27,
+                R.string.phrase_marzo_28,R.string.phrase_marzo_29,R.string.phrase_marzo_30,
+                R.string.phrase_marzo_31,R.string.phrase_abril_1,R.string.phrase_abril_2,
+                R.string.phrase_abril_3,R.string.phrase_abril_4,R.string.phrase_abril_5,
+                R.string.phrase_abril_6,R.string.phrase_abril_7,R.string.phrase_abril_8,
+                R.string.phrase_abril_9,R.string.phrase_abril_10,R.string.phrase_abril_11,
+                R.string.phrase_abril_12,R.string.phrase_abril_13,R.string.phrase_abril_14,
+                R.string.phrase_abril_15,R.string.phrase_abril_16,R.string.phrase_abril_17,
+                R.string.phrase_abril_18,R.string.phrase_abril_19,R.string.phrase_abril_20,
+                R.string.phrase_abril_21,R.string.phrase_abril_22,R.string.phrase_abril_23,
+                R.string.phrase_abril_24,R.string.phrase_abril_25,R.string.phrase_abril_26,
+                R.string.phrase_abril_27,R.string.phrase_abril_28,R.string.phrase_abril_29,
+                R.string.phrase_abril_30,R.string.phrase_abril_31,R.string.phrase_mayo_1,
+                R.string.phrase_mayo_2,R.string.phrase_mayo_3,R.string.phrase_mayo_4,
+                R.string.phrase_mayo_5,R.string.phrase_mayo_6,R.string.phrase_mayo_7,
+                R.string.phrase_mayo_8,R.string.phrase_mayo_9,R.string.phrase_mayo_10,
+                R.string.phrase_mayo_11,R.string.phrase_mayo_12,R.string.phrase_mayo_13,
+                R.string.phrase_mayo_14,R.string.phrase_mayo_15,R.string.phrase_mayo_16,
+                R.string.phrase_mayo_17,R.string.phrase_mayo_18,R.string.phrase_mayo_19,
+                R.string.phrase_mayo_20,R.string.phrase_mayo_21,R.string.phrase_mayo_22,
+                R.string.phrase_mayo_23,R.string.phrase_mayo_24,R.string.phrase_mayo_25,
+                R.string.phrase_mayo_26,R.string.phrase_mayo_27,R.string.phrase_mayo_28,
+                R.string.phrase_mayo_29,R.string.phrase_mayo_30,R.string.phrase_mayo_31,
+                R.string.phrase_junio_1,R.string.phrase_junio_2,R.string.phrase_junio_3,
+                R.string.phrase_junio_4,R.string.phrase_junio_5,R.string.phrase_junio_6,
+                R.string.phrase_junio_7,R.string.phrase_junio_8,R.string.phrase_junio_9,
+                R.string.phrase_junio_10,R.string.phrase_junio_11,R.string.phrase_junio_12,
+                R.string.phrase_junio_13,R.string.phrase_junio_14,R.string.phrase_junio_15,
+                R.string.phrase_junio_16,R.string.phrase_junio_17,R.string.phrase_junio_18,
+                R.string.phrase_junio_19,R.string.phrase_junio_20,R.string.phrase_junio_21,
+                R.string.phrase_junio_22,R.string.phrase_junio_23,R.string.phrase_junio_24,
+                R.string.phrase_junio_25,R.string.phrase_junio_26,R.string.phrase_junio_27,
+                R.string.phrase_junio_28,R.string.phrase_junio_29,R.string.phrase_junio_30,
+                R.string.phrase_junio_31,R.string.phrase_julio_1,R.string.phrase_julio_2,
+                R.string.phrase_julio_3,R.string.phrase_julio_4,R.string.phrase_julio_5,
+                R.string.phrase_julio_6,R.string.phrase_julio_7,R.string.phrase_julio_8,
+                R.string.phrase_julio_9,R.string.phrase_julio_10,R.string.phrase_julio_11,
+                R.string.phrase_julio_12,R.string.phrase_julio_13,R.string.phrase_julio_14,
+                R.string.phrase_julio_15,R.string.phrase_julio_16,R.string.phrase_julio_17,
+                R.string.phrase_julio_18,R.string.phrase_julio_19,R.string.phrase_julio_20,
+                R.string.phrase_julio_21,R.string.phrase_julio_22,R.string.phrase_julio_23,
+                R.string.phrase_julio_24,R.string.phrase_julio_25,R.string.phrase_julio_26,
+                R.string.phrase_julio_27,R.string.phrase_julio_28,R.string.phrase_julio_29,
+                R.string.phrase_julio_30,R.string.phrase_julio_31,R.string.phrase_agosto_1,
+                R.string.phrase_agosto_2,R.string.phrase_agosto_3,R.string.phrase_agosto_4,
+                R.string.phrase_agosto_5,R.string.phrase_agosto_6,R.string.phrase_agosto_7,
+                R.string.phrase_agosto_8,R.string.phrase_agosto_9,R.string.phrase_agosto_10,
+                R.string.phrase_agosto_11,R.string.phrase_agosto_12,R.string.phrase_agosto_13,
+                R.string.phrase_agosto_14,R.string.phrase_agosto_15,R.string.phrase_agosto_16,
+                R.string.phrase_agosto_17,R.string.phrase_agosto_18,R.string.phrase_agosto_19,
+                R.string.phrase_agosto_20,R.string.phrase_agosto_21,R.string.phrase_agosto_22,
+                R.string.phrase_agosto_23,R.string.phrase_agosto_24,R.string.phrase_agosto_25,
+                R.string.phrase_agosto_26,R.string.phrase_agosto_27,R.string.phrase_agosto_28,
+                R.string.phrase_agosto_29,R.string.phrase_agosto_30,R.string.phrase_agosto_31,
+                R.string.phrase_agosto_32,R.string.phrase_septiembre_1,
+                R.string.phrase_septiembre_2,R.string.phrase_septiembre_3,
+                R.string.phrase_septiembre_4,R.string.phrase_septiembre_5,
+                R.string.phrase_septiembre_6,R.string.phrase_septiembre_7,
+                R.string.phrase_septiembre_8,R.string.phrase_septiembre_9,
+                R.string.phrase_septiembre_10,R.string.phrase_septiembre_11,
+                R.string.phrase_septiembre_12,R.string.phrase_septiembre_13,
+                R.string.phrase_septiembre_14,R.string.phrase_septiembre_15,
+                R.string.phrase_septiembre_16,R.string.phrase_septiembre_17,
+                R.string.phrase_septiembre_18,R.string.phrase_septiembre_19,
+                R.string.phrase_septiembre_20,R.string.phrase_septiembre_21,
+                R.string.phrase_septiembre_22,R.string.phrase_septiembre_23,
+                R.string.phrase_septiembre_24,R.string.phrase_septiembre_25,
+                R.string.phrase_septiembre_26,R.string.phrase_septiembre_27,
+                R.string.phrase_septiembre_28,R.string.phrase_septiembre_29,
+                R.string.phrase_septiembre_30,R.string.phrase_septiembre_31,
+                R.string.phrase_octubre_1,R.string.phrase_octubre_2,R.string.phrase_octubre_3,
+                R.string.phrase_octubre_4,R.string.phrase_octubre_5,R.string.phrase_octubre_6,
+                R.string.phrase_octubre_7,R.string.phrase_octubre_8,R.string.phrase_octubre_9,
+                R.string.phrase_octubre_10,R.string.phrase_octubre_11,R.string.phrase_octubre_12,
+                R.string.phrase_octubre_13,R.string.phrase_octubre_14,R.string.phrase_octubre_15,
+                R.string.phrase_octubre_16,R.string.phrase_octubre_17,R.string.phrase_octubre_18,
+                R.string.phrase_octubre_19,R.string.phrase_octubre_20,R.string.phrase_octubre_21,
+                R.string.phrase_octubre_22,R.string.phrase_octubre_23,R.string.phrase_octubre_24,
+                R.string.phrase_octubre_25,R.string.phrase_octubre_26,R.string.phrase_octubre_27,
+                R.string.phrase_octubre_28,R.string.phrase_octubre_29,R.string.phrase_octubre_30,
+                R.string.phrase_octubre_31,R.string.phrase_noviembre_1,R.string.phrase_noviembre_2,
+                R.string.phrase_noviembre_3,R.string.phrase_noviembre_4,R.string.phrase_noviembre_5,
+                R.string.phrase_noviembre_6,R.string.phrase_noviembre_7,R.string.phrase_noviembre_8,
+                R.string.phrase_noviembre_9,R.string.phrase_noviembre_10,R.string.phrase_noviembre_11,
+                R.string.phrase_noviembre_12,R.string.phrase_noviembre_13,R.string.phrase_noviembre_14,
+                R.string.phrase_noviembre_15,R.string.phrase_noviembre_16,R.string.phrase_noviembre_17,
+                R.string.phrase_noviembre_18,R.string.phrase_noviembre_19,R.string.phrase_noviembre_20,
+                R.string.phrase_noviembre_21,R.string.phrase_noviembre_22,R.string.phrase_noviembre_23,
+                R.string.phrase_noviembre_24,R.string.phrase_noviembre_25,R.string.phrase_noviembre_26,
+                R.string.phrase_noviembre_27,R.string.phrase_noviembre_28,R.string.phrase_noviembre_29,
+                R.string.phrase_noviembre_30,R.string.phrase_noviembre_31,R.string.phrase_diciembre_1,
+                R.string.phrase_diciembre_2,R.string.phrase_diciembre_3,R.string.phrase_diciembre_4,
+                R.string.phrase_diciembre_5,R.string.phrase_diciembre_6,R.string.phrase_diciembre_7,
+                R.string.phrase_diciembre_8,R.string.phrase_diciembre_9,R.string.phrase_diciembre_10,
+                R.string.phrase_diciembre_11,R.string.phrase_diciembre_12,R.string.phrase_diciembre_13,
+                R.string.phrase_diciembre_14,R.string.phrase_diciembre_15,R.string.phrase_diciembre_16,
+                R.string.phrase_diciembre_17,R.string.phrase_diciembre_18,R.string.phrase_diciembre_19,
+                R.string.phrase_diciembre_20,R.string.phrase_diciembre_21,R.string.phrase_diciembre_22,
+                R.string.phrase_diciembre_23,R.string.phrase_diciembre_24,R.string.phrase_diciembre_25,
+                R.string.phrase_diciembre_26,R.string.phrase_diciembre_27,R.string.phrase_diciembre_28,
+                R.string.phrase_diciembre_29,R.string.phrase_diciembre_30));
+
+    }
+
+    public static Integer getPhraseId(int position) {
+        if(phrases == null || phrases.size() < 1)
+            startPhrasesOptions();
+
+        return phrases.get(position);
+    }
+
+    public static Integer getPhrasesSize() {
+        if(phrases == null || phrases.size() < 1)
+            startPhrasesOptions();
+
+        return phrases.size();
+    }
+}

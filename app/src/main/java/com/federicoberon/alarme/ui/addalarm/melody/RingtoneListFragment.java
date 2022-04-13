@@ -1,8 +1,14 @@
 package com.federicoberon.alarme.ui.addalarm.melody;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,10 +17,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
@@ -126,7 +135,9 @@ public class RingtoneListFragment extends Fragment {
         binding.okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(binding.radioGroupRingtone.getCheckedRadioButtonId() == -1){
+                    Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
+                }
                 mDisposable.add(viewModel.getMelodyById(binding.radioGroupRingtone.getCheckedRadioButtonId())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -139,6 +150,67 @@ public class RingtoneListFragment extends Fragment {
 
             }
         });
+
+        // select melody from storage listener
+        binding.musicFromDisk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // check storage permissions
+                if (ContextCompat.checkSelfPermission(requireActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)
+                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+
+                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+                chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+                chooseFile.setType("audio/*");
+                chooseFile = Intent.createChooser(chooseFile, getString(R.string.choose_a_file));
+                startActivityForResult(chooseFile, 101);
+
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            Uri fileUri = data.getData();
+            String fileName = getFileName(fileUri);
+            playRingtone(fileUri.toString());
+
+            // update views
+            binding.radioGroupRingtone.clearCheck();
+            binding.selectedFromDisk.setVisibility(View.VISIBLE);
+            binding.selectedFromDisk.setChecked(true);
+            binding.selectedFromDisk.setText(fileName);
+            binding.selectedFromDisk.setPadding(40, 0,0,0);
+
+            // update viewmodel
+            MelodyEntity _melody = new MelodyEntity(fileName, fileUri.toString());
+            viewModel.setSelectedMelody(_melody);
+        }
+    }
+
+    @SuppressLint("Range")
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = requireActivity().getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
     private RadioButton createOneRadioButton(MelodyEntity melody) {
@@ -157,6 +229,7 @@ public class RingtoneListFragment extends Fragment {
         radiobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //binding.selectedFromDisk.setVisibility(View.GONE);
                 playRingtone(melody.getUri());
             }
         });
@@ -164,24 +237,8 @@ public class RingtoneListFragment extends Fragment {
     }
 
     private void playRingtone(String uri) {
-        // todo no se si pedirlo aca, o cuando
-        // todo creo que deberia poner un mensaje antes de mandarlo a esa pantalla
-        NotificationManager nm = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!nm.isNotificationPolicyAccessGranted()) {
-                // Permissions were not granted, request for permission
-                Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                startActivityForResult( intent, 101 );
-                startActivity(intent);
-            }
-
-        }
-
         if(uri!=null){
             try {
-                /*mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
-                        mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);*/
                 mMediaPlayer.reset();
                 mMediaPlayer.setWakeMode(requireContext(), AudioManager.MODE_RINGTONE);
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
@@ -191,6 +248,7 @@ public class RingtoneListFragment extends Fragment {
                 mMediaPlayer.prepare();
                 mMediaPlayer.start();
             } catch (IOException e) {
+                Toast.makeText(requireContext(), getString(R.string.no_sound), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
         }

@@ -8,14 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Vibrator;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -34,6 +30,7 @@ import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.ui.alarm.AlarmActivity;
 import com.federicoberon.alarme.utils.AlarmManager;
+import com.federicoberon.alarme.utils.CustomMediaPlayer;
 import com.federicoberon.alarme.utils.VibrationManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -42,7 +39,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-
 import java.io.IOException;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -50,7 +46,6 @@ import io.reactivex.disposables.CompositeDisposable;
 public class AlarmService extends Service {
 
     private static final String LOG_TAG = "AlarmService";
-    private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private FusedLocationProviderClient fusedLocationClient;
     private double latitude;
@@ -68,7 +63,6 @@ public class AlarmService extends Service {
         latitude = -1;
         longitude = -1;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mediaPlayer = new MediaPlayer();
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     }
 
@@ -84,12 +78,11 @@ public class AlarmService extends Service {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        // todo la cosa esta en hacerlo aca, y pasar la latitud y long a la activity comno extra
+        // get current location and request weather
         if(alarmEntity.isWeatherOn())
             getCurrentLocation(alarmEntity);
         else
             displayAlarm(alarmEntity);
-
 
         return START_NOT_STICKY;
     }
@@ -101,7 +94,6 @@ public class AlarmService extends Service {
             notificationIntent.putExtra(LATITUDE,latitude);
             notificationIntent.putExtra(LONGITUDE,longitude);
         }
-
 
         PendingIntent pendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
@@ -175,21 +167,42 @@ public class AlarmService extends Service {
                         discardPendingIntent)
                 .build();
 
-        try {
-            mediaPlayer.reset();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(alarmEntity.getMelodyUri()));
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setWakeMode(this, AudioManager.MODE_RINGTONE);
-            mediaPlayer.setVolume(alarmEntity.getVolume(), alarmEntity.getVolume());
-            mediaPlayer.prepare();
-            mediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(alarmEntity.isMelodyOn()) {
+            try {
+                playRingtone(alarmEntity.getMelodyUri(), alarmEntity.getVolume());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
-        startForeground(101, notification);
 
+        if(alarmEntity.isVibrationOn())
+            vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
+
+        startForeground(101, notification);
+    }
+
+    /**
+     * Play selected melody, default in case of error
+     * @param uri Selected melody uri
+     * @param volume Selected volume
+     * @throws IOException
+     */
+    public void playRingtone(String uri, int volume) throws IOException {
+        // TODO error: aca por permisos no deja acceder a la musica del cel
+        if(uri!=null){
+            CustomMediaPlayer.getMediaPlayerInstance().playAudioFile(this, uri, volume);
+
+                /*mediaPlayer.reset();
+                mediaPlayer.setWakeMode(this, AudioManager.MODE_RINGTONE);
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                mediaPlayer.setDataSource(this, defaultRingtoneUri);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.setVolume(volume, volume);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+                e.printStackTrace();*/
+
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -267,7 +280,8 @@ public class AlarmService extends Service {
     public void onDestroy() {
         stopForeground(true);
         stopSelf();
-        mediaPlayer.stop();
+        //mediaPlayer.stop();
+        CustomMediaPlayer.getMediaPlayerInstance().stopAudioFile();
         mDisposable.clear();
         vibrator.cancel();
         super.onDestroy();
@@ -278,4 +292,5 @@ public class AlarmService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 }

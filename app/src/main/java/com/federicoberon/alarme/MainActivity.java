@@ -1,5 +1,6 @@
 package com.federicoberon.alarme;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.federicoberon.alarme.databinding.ActivityMainBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.ui.home.HomeFragment;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
@@ -24,12 +26,13 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.Calendar;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.inject.Inject;
 
-// todo agregarle para que pueda cambiar el tema, y sea un sol
-
 public class MainActivity extends AppCompatActivity  {
+    public static final String GENERATED_USER_CODE = "random";
+    private static final int DATA_CHECK_CODE = 101;
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private ActivityMainBinding binding;
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity  {
     @Inject
     AddAlarmViewModel mAddAlarmViewModel;
 
+    @Inject
+    SharedPreferences sharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,6 +55,10 @@ public class MainActivity extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        // todo esto hacerlo si no tiene comprada la app, sino oculto la adview
         // initialize MobileAds
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -56,8 +66,9 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        binding.appBarMain.contentMainId.adView.loadAd(adRequest);
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -82,6 +93,39 @@ public class MainActivity extends AppCompatActivity  {
         navController.addOnDestinationChangedListener((navController, navDestination, bundle)
                 -> binding.appBarMain.appBar.setExpanded(true, true));
 
+        // set code number for current user
+        if (!sharedPref.contains(GENERATED_USER_CODE)){
+            // this is the first time that app runs
+            int code = new Random().nextInt(367);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putInt(GENERATED_USER_CODE, code);
+            editor.apply();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        if (binding.appBarMain.contentMainId.adView != null) {
+            binding.appBarMain.contentMainId.adView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (binding.appBarMain.contentMainId.adView != null) {
+            binding.appBarMain.contentMainId.adView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (binding.appBarMain.contentMainId.adView != null) {
+            binding.appBarMain.contentMainId.adView.destroy();
+        }
+        super.onDestroy();
     }
 
     /**

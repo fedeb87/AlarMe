@@ -17,13 +17,11 @@ import java.util.Calendar;
 public class CustomDatePicker extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    private final TextView mTextView;
     private final AddAlarmViewModel addAlarmViewModel;
 
-    public CustomDatePicker(AddAlarmViewModel addAlarmViewModel, TextView textView){
+    public CustomDatePicker(AddAlarmViewModel addAlarmViewModel){
         super();
         this.addAlarmViewModel = addAlarmViewModel;
-        this.mTextView = textView;
     }
 
     @NonNull
@@ -45,6 +43,5 @@ public class CustomDatePicker extends DialogFragment
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH,day);
-        mTextView.setText(DateFormat.getDateFormat(requireContext()).format(cal.getTime()));
     }
 }
