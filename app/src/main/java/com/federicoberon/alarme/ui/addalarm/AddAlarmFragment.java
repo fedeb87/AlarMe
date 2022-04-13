@@ -347,7 +347,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!nm.isNotificationPolicyAccessGranted()) {
                 // Permissions were not granted, request for permission
-                // todo make dialog
+                // todo probar el dialog
                 showPermissionsDialog();
             }
         }

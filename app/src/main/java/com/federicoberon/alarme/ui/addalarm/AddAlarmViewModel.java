@@ -265,7 +265,7 @@ public class AddAlarmViewModel extends ViewModel {
                     this.selectedMelody.getUri(), this.selectedMelody.getTitle(), this.volume,
                     this.isVibrationOn, this.selectedVibration, this.isPostponeOn,
                     this.selectedPostpone, this.isRepeatOn, this.selectedRepeat,
-                    this.isHoroscopeOn, this.weatherOn, insertedAlarm.isStarted());
+                    this.isHoroscopeOn, this.weatherOn, true);
 
         return mAlarmRepository.insertOrUpdateAlarm(insertedAlarm);
     }
