@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class RingtonePickerFragment extends Fragment {
 
     private void playMelody(int progress) {
 
+        Log.w("MIO", "<<< viewModel.getSelectedMelody().getUri() >>> " + viewModel.getSelectedMelody().getUri());
         if (mMediaPlayer.isPlaying())
             mMediaPlayer.stop();
         try {
@@ -127,6 +129,8 @@ public class RingtonePickerFragment extends Fragment {
             mMediaPlayer.prepare();
             mMediaPlayer.start();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

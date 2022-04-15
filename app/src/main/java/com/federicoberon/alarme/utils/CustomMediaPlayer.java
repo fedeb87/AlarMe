@@ -5,9 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
-
 import java.io.IOException;
-import java.io.Serializable;
 
 public class CustomMediaPlayer extends MediaPlayer  {
     private static CustomMediaPlayer Instance;
@@ -44,22 +42,15 @@ public class CustomMediaPlayer extends MediaPlayer  {
             mediaPlayer.setDataSource(context, Uri.parse(uri));
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(volume, volume);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(MediaPlayer::start);
         } catch (IOException e) {
             Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context
                     , RingtoneManager.TYPE_RINGTONE);
             playAudioFile(context, defaultRingtoneUri.toString(), volume);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        /*
-        mediaPlayer = MediaPlayer.create(context, sampleAudio);
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.start();
-            }
-        });
-*/
     }
 
     public void stopAudioFile() {

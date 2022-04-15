@@ -1,7 +1,6 @@
 package com.federicoberon.alarme.ui.addalarm.melody;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -22,6 +21,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -103,6 +104,11 @@ public class RingtoneListFragment extends Fragment {
 
                 if (viewModel.getSelectedMelody() != null)
                     binding.radioGroupRingtone.check((int) viewModel.getSelectedMelody().getId());
+                // In another case set custom melody
+                if(binding.radioGroupRingtone.getCheckedRadioButtonId() == 0
+                        || binding.radioGroupRingtone.getCheckedRadioButtonId() == -1)
+                    // update views
+                    setCustomMelodyVisible(viewModel.getSelectedMelody().getTitle());
 
             },
             throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
@@ -144,7 +150,6 @@ public class RingtoneListFragment extends Fragment {
                     .subscribe(melody -> {
                         viewModel.setSelectedMelody(melody);
                         Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
-                        //Navigation.findNavController(binding.getRoot()).navigate(R.id.action_back_to_ringtonePickerFragment);
                         },
                 throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
 
@@ -158,9 +163,10 @@ public class RingtoneListFragment extends Fragment {
 
                 // check storage permissions
                 if (ContextCompat.checkSelfPermission(requireActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
                         != PackageManager.PERMISSION_GRANTED)
-                    ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                    ActivityCompat.requestPermissions(requireActivity()
+                            , new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
 
                 Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
                 chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
@@ -170,6 +176,14 @@ public class RingtoneListFragment extends Fragment {
 
             }
         });
+
+        binding.selectedFromDisk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.radioGroupRingtone.clearCheck();
+                playRingtone(viewModel.getSelectedMelody().getUri());
+            }
+        });
     }
 
     @Override
@@ -177,20 +191,58 @@ public class RingtoneListFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 101 && resultCode == RESULT_OK) {
             Uri fileUri = data.getData();
+            String filePath = getFilePath(fileUri);
             String fileName = getFileName(fileUri);
-            playRingtone(fileUri.toString());
+            playRingtone(filePath);
 
             // update views
-            binding.radioGroupRingtone.clearCheck();
-            binding.selectedFromDisk.setVisibility(View.VISIBLE);
-            binding.selectedFromDisk.setChecked(true);
-            binding.selectedFromDisk.setText(fileName);
-            binding.selectedFromDisk.setPadding(40, 0,0,0);
+            setCustomMelodyVisible(fileName);
 
             // update viewmodel
-            MelodyEntity _melody = new MelodyEntity(fileName, fileUri.toString());
+            MelodyEntity _melody = new MelodyEntity(fileName, filePath);
             viewModel.setSelectedMelody(_melody);
         }
+    }
+
+    private void setCustomMelodyVisible(String fileName) {
+        binding.radioGroupRingtone.clearCheck();
+        binding.selectedFromDisk.setVisibility(View.VISIBLE);
+        binding.selectedFromDisk.setChecked(true);
+        binding.selectedFromDisk.setText(fileName);
+        binding.selectedFromDisk.setPadding(40, 0,0,0);
+    }
+
+    private String getFilePath(Uri fileUri) {
+        // Will return "image:x*"
+        String wholeID = DocumentsContract.getDocumentId(fileUri);
+
+        // Split at colon, use second item in the array
+        String id = wholeID.split(":")[1];
+
+        String[] column = { MediaStore.Images.Media.DATA };
+
+        // where id is equal to
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = requireActivity().getContentResolver().
+                query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                        column, sel, new String[]{ id }, null);
+
+        String filePath = "";
+        int columnIndex = cursor.getColumnIndex(column[0]);
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        if(filePath.equals("")){
+            cursor = requireActivity().getContentResolver().
+                    query(MediaStore.Audio.Media.INTERNAL_CONTENT_URI,
+                            column, sel, new String[]{ id }, null);
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
+            }
+        }
+        cursor.close();
+        return filePath;
     }
 
     @SuppressLint("Range")
@@ -231,6 +283,7 @@ public class RingtoneListFragment extends Fragment {
             public void onClick(View view) {
                 //binding.selectedFromDisk.setVisibility(View.GONE);
                 playRingtone(melody.getUri());
+                binding.selectedFromDisk.setChecked(false);
             }
         });
         return radiobutton;
@@ -249,6 +302,8 @@ public class RingtoneListFragment extends Fragment {
                 mMediaPlayer.start();
             } catch (IOException e) {
                 Toast.makeText(requireContext(), getString(R.string.no_sound), Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

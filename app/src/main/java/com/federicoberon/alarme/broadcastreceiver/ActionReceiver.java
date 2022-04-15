@@ -1,6 +1,7 @@
 package com.federicoberon.alarme.broadcastreceiver;
 
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -28,6 +29,11 @@ public class ActionReceiver extends BroadcastReceiver {
         // disable alarm
         Intent intentService = new Intent(context, AlarmService.class);
         context.stopService(intentService);
+
+        boolean isPreview = false;
+        if(intent.hasExtra(IS_PREVIEW)) {
+            isPreview = intent.getBooleanExtra(IS_PREVIEW, false);
+        }
 
         if(AlarmManager.recurring(alarmEntity)) {
             // tiene dias fijos activos
@@ -68,13 +74,16 @@ public class ActionReceiver extends BroadcastReceiver {
             alarmEntity.setStarted(false);
         }
 
-        serviceUtil.updateAlarm(alarmEntity)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(id -> {
-                // stop alarm service
-                Log.w("MIO", "Alarm disable: " + id);
-            },
-            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
+        // todo do this only when not come from preview alarm
+        if(!isPreview) {
+            serviceUtil.updateAlarm(alarmEntity)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(id -> {
+                                // stop alarm service
+                                Log.w("MIO", "Alarm disable: " + id);
+                            },
+                            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
+        }
     }
 }

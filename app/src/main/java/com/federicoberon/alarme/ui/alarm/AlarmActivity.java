@@ -2,6 +2,7 @@ package com.federicoberon.alarme.ui.alarm;
 
 import static com.federicoberon.alarme.MainActivity.GENERATED_USER_CODE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
 import android.animation.Animator;
@@ -85,6 +86,10 @@ public class AlarmActivity extends AppCompatActivity implements
 
         // ----- If extra alarmEntity not found then exit activity
         Intent intent = getIntent();
+        if(intent.hasExtra(IS_PREVIEW)) {
+            alarmViewModel.isPreview = intent.getBooleanExtra(IS_PREVIEW, false);
+        }
+
         if(intent.hasExtra(ALARM_ENTITY)) {
             mAlarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
         }else {
@@ -95,29 +100,13 @@ public class AlarmActivity extends AppCompatActivity implements
 
         // ----- Config dismiss alarm action
         binding.activityRingDismiss.setOnClickListener(v -> {
-                    // todo creo que aca falta que pasaria si es recurrente, no lo tengo creo que no anda
-                    Intent i = new Intent(this, ActionReceiver.class);
-                    i.putExtra(ALARM_ENTITY, mAlarmEntity);
-                    i.setAction(ALARM_ENTITY);
-                    sendBroadcast(i);
-                    finish();
-                });
-            /*if(!AlarmManager.recurring(mAlarmEntity)) {
-                mAlarmEntity.setStarted(false);
-                mDisposable.add(new ServiceUtil(this).updateAlarm(mAlarmEntity)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(id -> {
-                        Log.w(LOG_TAG, "<<< DESACTIVE LA ALARMA WEY >>> " + id);
-                        finish();
-                    },
-                    throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
-
-                Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
-                getApplicationContext().stopService(intentService);
-            }else {
-            }
-        });*/
+            Intent i = new Intent(this, ActionReceiver.class);
+            i.putExtra(ALARM_ENTITY, mAlarmEntity);
+            i.putExtra(IS_PREVIEW, alarmViewModel.isPreview);
+            i.setAction(ALARM_ENTITY);
+            sendBroadcast(i);
+            finish();
+        });
 
         // ----- Hide snooze button if the alarm isn't configured it for that
         int postpone_time;
@@ -142,7 +131,6 @@ public class AlarmActivity extends AppCompatActivity implements
             binding.horoscopeCardView.setVisibility(View.GONE);
 
         if(mAlarmEntity.isWeatherOn()) {
-            //alarmViewModel.loadWeather(this);
             double lat = 0;
             double lon = 0;
             if(intent.hasExtra(LATITUDE))

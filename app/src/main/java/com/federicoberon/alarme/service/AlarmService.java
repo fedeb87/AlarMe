@@ -1,5 +1,6 @@
 package com.federicoberon.alarme.service;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -21,6 +22,7 @@ import androidx.core.content.ContextCompat;
 import static com.federicoberon.alarme.AlarMe.CHANNEL_ID;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
 
@@ -43,6 +45,7 @@ import java.io.IOException;
 
 import io.reactivex.disposables.CompositeDisposable;
 
+// todo si viene del preview no tendria que tocar la base ni las alarmas
 public class AlarmService extends Service {
 
     private static final String LOG_TAG = "AlarmService";
@@ -50,6 +53,7 @@ public class AlarmService extends Service {
     private FusedLocationProviderClient fusedLocationClient;
     private double latitude;
     private double longitude;
+    private boolean comeFromPreview = false;
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -72,6 +76,10 @@ public class AlarmService extends Service {
 
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
 
+        if(intent.hasExtra(IS_PREVIEW)){
+            comeFromPreview = true;
+        }
+
         if(intent.hasExtra(ACTION_SNOOZE)){
             AlarmManager.schedule(this, AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime()));
             stopSelf();
@@ -90,6 +98,7 @@ public class AlarmService extends Service {
     private void displayAlarm(AlarmEntity alarmEntity) {
         Intent notificationIntent = new Intent(this, AlarmActivity.class);
         notificationIntent.putExtra(ALARM_ENTITY,alarmEntity);
+        notificationIntent.putExtra(IS_PREVIEW,comeFromPreview);
         if(latitude!=-1){
             notificationIntent.putExtra(LATITUDE,latitude);
             notificationIntent.putExtra(LONGITUDE,longitude);
@@ -119,16 +128,17 @@ public class AlarmService extends Service {
         }
 
         // discard action //
-        Intent intentDiscard = new Intent(this, ActionReceiver.class);
-        intentDiscard.putExtra(ALARM_ENTITY, alarmEntity);
-        intentDiscard.setAction(ALARM_ENTITY);
-        PendingIntent discardPendingIntent;
+        Intent intentDismiss = new Intent(this, ActionReceiver.class);
+        intentDismiss.putExtra(ALARM_ENTITY, alarmEntity);
+        intentDismiss.putExtra(IS_PREVIEW, comeFromPreview);
+        intentDismiss.setAction(ALARM_ENTITY);
+        PendingIntent dismissPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            discardPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentDiscard, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+            dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
+                    intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
         }else{
-            discardPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentDiscard, PendingIntent.FLAG_UPDATE_CURRENT);
+            dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
+                    intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         // full screen intent //
@@ -140,6 +150,7 @@ public class AlarmService extends Service {
         }
 
         fullScreenIntent.putExtra(ALARM_ENTITY, alarmEntity);
+        fullScreenIntent.putExtra(IS_PREVIEW, comeFromPreview);
 
         PendingIntent fullScreenPendingIntent;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
@@ -164,7 +175,7 @@ public class AlarmService extends Service {
                 .addAction(R.drawable.ic_snooze, getString(R.string.snooze),
                         snoozePendingIntent)
                 .addAction(R.drawable.ic_discard, getString(R.string.discard),
-                        discardPendingIntent)
+                        dismissPendingIntent)
                 .build();
 
         if(alarmEntity.isMelodyOn()) {
@@ -188,21 +199,9 @@ public class AlarmService extends Service {
      * @throws IOException
      */
     public void playRingtone(String uri, int volume) throws IOException {
-        // TODO error: aca por permisos no deja acceder a la musica del cel
-        if(uri!=null){
+        if(uri!=null)
             CustomMediaPlayer.getMediaPlayerInstance().playAudioFile(this, uri, volume);
 
-                /*mediaPlayer.reset();
-                mediaPlayer.setWakeMode(this, AudioManager.MODE_RINGTONE);
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mediaPlayer.setDataSource(this, defaultRingtoneUri);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.setVolume(volume, volume);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                e.printStackTrace();*/
-
-        }
     }
 
     @SuppressLint("MissingPermission")

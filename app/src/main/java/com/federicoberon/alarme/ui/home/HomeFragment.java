@@ -1,6 +1,7 @@
 package com.federicoberon.alarme.ui.home;
 
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -288,9 +289,6 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
     @Override
     public void onPreviewMenuClicked(AlarmEntity alarmEntity) {
-        // open alarm activity
-        //Navigation.findNavController(binding.getRoot()).navigate(HomeFragmentDirections.previewAlarmActivity(alarmEntity));
-
         // start service
         startAlarmService(alarmEntity);
     }
@@ -299,6 +297,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
         Intent intentService = new Intent(requireContext(), AlarmService.class);
         intentService.putExtra(ALARM_ENTITY, alarmEntity);
+        intentService.putExtra(IS_PREVIEW, true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             requireContext().startForegroundService(intentService);
@@ -307,7 +306,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         }
     }
 
-    // ************** esto es para multipple selccion
+    // ************** this are for multiple selection
     private final ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
         @Override

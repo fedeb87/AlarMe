@@ -290,6 +290,14 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        NotificationManager nm = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!nm.isNotificationPolicyAccessGranted()) {
+                // Permissions were not granted, request for permission
+                showPermissionsDialog();
+            }
+        }
+
         // change next alarm listener
         addAlarmViewModel.getNextAlarm().observe(this, calendar ->{
             String textToSet = StringHelper.getFormatedAlarmDate(
@@ -327,7 +335,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(getString(R.string.ring_permission_title))
             .setMessage(getString(R.string.ring_permission_msg))
-            .setPositiveButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
+            .setPositiveButton(getString(R.string.go_Settings), new DialogInterface.OnClickListener() {
                 @SuppressLint("CheckResult")
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -342,16 +350,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     }
 
     private void onSaveButtonClicked() {
-
-        NotificationManager nm = (NotificationManager) requireActivity().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!nm.isNotificationPolicyAccessGranted()) {
-                // Permissions were not granted, request for permission
-                // todo probar el dialog
-                showPermissionsDialog();
-            }
-        }
-
         mDisposable.add(addAlarmViewModel.saveAlarm(
                 Objects.requireNonNull(binding.editTextAlarmName.getText()).toString())
                 .subscribeOn(Schedulers.io())

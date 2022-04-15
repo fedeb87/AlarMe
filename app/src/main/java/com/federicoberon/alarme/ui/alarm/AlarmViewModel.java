@@ -43,6 +43,7 @@ public class AlarmViewModel extends ViewModel {
     private static final String TAG = "AlarmViewModel";
     @SuppressLint("StaticFieldLeak")
     private final Context context;
+    public boolean isPreview;
     private String sign;
     private final AlarmRepository mAlarmRepository;
     private Horoscope horoscope;
@@ -67,6 +68,7 @@ public class AlarmViewModel extends ViewModel {
     public AlarmViewModel(Application app, AlarmRepository alarmRepository) {
         this.context = ((AlarMe) app).appComponent.getContext();
         this.mAlarmRepository = alarmRepository;
+        this.isPreview = false;
         inCelsius = true;
     }
 
@@ -79,6 +81,7 @@ public class AlarmViewModel extends ViewModel {
         return this.sign;
     }
 
+    // todo creo que se puede borrar
     @SuppressLint("MissingPermission")
     public void loadWeather(AlarmActivity activity) {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
