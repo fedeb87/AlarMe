@@ -2,6 +2,7 @@ package com.federicoberon.alarme.ui.addalarm;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -108,6 +109,7 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setDaysOfWeek(int position) {
+        Log.w("MIO", "<<< position >>> " + position);
         this.daysOfWeek[position-1] = !this.daysOfWeek[position-1];
         if (containsTrue())
             this.scheduledDay = null;
@@ -126,13 +128,17 @@ public class AddAlarmViewModel extends ViewModel {
 
         int i=0;
         while(i<7){
+            Log.w("MIO", "<<< (currentDayOfWeek+i-1)%6 >>> " + (currentDayOfWeek+i-1)%6);
+
             if (this.daysOfWeek[(currentDayOfWeek+i-1)%6]){
                 // pongo el dia y salgo del bucle
                 Calendar calendar = nextAlarm.getValue();
+                Log.w("MIO", "<<< i >>> " + i);
 
-                calendar.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
-                calendar.add(Calendar.DAY_OF_MONTH,i);
+                calendar.set(Calendar.DAY_OF_YEAR, Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
+                calendar.add(Calendar.DAY_OF_YEAR,i);
                 nextAlarm.setValue(calendar);
+                Log.w("MIO", "<<< nextAlarm >>> " + nextAlarm.getValue().getTime());
                 break;
             }
             i++;
@@ -187,19 +193,33 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setTime(int hourOfDay, int minute) {
+
+        Calendar calendar;
+        if (scheduledDay == null && !containsTrue())
+            calendar = Calendar.getInstance();
+        else
+            calendar = nextAlarm.getValue();
+
         mHour = hourOfDay;
         mMinutes = minute;
-        Calendar calendar = nextAlarm.getValue();
-        if (calendar == null) {
-            calendar = Calendar.getInstance();
-        }
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mMonth = calendar.get(Calendar.MONTH);
+        mYear = calendar.get(Calendar.YEAR);
+
         calendar.set(Calendar.HOUR_OF_DAY, mHour);
         calendar.set(Calendar.MINUTE, mMinutes);
 
-        if (scheduledDay == null && !containsTrue()) {
+        if(calendar.getTime().compareTo(Calendar.getInstance().getTime()) <= 0){
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            mDay = calendar.get(Calendar.DAY_OF_MONTH);
+            mMonth = calendar.get(Calendar.MONTH);
+            mYear = calendar.get(Calendar.YEAR);
+        }
+
+        /*if (scheduledDay == null && !containsTrue()) {
             // no tiene seteado nada mas
             calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(mHour, mMinutes));
-        }
+        }*/
 
         nextAlarm.setValue(calendar);
     }
@@ -214,13 +234,15 @@ public class AddAlarmViewModel extends ViewModel {
         calendar.set(Calendar.MINUTE, mMinutes);
         calendar.set(Calendar.SECOND, 0);
 
+        Log.w("MIO", "<<< VM - calendar.getTime() >>>" + calendar.getTime());
+/*
         int alarmHourInMinutes = mHour*60+mMinutes;
         int currentHourInMinutes = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)*60
                 +Calendar.getInstance().get(Calendar.MINUTE);
 
         if(currentHourInMinutes >= alarmHourInMinutes){
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
+            //calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }*/
 
         return calendar.getTime();
     }
@@ -284,10 +306,9 @@ public class AddAlarmViewModel extends ViewModel {
                 insertedAlarm.setAlarmDate(cal.getTime());
             }
         }
-        if(insertedAlarm.isStarted()) {
             AlarmManager.dismissAlarm(context, insertedAlarm);
             AlarmManager.schedule(context, insertedAlarm);
-        }
+
     }
 
     public Flowable<List<MelodyEntity>> getMelodies() {

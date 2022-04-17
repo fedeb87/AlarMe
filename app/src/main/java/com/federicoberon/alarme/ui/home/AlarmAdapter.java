@@ -86,15 +86,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         AlarmEntity alarmEntity = alarms.get(position);
-
-        // set correct day
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(alarmEntity.getAlarmDate());
-        calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(alarmEntity.getHour(),
-                alarmEntity.getMinute()));
-        alarmEntity.setAlarmDate(calendar.getTime());
-
-
         holder.onBind(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -226,9 +217,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setAlarms(List<AlarmEntity> alarms) {
-        this.alarms = new ArrayList<>();
-        this.alarms = alarms;
+    public void setAlarms(List<AlarmEntity> allAlarms) {
+        this.alarms = Collections.emptyList();
+        //this.alarms = new ArrayList<>();
+        this.alarms = allAlarms;
         notifyDataSetChanged();
     }
 
@@ -242,8 +234,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     public void removeAlarmFromList(int position){
-        // todo error: esto una vez pincho por index out of bound exception
-        Log.w("MIO", "POSITION ---- " + position);
         alarms.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position,alarms.size());

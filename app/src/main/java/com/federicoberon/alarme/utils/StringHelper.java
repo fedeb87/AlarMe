@@ -2,6 +2,7 @@ package com.federicoberon.alarme.utils;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.model.AlarmEntity;
@@ -66,8 +67,8 @@ public class StringHelper {
 
     private static boolean isTomorrow(Calendar nextAlarm) {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DAY_OF_MONTH, 1);
-        if(cal.get(Calendar.DAY_OF_MONTH) == nextAlarm.get(Calendar.DAY_OF_MONTH)){
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+        if(cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR)){
             return true;
         }
         return false;
@@ -75,7 +76,7 @@ public class StringHelper {
 
     private static boolean isToday(Calendar nextAlarm) {
         Calendar cal = Calendar.getInstance();
-        if(cal.get(Calendar.DAY_OF_MONTH) == nextAlarm.get(Calendar.DAY_OF_MONTH)){
+        if(cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR)){
             return true;
         }
         return false;

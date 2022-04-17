@@ -88,7 +88,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(alarmEntity -> {
-
                             if(addAlarmViewModel.getInsertedAlarm()==null) {
                                 addAlarmViewModel.setInsertedAlarm(alarmEntity);
                             }
@@ -318,7 +317,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
         };
         sharedPref.registerOnSharedPreferenceChangeListener(mListener);
-
     }
 
     @Override

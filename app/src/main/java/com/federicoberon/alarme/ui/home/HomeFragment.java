@@ -129,9 +129,9 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(alarms -> {
-                    if(alarms.size() > 0 &&  alarms.get(0).isStarted())
+                    if(alarms.size() > 0 &&  alarms.get(0).isStarted()) {
                         setFragmentHeader(alarms.get(0));
-                    else
+                    }else
                         setFragmentHeader(null);
 
                 },
@@ -208,8 +208,9 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(id -> {
-                    Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
-                    Log.w("MIO", "Alarma actualizada con el titulo: " + alarmEntity.getTitle());
+                    //Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
+                    Log.w("MIO", " ");
+                    //Log.w("MIO", "Alarma actualizada con el titulo: " + alarmEntity.getTitle());
                 },
                 throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
 
