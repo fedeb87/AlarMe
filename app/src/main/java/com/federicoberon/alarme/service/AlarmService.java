@@ -1,6 +1,5 @@
 package com.federicoberon.alarme.service;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -9,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Vibrator;
@@ -45,7 +45,6 @@ import java.io.IOException;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-// todo si viene del preview no tendria que tocar la base ni las alarmas
 public class AlarmService extends Service {
 
     private static final String LOG_TAG = "AlarmService";
@@ -68,6 +67,7 @@ public class AlarmService extends Service {
         longitude = -1;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
@@ -105,13 +105,8 @@ public class AlarmService extends Service {
         }
 
         PendingIntent pendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
-        }else{
-            pendingIntent = PendingIntent.getActivity(this, 0,
-                    notificationIntent, 0);
-        }
+        pendingIntent = PendingIntent.getActivity(this, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
 
         // create snooze intent //
         Intent snoozeIntent = new Intent(this, AlarmService.class);
@@ -119,13 +114,8 @@ public class AlarmService extends Service {
         snoozeIntent.putExtra(ACTION_SNOOZE, 0);
         snoozeIntent.putExtra(ALARM_ENTITY, alarmEntity);
         PendingIntent snoozePendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
-        }else{
-            snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-        }
+        snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
 
         // discard action //
         Intent intentDismiss = new Intent(this, ActionReceiver.class);
@@ -133,13 +123,8 @@ public class AlarmService extends Service {
         intentDismiss.putExtra(IS_PREVIEW, comeFromPreview);
         intentDismiss.setAction(ALARM_ENTITY);
         PendingIntent dismissPendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
-        }else{
-            dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
-                    intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
+        dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
+                intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
 
         // full screen intent //
         Intent fullScreenIntent = new Intent(this, AlarmActivity.class);
@@ -153,20 +138,18 @@ public class AlarmService extends Service {
         fullScreenIntent.putExtra(IS_PREVIEW, comeFromPreview);
 
         PendingIntent fullScreenPendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-            fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
-                    fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
-        }else{
-            fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
-                    fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
+        fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
 
-        String alarmTitle = String.format(getString(R.string.notification_title), alarmEntity.getTitle());
+        String contentText = "Ring Ring .. Ring Ring";
+        if (!alarmEntity.getTitle().isEmpty())
+            contentText = alarmEntity.getTitle();
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(alarmTitle)
+                .setContentTitle(alarmEntity.getTitle())
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setVibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()))
-                .setContentText("Ring Ring .. Ring Ring")
+                .setContentText(contentText)
                 .setSmallIcon(R.drawable.ic_alarm_black_24dp)
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_ALARM)
@@ -207,22 +190,46 @@ public class AlarmService extends Service {
     @SuppressLint("MissingPermission")
     private void getCurrentLocation(AlarmEntity alarmEntity) {
 
-        if (checkLocationPermissions())
-            fusedLocationClient.getLastLocation()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
+        if (locationEnabled(this)) {
+            if (checkLocationPermissions()) {
+                fusedLocationClient.getLastLocation()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
 
-                            Log.w("MIO", "<<< Ya teno una ubicacion >>>");
-                            Location location = task.getResult();
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            displayAlarm(alarmEntity);
+                                Log.w("MIO", "<<< Ya teno una ubicacion >>>");
+                                Location location = task.getResult();
+                                latitude = location.getLatitude();
+                                longitude = location.getLongitude();
+                                displayAlarm(alarmEntity);
 
-                        } else {
-                            Log.w("MIO", "<<< Pido una nueva ubicacion >>>");
-                            requestNewLocation(alarmEntity);
-                        }
-                    });
+                            } else {
+                                Log.w("MIO", "<<< Pido una nueva ubicacion >>>");
+                                requestNewLocation(alarmEntity);
+                            }
+                        });
+            }else
+                displayAlarm(alarmEntity);
+        }else
+            displayAlarm(alarmEntity);
+    }
+
+    public static boolean locationEnabled(Context context) {
+        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled;
+        boolean network_enabled;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ignored) {
+            gps_enabled = false;
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ignored) {
+            network_enabled = false;
+        }
+        return gps_enabled || network_enabled;
     }
 
     @SuppressLint("MissingPermission")
@@ -232,10 +239,8 @@ public class AlarmService extends Service {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 if (locationResult == null) {
-                    Log.w("MIO", "<<< locationResult es NULL >>>");
                     return;
                 }
-                Log.w("MIO", "<<< locationResult NO es  NULL >>>");
                 latitude = locationResult.getLastLocation().getLatitude();
                 longitude = locationResult.getLastLocation().getLongitude();
                 fusedLocationClient.removeLocationUpdates(this);

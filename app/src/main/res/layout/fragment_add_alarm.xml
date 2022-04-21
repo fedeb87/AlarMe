@@ -576,7 +576,7 @@
                         android:layout_height="match_parent"
                         android:paddingEnd="20dp"
                         android:layout_weight="5"
-                        android:onCheckedChanged="@{() -> fragment.offWeather()}"
+                        android:onClick="@{() -> fragment.offWeather()}"
                         />
 
                 </LinearLayout>

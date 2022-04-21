@@ -10,6 +10,7 @@ import android.os.Build;
 import android.text.format.DateFormat;
 import android.widget.Toast;
 
+import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver;
 import com.federicoberon.alarme.model.AlarmEntity;
 
@@ -39,10 +40,10 @@ public class AlarmManager {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-        String toastText = String.format("One Time Alarm %s scheduled for %s at %s",
-                    alarmEntity.getTitle(),
-                    StringHelper.toDay(calendar.get(Calendar.DAY_OF_WEEK)),
-                    DateFormat.getTimeFormat(context).format(calendar.getTime()));
+        String toastText = String.format(context.getString(R.string.scheduled_alarm_msg),
+                alarmEntity.getTitle(),
+                RelativeTime.getTimeAgo(calendar.getTimeInMillis(), context));
+
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

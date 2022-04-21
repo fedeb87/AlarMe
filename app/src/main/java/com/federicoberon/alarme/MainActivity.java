@@ -7,6 +7,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -32,7 +34,9 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity  {
     public static final String GENERATED_USER_CODE = "random";
-    private static final int DATA_CHECK_CODE = 101;
+    public static final int ACCESS_LOCATION_CODE = 101;
+    public static final String LAT_KEY = "lat";
+    public static final String LON_KEY = "lon";
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private ActivityMainBinding binding;

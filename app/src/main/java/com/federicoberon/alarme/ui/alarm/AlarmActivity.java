@@ -1,15 +1,19 @@
 package com.federicoberon.alarme.ui.alarm;
 
 import static com.federicoberon.alarme.MainActivity.GENERATED_USER_CODE;
+import static com.federicoberon.alarme.MainActivity.LAT_KEY;
+import static com.federicoberon.alarme.MainActivity.LON_KEY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +37,6 @@ import com.federicoberon.alarme.retrofit.HoroscopeTwo;
 import com.federicoberon.alarme.retrofit.WeatherResponse;
 import com.federicoberon.alarme.retrofit.WeatherResponseTwo;
 import com.federicoberon.alarme.service.AlarmService;
-import com.federicoberon.alarme.service.ServiceUtil;
 import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.CustomMediaPlayer;
@@ -42,12 +45,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-
 import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AlarmActivity extends AppCompatActivity implements
         AlarmViewModel.OnResponseUpdateListener, TextToSpeech.OnInitListener{
@@ -64,6 +63,7 @@ public class AlarmActivity extends AppCompatActivity implements
 
     @Inject
     AlarmViewModel alarmViewModel;
+    private int streamMusicCurrentVol;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,22 +125,31 @@ public class AlarmActivity extends AppCompatActivity implements
             finish();
         });
 
-        if(mAlarmEntity.isHoroscopeOn())
+        if(mAlarmEntity.isHoroscopeOn()) {
             alarmViewModel.loadHoroscope();
-        else
+        }else
             binding.horoscopeCardView.setVisibility(View.GONE);
 
+        double lat = 0;
+        double lon = 0;
         if(mAlarmEntity.isWeatherOn()) {
-            double lat = 0;
-            double lon = 0;
-            if(intent.hasExtra(LATITUDE))
+            if(intent.hasExtra(LONGITUDE) && intent.hasExtra(LATITUDE)){
                 lat = intent.getDoubleExtra(LATITUDE, 0.0);
-            if(intent.hasExtra(LONGITUDE))
                 lon = intent.getDoubleExtra(LONGITUDE, 0.0);
+            }else if(sharedPref.contains(LAT_KEY) && sharedPref.contains(LON_KEY)) {
+                lat = sharedPref.getFloat(LAT_KEY, 0.0f);
+                lon = sharedPref.getFloat(LON_KEY, 0.0f);
+            }else{
+                textToSpeak();
+                binding.weatherCardView.setVisibility(View.GONE);
+            }
+
             alarmViewModel.callWeatherAPI(lat, lon);
 
-        }else
+        }else {
             binding.weatherCardView.setVisibility(View.GONE);
+            textToSpeak();
+        }
 
         binding.changeUnit.setOnClickListener(view -> {
             alarmViewModel.changeInCelsius();
@@ -158,7 +167,7 @@ public class AlarmActivity extends AppCompatActivity implements
         // phrases
         Calendar calendar = Calendar.getInstance();
         int position = calendar.get(Calendar.DAY_OF_YEAR) + sharedPref.getInt(GENERATED_USER_CODE, 0);
-        if (position > PhrasesManager.getPhrasesSize())
+        if (position >= PhrasesManager.getPhrasesSize())
             position = position - PhrasesManager.getPhrasesSize();
         String phrase = getString(PhrasesManager.getPhraseId(position));
         binding.textPhrase.setText(phrase);
@@ -170,7 +179,6 @@ public class AlarmActivity extends AppCompatActivity implements
                 textToSpeak();
             }
         });
-
     }
 
     private void changeUnitColor(int fColor, int sColor) {
@@ -283,17 +291,24 @@ public class AlarmActivity extends AppCompatActivity implements
             int result = mTextToSpeech.setLanguage(locale);
             mTextToSpeech.setSpeechRate(0.8f);
             mTextToSpeech.setPitch(0.7f);
+
+            // set max volume for speaker
+            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
+            streamMusicCurrentVol = am.getStreamVolume(am.STREAM_MUSIC);
+            am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
+
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("error", "This Language is not supported");
             } else {
-                String hourText = String.format(getString(R.string.hour_speach), mAlarmEntity.getHour()
-                        , mAlarmEntity.getMinute());
+                Calendar cal = Calendar.getInstance();
+                String hourText = String.format(getString(R.string.hour_speach), cal.get(Calendar.HOUR)
+                        , cal.get(Calendar.MINUTE));
 
                 String tempText = "";
-                if(mAlarmEntity.isWeatherOn())
+                if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
                     tempText = String.format(getString(R.string.temp_speach),
                         alarmViewModel.getCurrentTempC(), alarmViewModel.getCurrentTempF());
-
 
                 mTextToSpeech.speak(hourText + ". " + tempText, TextToSpeech.QUEUE_FLUSH, null);
             }
@@ -310,9 +325,19 @@ public class AlarmActivity extends AppCompatActivity implements
         mTextToSpeech = new TextToSpeech(this, this);
 
         handler = new Handler(Looper.getMainLooper());
-        delayedRunnable = () -> {CustomMediaPlayer.getMediaPlayerInstance().playAudioFile();
-            binding.fabPlay.setVisibility(View.VISIBLE);};
-        handler.postDelayed(delayedRunnable, 1000*13); // 13 seg
+        delayedRunnable = () -> {
+            CustomMediaPlayer.getMediaPlayerInstance().playAudioFile();
+            binding.fabPlay.setVisibility(View.VISIBLE);
+
+            // set original vol
+            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicCurrentVol, 0);
+        };
+
+        int multiplier = 5;
+        if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
+            multiplier = 13;
+        handler.postDelayed(delayedRunnable, 1000*multiplier); // 13 sec or 7 sec
     }
 
     @Override

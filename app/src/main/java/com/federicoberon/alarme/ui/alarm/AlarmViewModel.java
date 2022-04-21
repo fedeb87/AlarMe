@@ -3,14 +3,9 @@ package com.federicoberon.alarme.ui.alarm;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModel;
 
 import com.federicoberon.alarme.AlarMe;
@@ -24,14 +19,6 @@ import com.federicoberon.alarme.retrofit.WeatherResponseTwo;
 import com.federicoberon.alarme.retrofit.WeatherService;
 import com.federicoberon.alarme.retrofit.WeatherServiceTwo;
 import com.federicoberon.alarme.utils.HoroscopeManager;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -45,16 +32,13 @@ public class AlarmViewModel extends ViewModel {
     private final Context context;
     public boolean isPreview;
     private String sign;
-    private final AlarmRepository mAlarmRepository;
     private Horoscope horoscope;
     private OnResponseUpdateListener listener;
     private HoroscopeTwo horoscopeTwo;
     private WeatherResponse weatherResponse;
 
-    Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
-    private FusedLocationProviderClient fusedLocationClient;
+    public double latitude;
+    public double longitude;
     private WeatherResponseTwo weatherResponseTwo;
     private Double currentTempF;
     private double currentTempC;
@@ -67,9 +51,10 @@ public class AlarmViewModel extends ViewModel {
     @Inject
     public AlarmViewModel(Application app, AlarmRepository alarmRepository) {
         this.context = ((AlarMe) app).appComponent.getContext();
-        this.mAlarmRepository = alarmRepository;
         this.isPreview = false;
         inCelsius = true;
+        latitude = 0;
+        longitude = 0;
     }
 
     public void init(OnResponseUpdateListener listener, String sign) {
@@ -79,81 +64,6 @@ public class AlarmViewModel extends ViewModel {
 
     public String getSign() {
         return this.sign;
-    }
-
-    // todo creo que se puede borrar
-    @SuppressLint("MissingPermission")
-    public void loadWeather(AlarmActivity activity) {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-
-        if (checkLocationPermissions())
-            fusedLocationClient.getLastLocation()
-            .addOnCompleteListener(activity, task -> {
-                if (task.isSuccessful() && task.getResult() != null) {
-
-                    Log.w("MIO", "<<< Ya teno una ubicacion >>>");
-                    location = task.getResult();
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    callWeatherAPI(location.getLatitude(), location.getLongitude());
-                    //callWeatherAPITwo(location.getLatitude(), location.getLongitude());
-
-                } else {
-                    Log.w("MIO", "<<< Pido una nueva ubicacion >>>");
-                    requestNewLocation();
-                }
-            });
-
-    }
-
-    @SuppressLint("MissingPermission")
-    private void requestNewLocation() {
-
-        LocationCallback locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                if (locationResult == null) {
-                    Log.w("MIO", "<<< locationResult es NULL >>>");
-                    return;
-                }
-                Log.w("MIO", "<<< locationResult NO es  NULL >>>");
-                latitude = locationResult.getLastLocation().getLatitude();
-                longitude = locationResult.getLastLocation().getLongitude();
-                fusedLocationClient.removeLocationUpdates(this);
-                callWeatherAPI(latitude, longitude);
-            }
-        };
-
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (checkLocationPermissions())
-            fusedLocationClient.requestLocationUpdates(mLocationRequest,
-                locationCallback,
-                Looper.getMainLooper());
-    }
-
-    private boolean checkLocationPermissions() {
-        // check locaiton permissions
-        if (ContextCompat.checkSelfPermission(context,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context,
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                        PackageManager.PERMISSION_GRANTED) {
-            Log.e("MIO" ,"<<< NO HAY PERMISOS >>>");
-            return false;
-        }
-
-        // check google service installed
-        if(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
-                != ConnectionResult.SUCCESS) {
-            Log.e("MIO", "<<< NO TIENE LOS SERVICIOS INSTALADOS >>>");
-            return false;
-        }
-        return true;
     }
 
     private void callWeatherAPITwo(double latitude, double longitude) {
@@ -182,31 +92,40 @@ public class AlarmViewModel extends ViewModel {
                 });
     }
 
-    public void callWeatherAPI(double latitude, double longitude) {
-        AlarMe application = AlarMe.get(context);
-        WeatherService weatherService = application.getWeatherService();
+    public boolean coordsCached(){
+        return latitude != 0 || longitude !=0;
+    }
 
-        weatherService.getWeather("576d14184a3e42cc8cd10015222203", new double[]{latitude, longitude}, 1)
-                .enqueue(new Callback<WeatherResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<WeatherResponse> call,
-                                           @NonNull Response<WeatherResponse> response) {
-                        if (response.body() != null) {
-                            if (response.isSuccessful()) {
-                               AlarmViewModel.this.weatherResponse = response.body();
-                                if (listener != null)
-                                    listener.onWeatherChanged(weatherResponse);
+    public void callWeatherAPI(double lat, double lon) {
+        this.latitude = lat;
+        this.longitude = lon;
+
+        if (lat != 0.0 || lon != 0.0) {
+            AlarMe application = AlarMe.get(context);
+            WeatherService weatherService = application.getWeatherService();
+
+            weatherService.getWeather("576d14184a3e42cc8cd10015222203", new double[]{lat, lon}, 1)
+                    .enqueue(new Callback<WeatherResponse>() {
+                        @Override
+                        public void onResponse(@NonNull Call<WeatherResponse> call,
+                                               @NonNull Response<WeatherResponse> response) {
+                            if (response.body() != null) {
+                                if (response.isSuccessful()) {
+                                    AlarmViewModel.this.weatherResponse = response.body();
+                                    if (listener != null)
+                                        listener.onWeatherChanged(weatherResponse);
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
-                        callWeatherAPITwo(latitude, longitude);
-                        Log.e(TAG, "Error loading weather ", t);
-                        listener.onWeatherChanged(null);
-                    }
-                });
+                        @Override
+                        public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
+                            callWeatherAPITwo(lat, lon);
+                            Log.e(TAG, "Error loading weather ", t);
+                            listener.onWeatherChanged(null);
+                        }
+                    });
+        }
     }
 
     public void loadHoroscope() {
@@ -221,8 +140,9 @@ public class AlarmViewModel extends ViewModel {
                 if (response.body() != null) {
                     if (response.isSuccessful()) {
                         AlarmViewModel.this.horoscope = response.body();
-                        if (listener != null)
+                        if (listener != null){
                             listener.onHoroscopeChanged(horoscope);
+                        }
                     }
                 }
             }

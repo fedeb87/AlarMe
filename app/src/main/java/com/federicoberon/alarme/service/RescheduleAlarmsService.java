@@ -55,7 +55,7 @@ public class RescheduleAlarmsService extends LifecycleService {
                         },
                         throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Override

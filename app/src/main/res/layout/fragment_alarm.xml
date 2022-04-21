@@ -67,11 +67,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/vertical_margin_half"
             android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/transparent2"
             app:cardElevation="4dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
         <LinearLayout
             android:gravity="center"
@@ -93,19 +93,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/textViewCurrentWeather"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="20sp"
-                    tools:text="Soleado"
-                    />
+                    <TextView
+                        android:id="@+id/textViewCurrentWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="18sp"
+                        tools:text="Soleado"
+                        />
 
-                <ImageView
-                    android:id="@+id/imageViewIcon"
-                    android:layout_width="112dp"
-                    android:layout_height="112dp"
-                    android:src="@drawable/sun" />
+                    <ImageView
+                        android:id="@+id/imageViewIcon"
+                        android:layout_width="112dp"
+                        android:layout_height="112dp"
+                        android:src="@drawable/sun" />
 
                 </LinearLayout>
                 <TextView
@@ -216,7 +216,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/vertical_margin_half"
             android:layout_marginTop="@dimen/vertical_margin"
-            android:layout_marginHorizontal="32dp"
+            android:layout_marginHorizontal="16dp"
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/transparent2"
             android:visibility="gone"

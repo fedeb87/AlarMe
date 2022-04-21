@@ -1,17 +1,23 @@
 package com.federicoberon.alarme.ui.addalarm;
 
+import static com.federicoberon.alarme.MainActivity.ACCESS_LOCATION_CODE;
+import static com.federicoberon.alarme.MainActivity.LAT_KEY;
+import static com.federicoberon.alarme.MainActivity.LON_KEY;
+
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -33,15 +39,21 @@ import com.federicoberon.alarme.AlarMe;
 import com.federicoberon.alarme.databinding.FragmentAddAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.model.MelodyEntity;
+import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.ui.CustomDatePicker;
 import com.federicoberon.alarme.ui.addalarm.horoscope.HoroscopeDialogFragment;
-import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.DateUtils;
 import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.PostponeManager;
 import com.federicoberon.alarme.utils.RepeatManager;
 import com.federicoberon.alarme.utils.StringHelper;
 import com.federicoberon.alarme.utils.VibrationManager;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -65,6 +77,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     private FragmentAddAlarmBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private SharedPreferences.OnSharedPreferenceChangeListener mListener;
+    private Snackbar mSnackbar;
 
     @Inject
     SharedPreferences sharedPref;
@@ -185,13 +198,13 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<MelodyEntity>() {
                    @Override
-                   public void onSuccess(MelodyEntity melodyEntity) {
+                   public void onSuccess(@NonNull MelodyEntity melodyEntity) {
                        addAlarmViewModel.setSelectedMelody(melodyEntity);
                        retrieveAlarmValues();
                    }
 
                    @Override
-                   public void onError(Throwable throwable) {
+                   public void onError(@NonNull Throwable throwable) {
                        if (throwable.getCause() == null) {
                            //your action if null
                            MelodyEntity melodyEntity = new MelodyEntity(alarmEntity.getMelodyName(), alarmEntity.getMelodyUri());
@@ -260,6 +273,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     @Override
     public void onStart() {
         super.onStart();
+
         Calendar cal = Calendar.getInstance();
         if(addAlarmViewModel.isTimeChange()){
             cal.set(Calendar.HOUR_OF_DAY, addAlarmViewModel.getmHour());
@@ -283,6 +297,8 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams)((MainActivity)requireActivity()).getBinding().appBarMain.appBar.getLayoutParams();
         lp.height = (int) getResources().getDimension(R.dimen.nav_header_height);
         updateAllOptions();
+
+        checkLocationPermissions();
     }
 
     @Override
@@ -293,7 +309,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!nm.isNotificationPolicyAccessGranted()) {
                 // Permissions were not granted, request for permission
-                showPermissionsDialog();
+                showPermissionsOnLockDialog();
             }
         }
 
@@ -313,10 +329,81 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
         // Listener for de SharedPreference
         mListener = (prefs, key) -> {
-            String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
-            binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
+            if (key.equals(getString(R.string.sign_name))) {
+                String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
+                binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
+            }
         };
         sharedPref.registerOnSharedPreferenceChangeListener(mListener);
+    }
+
+    private void checkLocationPermissions() {
+        if(!sharedPref.contains(LAT_KEY) && addAlarmViewModel.isWeatherOn()){
+
+            if (AlarmService.locationEnabled(requireContext())){
+                if(ContextCompat.checkSelfPermission(requireContext(),
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                        PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(requireContext(),
+                                android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                PackageManager.PERMISSION_GRANTED){
+
+                    showSnackBar(R.string.access_location_permission_snackbar);
+
+                }else{
+                    dismissSnackbar();
+                    // necesito pedirla por primera vez aunque sea
+                    getCurrentLocation();
+                }
+            }else {
+                // decirle que debe habilitar para acceder a su ubicacion actual
+                showSnackBar2(R.string.enable_location_snackbar);
+            }
+        }else
+            dismissSnackbar();
+    }
+
+    private void dismissSnackbar() {
+        binding.okButton.setEnabled(true);
+        addAlarmViewModel.setWeatherOn(binding.weatherSwitch.isChecked());
+        if(mSnackbar != null)
+            mSnackbar.dismiss();
+
+    }
+
+    private void showSnackBar2(int messageId) {
+
+        //binding.weatherSwitch.setChecked(false);
+        //addAlarmViewModel.setWeatherOn(false);
+        //changeColorsView(binding.textViewWeather, null, false);
+
+        binding.okButton.setEnabled(false);
+
+        if (mSnackbar == null || !mSnackbar.isShown()) {
+            mSnackbar = Snackbar.make(binding.getRoot(), messageId, Snackbar.LENGTH_INDEFINITE);
+            mSnackbar.setAction(R.string.go_Settings, view -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
+            mSnackbar.show();
+        }
+    }
+
+    private void showSnackBar(int messageId) {
+
+        //binding.weatherSwitch.setChecked(false);
+        //changeColorsView(binding.textViewWeather, null, false);
+
+        binding.okButton.setEnabled(false);
+        //addAlarmViewModel.setWeatherOn(false);
+
+        /*
+         style the snackbar text
+         TextView sbText = sb.getView().findViewById(com.google.android.material.R.id.snackbar_text);
+         sbText.setTextColor(ThemeUtils.getThemeColor(this, R.attr.odyssey_color_text_accent));
+        */
+        if (mSnackbar == null || !mSnackbar.isShown()) {
+            mSnackbar = Snackbar.make(binding.getRoot(), messageId, Snackbar.LENGTH_INDEFINITE);
+            mSnackbar.setAction(R.string.go_Settings, view -> startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireActivity().getPackageName()))));
+            mSnackbar.show();
+        }
     }
 
     @Override
@@ -328,20 +415,15 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding = null;
     }
 
-    private void showPermissionsDialog() {
+    private void showPermissionsOnLockDialog() {
         new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom))
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(getString(R.string.ring_permission_title))
             .setMessage(getString(R.string.ring_permission_msg))
-            .setPositiveButton(getString(R.string.go_Settings), new DialogInterface.OnClickListener() {
-                @SuppressLint("CheckResult")
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    @SuppressLint("InlinedApi")
-                    Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
-                    startActivity(intent);
-                }
-
+            .setPositiveButton(getString(R.string.go_Settings), (dialog, which) -> {
+                @SuppressLint("InlinedApi")
+                Intent intent = new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                startActivity(intent);
             })
             .setNegativeButton(getString(R.string.cancel_button), null)
             .show();
@@ -469,6 +551,18 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == ACCESS_LOCATION_CODE) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                dismissSnackbar();
+            // Other 'case' lines to check for other
+            // permissions this app might request.
+        }
+}
+
     public void offWeather(){
         boolean isChecked = binding.weatherSwitch.isChecked();
 
@@ -481,12 +575,59 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                             PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(requireActivity()
                         , new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION
-                        , android.Manifest.permission.ACCESS_COARSE_LOCATION}, 101);
-
+                        , android.Manifest.permission.ACCESS_COARSE_LOCATION}, ACCESS_LOCATION_CODE);
             }
         }
 
         addAlarmViewModel.setWeatherOn(isChecked);
         changeColorsView(binding.textViewWeather, null, isChecked);
+        checkLocationPermissions();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getCurrentLocation() {
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        fusedLocationClient.getLastLocation()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        Location location = task.getResult();
+
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putFloat(LAT_KEY, (float) location.getLatitude());
+                        editor.putFloat(LON_KEY, (float) location.getLongitude());
+                        editor.apply();
+
+                    } else {
+                        requestNewLocation(fusedLocationClient);
+                    }
+                });
+    }
+
+    @SuppressWarnings("deprecation")
+    @SuppressLint("MissingPermission")
+    private void requestNewLocation(FusedLocationProviderClient fusedLocationClient) {
+
+        LocationCallback locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putFloat(LAT_KEY, (float) locationResult.getLastLocation().getLatitude());
+                editor.putFloat(LON_KEY, (float) locationResult.getLastLocation().getLongitude());
+                editor.apply();
+                fusedLocationClient.removeLocationUpdates(this);
+            }
+        };
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        fusedLocationClient.requestLocationUpdates(mLocationRequest,
+                locationCallback,
+                Looper.getMainLooper());
     }
 }

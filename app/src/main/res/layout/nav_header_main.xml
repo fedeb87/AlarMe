@@ -33,9 +33,4 @@
         android:text="@string/userName"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/userEmail" />
 </LinearLayout>

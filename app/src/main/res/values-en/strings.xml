@@ -404,7 +404,7 @@
     <string name="phrase_diciembre_30">"“Grow up with discipline. Balance your intuition rigorously. Innovate around the core. Don't accept the status quo. Find new ways of seeing. Never wait for the silver bullet. Get your hands dirty. Listen with empathy and communicate with transparency”: Howard Schultz</string>
     <string name="hour_speach">It\'s %d:%d</string>
     <string name="temp_speach">The temperature is %,.1f degrees Celsius. Equivalent to %,.1f degrees Fahrenheit</string>
-    <string name="thursday">X</string>
+    <string name="thursday">T</string>
     <string name="terms_of_services_string">I have read and accept the</string>
     <string name="terms_of_services">Terms and Conditions</string>
     <string name="snooze">Postpone</string>
@@ -423,4 +423,240 @@
     <string name="today">Today</string>
     <string name="wednesday">W</string>
     <string name="rain_chance">Chance of rain %s %%</string>
+    <string name="go_Settings">Go Settings</string>
+    <string name="monday">M</string>
+    <string name="tuesday">T</string>
+    <string name="friday">F</string>
+    <string name="saturday">S</string>
+    <string name="sunday">S</string>
+    <string name="discard">Dismiss</string>
+    <string name="next_alarm_string">Next alarm</string>
+    <string name="no_alarm">No active alarms</string>
+    <string name="on_string">On</string>
+    <string name="off_string">Off</string>
+    <string name="melody">Melody</string>
+    <string name="minutes_string">%d minutes</string>
+    <string name="hours_string">%d hours</string>
+    <string name="hours_string_single">%d hour</string>
+    <string name="no_repeat_string">No repeat</string>
+    <string name="no_postpone_string">No postpone</string>
+    <string name="no_vibrate_string">No vibration</string>
+    <string name="no_melody_string">No melody</string>
+    <string name="no_alarm_entity">An unexpected error occurred while playing the alarm. Please contact support.</string>
+    <string name="activate_menu">Active</string>
+    <string name="inactivate_menu">Inactive</string>
+    <string name="delete_alarms_title">Delete alarms?</string>
+    <string name="delete_alarms_msg">Are you sure you want to delete the selected alarms?</string>
+    <string name="delete_alarm_title">Delete alarm?</string>
+    <string name="ring_permission_title">Melody in sleep mode</string>
+    <string name="ring_permission_msg">You need to grant permissions to the app to allow it to work when the device screen is locked.</string>
+    <string name="delete_alarm_msg">Are you sure you want to delete the alarm?</string>
+    <string name="alarms_every">Every %s at %s</string>
+    <string name="alarms_everyDay">Everyday at %s</string>
+    <string name="alarm_today">Today %s %d de %s - %s</string>
+    <string name="alarm_tomorrow">Tomorrow %s %d de %s - %s</string>
+    <string name="duplicate_card_menu">Duplicate</string>
+    <string name="delete_card_menu">Delete</string>
+    <string name="brew_personal_desc">I am excited about mobile technologies. Creator of ideas, curious and nature lover.</string>
+    <string name="choose_a_file">Choose a melody</string>
+    <string name="no_sound">Melody not found</string>
+    <string name="button_start">Start</string>
+    <string name="button_pause">Pause</string>
+    <string name="button_stop">Stop</string>
+    <string name="button_clear">Clean</string>
+    <string name="terms_of_services_body">"These terms and conditions of use (“Terms”) apply to the mobile application called EscuelaApp (“Application”) and any documentation that we make available to you in connection with the Application (“Documents”).
+
+
+RELEVANT INFORMATION
+
+It is a necessary requirement for the use of the services offered on this site, that you read and accept the following Terms and Conditions that are written below. The use of our services will imply that you have read and accepted the Terms and Conditions of Use in this document. To acquire a product or use a service, registration by the user will be necessary, with the entry of reliable personal data and definition of a password, or accessing with an existing gmail account.
+
+The user can choose and change the password for his account administration access at any time, in case he has registered. We do not assume responsibility in case you give said key to third parties.
+
+
+1. Recognition
+1.1 These Terms apply to the Application, the Documents and any Services (including updates or supplements to the Application, unless they include separate terms, in which case those terms will apply to such updates or supplements).
+
+1.2 We may make commercially reasonable changes to these Terms (in whole or in part) at any time. We will notify you of such changes by any reasonable means, including by making the revised Terms available through the Application. You can determine when these Terms were last revised by looking at the “Last Updated” legend at the top of these Terms. Your access or use of the Application after such revised Terms become available will signify your acceptance of such revised Terms and your agreement to be bound by them. In any event, revisions to these Terms will not apply to any dispute between you and us that arose before the date we made available revised Terms containing such revisions.
+
+1.3 From time to time, updates to the Application may be made available through the Play Store. Depending on the update, you may not be able to use the Application or any Services until you have installed the latest version of the Application. Your access to or use of the Updated Application will signify your acceptance of the revised Terms relating to the Updated Application notified to you in accordance with Section 1.2 above.
+
+1.6 Your submission of information through or in connection with the Application or any Service is governed by our privacy policy. The terms of our privacy policy as updated from time to time are available here (“Privacy Policy”).
+
+1.7 By using the Application and any Service, you consent to our collection and use of technical information about a Device (and any related software, hardware and peripherals for Internet-based or wireless services) to improve our products and provide services to you.
+
+
+2. License
+2.1 In consideration of your agreement to comply with these Terms, we grant you a non-transferable, non-sublicensable, non-exclusive, revocable license to use the Application and the Services on the Devices, subject to these Terms (including, without limitation, Sections 2.2, 3 and 4 below), the Privacy Policy and the Play Store Rules. Except as expressly provided in these Terms, we reserve all other rights in the Application and the Services.
+
+2.2 You may download a copy of the Application on a Device and view, use and display the Application on the Device only for your personal purposes or for the purposes of the entity on whose behalf you entered these Terms, subject to these Terms ( including, without limitation , Sections 1.2, 3 and 4 below), the Privacy Policy and the Play Store Rules.
+
+
+3. License Restrictions
+3.1 Except as expressly set forth in these Terms or permitted by applicable law, you agree:
+
+(a) to use the Application and the Services in connection with the organization and administration of your classes and students solely, and for no other purpose;
+
+(b) not to copy the Application or Documents, except where such copying is incidental to normal use of the Application for its intended purposes, or as necessary for backup or operational security purposes;
+
+(c) not to rent, lease, sublicense, lend, distribute, time share, translate, merge, adapt, vary or modify the Application or the Documents;
+
+(d) that you have all necessary rights in relation to any information, content or materials such as text, graphics, images, photographs or other materials that you submit, post or transmit using the Application or any Service (“Information”) and that all such information complies with all applicable laws and regulations;
+
+(e) that all Information is true, accurate and complete and that you will maintain and update such Information as necessary to ensure that such Information remains true, accurate and complete;
+
+(f) that you are responsible for obtaining and have obtained any and all necessary authorizations, consents and permissions from all students and/or their parents or guardians (as applicable) and any other third parties to the extent that you submit, publish, transmit or process your personal data using the Application;
+
+(g) not to make alterations or modifications to all or part of the Application, or allow the Application or any part of it to be combined or incorporated with any other program;
+
+(h) not to disassemble, decompile, reverse engineer, or create derivative works based on all or any part of the Application, or attempt to do so, except to the extent such activities are permitted by applicable law;
+
+(i) keep all copies of the Application secure and maintain accurate and up-to-date records of the number and location of all copies of the Application;
+
+(j) not to remove any copyright, trademark, or other proprietary rights notices from the Application or the Documents, and to include our copyright notice on any copies you make of the Application in any media;
+
+(k) not to sell, resell, link to, exploit, provide or make available the Application in whole or in part (including object and source code), in any way to any person without our prior written consent; Y
+
+(l) to comply with all technology or export control laws and regulations that apply to the technology used or supported by the
+
+
+4. RESTRICTIONS ON ACCEPTABLE USE
+4.1 You agree:
+
+(a) not use the Application or any Device in connection with the Application unlawfully, for any unlawful purpose or in any manner inconsistent with these Terms, or act fraudulently or maliciously, for example, by hacking or inserting code, including viruses or harmful data, in the Application, any Service or any operating system;
+
+(b) not use the Application to record, publish or transmit any Information that is protected by copyright, trademark, confidentiality or any other proprietary right without the consent of the owner;
+
+(c) not to use the Application to register, publish or transmit any Information that is defamatory, threatening, abusive, offensive, obscene, indecent, pornographic, that promotes discrimination based on race, sex, religion, nationality, disability, sexual orientation or age or is otherwise objectionable;
+
+(d) not use the Application in a manner that could damage, disable, overburden, impair or compromise our systems or security or interfere with other users, or restrict or inhibit other users from using the Application (including by hacking or defacing the Application );
+
+(e) not create a database by downloading and storing any content available through the Application, the Documents or any Service; and
+
+(f) not collect or harvest any information or data from any Service or our systems or attempt to decipher any transmission to or from the servers running any Service, including, without limitation, through the use of robots, spiders, search/retrieval applications sites or other manual or automatic device to retrieve, index, "scrape", "data mine" or in any way collect the content of the Application or Document or reproduce or circumvent the navigation structure or presentation of the Application without our prior consent by written.
+
+
+5. Usernames and Passwords
+5.1 You may not use (and we may refuse to give you) any username or email address.
+address that belongs to or is already being used by someone else; which can be construed as impersonating another person; that violates the intellectual property or other rights of another person; that is offensive or that we reject for any other valid reason in our discretion.
+You are responsible for maintaining the confidentiality of any passwords you use to access the Application and you agree not to transfer such passwords or usernames or lend or transfer your use of or access to the Application to any third party. You agree to notify us of any unauthorized use of your passwords or usernames or any other breach of security related to your account of which you become aware. You are entirely responsible for all use of the Application and any Services that occur in connection with your username, except to the extent that any unauthorized use is not caused by your breach of your obligations under these Terms.
+
+5.2 In addition, you must ensure that your Device is protected by an appropriate PIN number or password so that, in the event of loss or theft, your access credentials are not compromised.
+
+
+6. Intellectual Property Rights
+6.1 You acknowledge that all intellectual property rights in the Application and/or the Documents anywhere in the world belong to us, that the rights in the Application and the Documents are licensed to you (not sold) and that you are not You have no rights to the Application or the Documents, other than the right to use each of them in accordance with these Terms.
+
+6.2 All trade names, trademarks and service marks in the Application and the Documents are the property of us or our licensors. You may not use our trade names, trademarks, or service marks in connection with any product or service that is not ours, or in any manner that is likely to cause confusion. Nothing contained in this document or in the Application or Documents should be construed as granting any license or right to use trade names, trademarks or service marks without the express prior written consent of the owner.
+
+6.3 You acknowledge that you have no right to access the Application in source code form.
+
+
+7. AVAILABILITY
+7.1 We reserve the right, temporarily or permanently, in whole or in part, to modify, suspend or discontinue the Application without notice for valid business reasons without liability to you.
+
+7.2 You further acknowledge that the Application is provided over the Internet and mobile networks, therefore the quality and availability of the Application may be affected by factors beyond our reasonable control. Consequently, we cannot accept any responsibility for any connectivity issues you may experience while using the app. You further acknowledge and agree that you (and not us) are responsible for obtaining and maintaining all telecommunications, broadband, and hardware, equipment, and services necessary to access and use the Application or any Service, and for paying any data charges that You may be charged by Your network provider in connection with your use of the Application.
+
+7.3 We try to ensure that the information provided on or in connection with the Application is complete, accurate and up-to-date. Despite our efforts, such information may occasionally be inaccurate, incomplete or out of date. Accordingly, we do not guarantee the completeness, accuracy, or timeliness of any such information, including all descriptions, images, references, features, content, specifications, products, and prices of products and services described or depicted in the Application. Such information is also subject to change at any time without notice. The inclusion of any products or services on this Application at a particular time does not imply or guarantee that these products or services will be available at any time.
+
+
+8. LIMITATION OF LIABILITY
+8.1 You acknowledge that the Application has not been developed to meet your individual requirements and that it is therefore your responsibility to ensure that the facilities and functions of the Application meet your requirements.
+
+8.2 To the extent permitted by applicable law, you acknowledge that we have no liability to you for any loss of profits, loss of business, loss of revenue, loss of data, business interruption or loss of business opportunity arising from your use of the App. You further acknowledge that we will not be liable to you for any indirect or consequential loss or any exemplary, special or punitive damages.
+
+
+9. COMPENSATION
+You agree to compensate us for any and all claims, actions, demands, losses, liabilities, damages, costs and expenses (including legal and other costs, such as attorneys' fees) reasonably incurred by us arising out of your use of the Application or any Service that breaches these Terms. We reserve the right to assume the exclusive defense and control of any claim brought by a third party relating to your use of the Application and/or the Services and you agree to assist and cooperate with us in connection with any such claim.
+
+
+10. EVENTS OUTSIDE OUR CONTROL
+We will not be liable for any failure to perform, or delay in performance of, any of our obligations under these Terms that is caused by any act or event beyond our reasonable control, including any failure of public or private telecommunications networks.
+
+
+11. CLAIMS OF COPYRIGHT INFRINGEMENT
+The Digital Millennium Copyright Act of 1998 (the "DMCA") provides remedies for copyright owners who believe that material appearing on the Internet infringes their rights under Argentine copyright law. If you believe in good faith that materials available or accessible through the Application infringe your copyright, you (or your agent) may send us a notice requesting that we remove or block the materials or disable access to them. If you believe in good faith that someone has mistakenly filed a copyright infringement notification against you, the DMCA allows you to send us a counter notification. Notices and counter-notifications must comply with the then-current legal requirements imposed by the DMCA.
+
+
+12. LAW AND JURISDICTION
+To the extent permitted by applicable law, these Terms, their subject matter and formation, are governed by Argentine law and you consent to the non-exclusive jurisdiction of the Argentine courts. We reserve the right to bring legal action against you for breach of these Terms in your country of residence or other relevant country."</string>
+    <string name="privacy_policy_body">"This Privacy Policy describes how we manage and protect your personal data and the choices available to you. Additional information about our personal data practices may be provided in product settings, contractual terms, or notices provided before or at the time of data collection.
+
+This Privacy Policy is intended for you if you are a user of our products and services.
+
+1. Personal data collected
+
+Personal Data means any information relating to an identified or identifiable natural person (“Personal Data”).
+
+We may collect data or ask you to provide certain data when you visit our websites and use our products and services. The sources through which we collect Personal Data include:
+
+Data collected directly through you or your device relating to an identified or identifiable individual ("Data Subject"), may include direct identifiers such as name, postal and email address, telephone number, and online or indirect identifiers such as account login, login password, marketing preferences, social media account or IP address; If we link other data to your Personal Data, we will treat the linked data as Personal Data;
+The Application may collect personal information in order to provide a pleasant user experience. Such as:
+
+
+2. Use of the information collected
+How May We Collect Personal Information?
+We may collect the following personal information about you:
+
+Personal information that you provide to us when you download the Application, post material or request additional services; and Personal Information you provide to us when you report a problem with the Application or otherwise communicate with us.
+
+Other Information We May Collect
+“Other Information” is any information we collect in connection with your use of the Application and Services that does not identify you as an individual, as noted below.
+
+* Device Information: We may collect information about a Device or any computer you use to download or transmit a copy of the Application to your Device, including, where available, unique device or computer identifiers, operating system, type browser and mobile network information. as well as the phone number of the Device. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+* Log Information: We may automatically collect and store certain information about your use of the Application and any Services in server logs, including, but not limited to, Internet protocol addresses, Internet service provider, clickstream data , browser type and language, visited and exit pages, and date or time stamps. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+* Unique Application Numbers: When you install or uninstall an Application or a Service that contains a unique application number or when the Application or Service checks for automatic updates, that number and information about your installation, for example, the type of operating system , they can be sent. for us. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+
+
+3. Exceptions when disclosing your personal information
+We may disclose your personal information and other information to third parties:
+– in the event that we sell or buy any business or assets, in which case we may disclose your Personal Information to the prospective seller or buyer of such business or assets;
+– if all or part of our business, assets or shares are acquired by a third party (including in connection with any bankruptcy or similar proceedings), in which case personal information will be one of the transferred assets.
+– if we are under a duty to disclose or share your personal information in order to comply with any legal or regulatory obligation or request;
+– to protect our rights, property, privacy, or safety or that of our customers, you, or others. This may include exchanging information with other companies and organizations to
+fraud protection and credit risk reduction purposes.
+– to enforce the terms of this Privacy Policy or the Terms of Use;
+– to allow us to pursue available remedies or limit the damages we may suffer; I
+– where you have given us your consent to do so.
+
+4. Access To Your Information
+Under applicable law, you may have the right to access the personal information we hold. To the extent permitted by applicable law, we may charge you a reasonable fee to cover our costs in providing you with details of your Personal Information, subject to limits imposed by applicable law.
+If you wish to review, correct, update, suppress, delete or limit our use of your Personal Data previously provided for your use, please contact us in accordance with the Contact Us” section below, making clear your name and contact details. and the nature of your request. We will attempt to comply with any request as soon as reasonably possible or unless we need to retain your information for legitimate business or legal purposes."
+
+
+5. How do we use your information?
+We use your Personal Data for the following purposes and for the following reasons:
+
+To perform our contract with you or enter into a contract with you at your request, in order to:
+
+* Process the purchase of our products or services through us, our partners or the online stores of our trusted third-party service providers;
+* Allow the download, activation and operation of the product or service;
+* Keeping our products or services up-to-date, secure, and error-free, including the implementation of new product features and versions;
+* Verify your identity and entitlement to paid products or services, when you contact us for support or access our services;
+* Process your purchase transactions;
+* Inform you about the status of your orders and licenses; and
+* Provide you with technical and customer support.
+
+
+6. Security Of Your Information
+We seek to use reasonable organizational, technical and administrative measures to protect the Personal Information under our control. Unfortunately, no data transmission over the Internet or data storage system can be guaranteed to be 100%% secure. If you have reason to believe that your interaction with us is no longer secure (for example, if you believe that the security of any account you may have with us has been compromised), please immediately notify us of the problem by contacting us in accordance with the “Contact Us” section below.
+
+Our team of engineers is dedicated to keeping your personal information secure. We work with a team of security researchers to continually test application practices for vulnerabilities. We periodically review our information collection, storage, and processing practices, including physical security measures to protect against unauthorized access to systems. We continually develop and implement features to keep your personal information secure; for example, when you enter any information anywhere on the Service, we encrypt the transmission of that information using (SSL - TLS) by default.
+
+We make sure that passwords are stored and transferred securely using encryption. We automatically delete active accounts after a specified period of time. Although we make concerted good faith efforts to maintain the security of personal information and work hard to ensure the integrity and security of our systems, no practice is 100% immune and we cannot guarantee the security of information. Outages, attacks, human error, system failure, unauthorized use, and other factors may compromise the security of user information at any time. If a security breach were to increase our knowledge, we will try to notify you electronically so that you can take the protection procedures
+
+
+7. Use Of Services By Minors
+The Application and the Services are intended for use by persons over the age of 13. For the avoidance of doubt, the Application and the Services are not directed to and should not be used by minors. In the United States, this means persons under the age of thirteen (13). In other jurisdictions different age restrictions may apply
+
+
+8. Privacy Policy Updates
+We may make changes to this Privacy Policy. Any changes we may make to our privacy policy in the future will be posted on this page and, where appropriate, notified to you by any reasonable means, including through the Application. Please take a look at the “LAST UPDATED” legend at the top of this page to see when this Privacy Policy was last revised. New terms may appear on the screen and you may be required to read and agree to them in order to continue using the Application and any Services. Any changes to this Privacy Policy will be effective when we post the revised Privacy Policy on the Application. Your use of the Application after these changes means that you accept the revised Privacy Policy.”
+
+
+9. Links to Third Parties
+
+This website may contain links to other sites or documents that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or the protection of your data on those other third party sites. These sites are subject to their own privacy policies, so it is recommended that you consult them to confirm that you agree with them."</string>
+
+    <string name="scheduled_alarm_msg">Alarm %s scheduled in %s</string>
 </resources>

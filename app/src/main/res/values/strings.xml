@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Best alarm clock</string>
+    <string name="app_name" translatable="false">AlarMe</string>
 
     <string name="event_detail_title">Titulo del evento</string>
     <string name="description_subtitle">DESCRIPCIÓN</string>
@@ -18,10 +18,7 @@
 
     <!--Drawer-->
     <string name="menu_home">Inicio</string>
-    <string name="menu_chrono">Cronometro</string>
-    <string name="menu_countdown">Cuenta atras</string>
-    <string name="userName" translatable="false">Federico Beron</string>
-    <string name="userEmail" translatable="false">federico.beron@gmail.com</string>
+    <string name="userName" translatable="false"> </string>
 
 
     <string name="menu_detail">Detalle</string>
@@ -45,8 +42,7 @@
     <string name="delete_menu">Eliminar</string>
     <string name="remember_alarm">Recordatorio: </string>
     <string name="about_title">FRAGMENTO ACERCA DE</string>
-    <string name="about_fragment_hint">This is about fragment</string>
-    <string name="large_text">
+    <string name="large_text" translatable="false">
         "Material is the metaphor.\n\n"
 
         "A material metaphor is the unifying theory of a rationalized space and a system of motion."
@@ -147,15 +143,10 @@
     <string name="discard">Descartar</string>
     <string name="next_alarm_string">Próxima alarma</string>
     <string name="no_alarm">No hay alarmas activas</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="on_string">Activado</string>
     <string name="off_string">Desactivado</string>
     <string name="melody">Melodia</string>
     <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
     <string name="sync_header" translatable="false">Sync</string>
 
     <!-- Messages Preferences -->
@@ -164,10 +155,6 @@
 
     <!-- Sync Preferences -->
     <string name="sync_title" translatable="false">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="selected_melody">Melodia seleccionada</string>
     <string name="selected_vibration">Vibracion</string>
     <string name="selected_repeat">Repetir</string>
@@ -180,7 +167,6 @@
     <string name="no_vibrate_string">Sin vibración</string>
     <string name="no_melody_string">Sin melodia</string>
     <string name="no_alarm_entity">Se produjo un error inesperado al reproducir la alarma. Por favor contacte a soporte.</string>
-    <string name="notification_title">%s Alarm</string>
     <string name="snack_bar_text">Deshacer item borrado</string>
     <string name="snack_bar_undo">Deshacer</string>
     <string name="select_all_menu">Todo</string>
@@ -191,7 +177,7 @@
     <string name="delete_alarm_title">Eliminar alarma?</string>
     <string name="ring_permission_title">Melodía en reposo</string>
     <string name="ring_permission_msg">Necesita otorgar permisos a la aplicacion para permitirle funcionar cuando la pantalla del dispositivo se encuentra bloqueada</string>
-    <string name="delete_alarm_msg">Esta seguro que desea eliminar las alarma?</string>
+    <string name="delete_alarm_msg">Esta seguro que desea eliminar la alarma?</string>
     <string name="alarms_every">Todos los %s a las %s</string>
     <string name="alarms_everyDay">Todos dias a las %s</string>
     <string name="alarm_today">Hoy %s %d de %s - %s</string>
@@ -407,8 +393,6 @@ Podemos hacer cambios a esta Política de privacidad. Cualquier cambio que podam
 
 Este sitio web pudiera contener enlaces a otros sitios o documentos que pudieran ser de su interés. Una vez que usted de clic en estos enlaces y abandone nuestra página, ya no tenemos control sobre al sitio al que es redirigido y por lo tanto no somos responsables de los términos o privacidad ni de la protección de sus datos en esos otros sitios terceros. Dichos sitios están sujetos a sus propias políticas de privacidad por lo cual es recomendable que los consulte para confirmar que usted está de acuerdo con estas."</string>
     <string name="policy_string">He leído y acepto la</string>
-    <string name="error_must_accept_terms">Debe aceptar los terminos y condiciones de uso para utilizar EscuelApp</string>
-    <string name="error_must_accept_policy">Debe aceptar la politica de privacidad para utilizar EscuelApp</string>
     <string name="copyright_string" translatable="false">"Copyright Argentina Federico Beron
 Copyright 2021 - 2022
 All Rights Reserved"</string>
@@ -433,7 +417,7 @@ All Rights Reserved"</string>
     <string name="capricorn">Capricornio</string>
     <string name="aquarius">Acuario</string>
     <string name="pisces">Piscis</string>
-    <string name="min_max_temp_c">%d°/%d°</string>
+    <string name="min_max_temp_c" translatable="false">%d°/%d°</string>
     <string name="rain_chance">"Probabilidad de lluvia %s %%"</string>
     <string name="today">Hoy</string>
     <string name="choose_a_file">Elije una melodia</string>
@@ -815,4 +799,12 @@ All Rights Reserved"</string>
     <string name="phrase_diciembre_30">"“Crece con disciplina. Balancea tu intuición con rigor. Innova alrededor del núcleo. No aceptes el status quo. Encuentra nuevas formas de ver. Nunca esperes la bala de plata. Ensucia tus manos. Escucha con empatía y comunica con transparencia”: Howard Schultz"</string>
     <string name="hour_speach">Son las %d y %d</string>
     <string name="temp_speach">La temperatura es de %,.1f grados celcius. Equivalente a %,.1f grados farenheit</string>
+    <string name="years">" %d años"</string>
+    <string name="months">" %d meses"</string>
+    <string name="days">" %d dias"</string>
+    <string name="hours">" %d horas"</string>
+    <string name="minutes">" %d minutos"</string>
+    <string name="scheduled_alarm_msg">Alarma %s programada en %s</string>
+    <string name="enable_location_snackbar">Necesita habilitar la ubicación</string>
+    <string name="access_location_permission_snackbar">Permitir que AlarMe acceda a la ubicacion</string>
 </resources>

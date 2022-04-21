@@ -115,8 +115,6 @@ public class RingtonePickerFragment extends Fragment {
     }
 
     private void playMelody(int progress) {
-
-        Log.w("MIO", "<<< viewModel.getSelectedMelody().getUri() >>> " + viewModel.getSelectedMelody().getUri());
         if (mMediaPlayer.isPlaying())
             mMediaPlayer.stop();
         try {
