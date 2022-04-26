@@ -141,8 +141,10 @@ public class VibratorListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         // clear all the subscriptions
-        if (mVibrator.hasVibrator())
+        if (mVibrator != null){
+            mVibrator.cancel();
             mVibrator = null;
+        }
         mDisposable.clear();
         binding = null;
     }

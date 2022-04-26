@@ -487,6 +487,67 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/phrasesLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical"
+                        android:clickable="true"
+                        android:onClick="@{() -> fragment.openSignSelector()}"
+                        android:focusable="true">
+
+                        <TextView
+                            android:id="@+id/textViewPhrases"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_phrases_option"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/phrasesValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/purple_200"
+                            android:textStyle="bold"
+                            tools:text="Mostrar" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/phrasesSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
+                        android:onCheckedChanged="@{() -> fragment.offPhrases()}"
+                        />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
                         android:id="@+id/horoscopeLinearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

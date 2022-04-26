@@ -1,10 +1,12 @@
 package com.federicoberon.alarme.broadcastreceiver;
 
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.federicoberon.alarme.model.AlarmEntity;
@@ -19,6 +21,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String IS_PREVIEW = "Come from preview";
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
+    Intent intentService;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -28,23 +31,34 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             String toastText = "Alarm Reboot";
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             startRescheduleAlarmsService(context);
-        } else {
+        }  else if(Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())){
+            KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+                // Handle key press.
+                if(intentService != null){
+                    context.stopService(intentService);
+                    intentService = null;
+                }
+        } else{
             String toastText = "Alarm Received";
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-            if (!containsTrue(alarmEntity.getDaysOfWeek())) {
+            if (alarmIsToday(alarmEntity)) {
                 startAlarmService(context, alarmEntity);
-            } else if (alarmIsToday(alarmEntity)) {
+            } else if (containsTrueAnyDay(alarmEntity)) {
                 startAlarmService(context, alarmEntity);
             }
         }
     }
 
-    private boolean containsTrue(boolean[] daysOfWeek) {
-        for(boolean b : daysOfWeek) if(b) return true;
-        return false;
+    private boolean alarmIsToday(AlarmEntity alarmEntity) {
+
+        Calendar alarmCalendar = Calendar.getInstance();
+        alarmCalendar.setTime(alarmEntity.getAlarmDate());
+        Calendar currentCalendar = Calendar.getInstance();
+
+        return alarmCalendar.get(Calendar.DAY_OF_YEAR) == currentCalendar.get(Calendar.DAY_OF_YEAR);
     }
 
-    private boolean alarmIsToday(AlarmEntity alarmEntity) {
+    private boolean containsTrueAnyDay(AlarmEntity alarmEntity) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         int today = calendar.get(Calendar.DAY_OF_WEEK);
@@ -75,7 +89,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
      */
     private void startAlarmService(Context context, AlarmEntity alarmEntity) {
 
-        Intent intentService = new Intent(context, AlarmService.class);
+        intentService = new Intent(context, AlarmService.class);
         intentService.putExtra(ALARM_ENTITY, alarmEntity);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

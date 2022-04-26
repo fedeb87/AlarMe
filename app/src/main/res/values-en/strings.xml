@@ -658,5 +658,13 @@ We may make changes to this Privacy Policy. Any changes we may make to our priva
 
 This website may contain links to other sites or documents that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or the protection of your data on those other third party sites. These sites are subject to their own privacy policies, so it is recommended that you consult them to confirm that you agree with them."</string>
 
-    <string name="scheduled_alarm_msg">Alarm %s scheduled in %s</string>
+    <string name="scheduled_alarm_msg">Alarm scheduled in %s</string>
+    <string name="years">%d years</string>
+    <string name="months">%d months</string>
+    <string name="days">%d days</string>
+    <string name="hours">%d hours</string>
+    <string name="minutes">%d minutes</string>
+    <string name="show_phrases_option">Show daily phrases</string>
+    <string name="no_phrases_string">Hide</string>
+    <string name="phrases_string">Show</string>
 </resources>

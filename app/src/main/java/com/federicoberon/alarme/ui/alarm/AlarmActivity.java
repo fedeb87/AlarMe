@@ -120,8 +120,7 @@ public class AlarmActivity extends AppCompatActivity implements
         binding.activityRingSnooze.setOnClickListener(v -> {
             AlarmManager.schedule(getApplicationContext(),
                     AlarmManager.getSnoozedAlarm(mAlarmEntity, postpone_time));
-            Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
-            getApplicationContext().stopService(intentService);
+            stopAlarmService();
             finish();
         });
 
@@ -164,14 +163,17 @@ public class AlarmActivity extends AppCompatActivity implements
             }
         });
 
-        // phrases
-        Calendar calendar = Calendar.getInstance();
-        int position = calendar.get(Calendar.DAY_OF_YEAR) + sharedPref.getInt(GENERATED_USER_CODE, 0);
-        if (position >= PhrasesManager.getPhrasesSize())
-            position = position - PhrasesManager.getPhrasesSize();
-        String phrase = getString(PhrasesManager.getPhraseId(position));
-        binding.textPhrase.setText(phrase);
-
+        if (mAlarmEntity.isPhrasesOn()) {
+            // phrases
+            Calendar calendar = Calendar.getInstance();
+            int position = calendar.get(Calendar.DAY_OF_YEAR) + sharedPref.getInt(GENERATED_USER_CODE, 0);
+            if (position >= PhrasesManager.getPhrasesSize())
+                position = position - PhrasesManager.getPhrasesSize();
+            String phrase = getString(PhrasesManager.getPhraseId(position));
+            binding.textPhrase.setText(phrase);
+        }else{
+            binding.textPhrase.setVisibility(View.GONE);
+        }
         // listener for play button
         binding.fabPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +181,12 @@ public class AlarmActivity extends AppCompatActivity implements
                 textToSpeak();
             }
         });
+    }
+
+    private void stopAlarmService() {
+        Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
+        intentService.putExtra(ALARM_ENTITY, mAlarmEntity);
+        getApplicationContext().stopService(intentService);
     }
 
     private void changeUnitColor(int fColor, int sColor) {
@@ -193,20 +201,26 @@ public class AlarmActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP ||
-                keyCode == KeyEvent.KEYCODE_VOLUME_MUTE){
+    protected void onPause() {
+        super.onPause();
+        stopAlarmService();
+    }
 
-            Intent intentService = new Intent(getApplicationContext(), AlarmService.class);
-            getApplicationContext().stopService(intentService);
-        }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        /*if (    keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE || keyCode == KeyEvent.KEYCODE_POWER
+                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN
+                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP
+                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_MUTE
+                || event.getKeyCode() == KeyEvent.KEYCODE_POWER)*/
+            stopAlarmService();
         return true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if (mTextToSpeech != null) {
             mTextToSpeech.stop();
             mTextToSpeech.shutdown();
@@ -318,26 +332,27 @@ public class AlarmActivity extends AppCompatActivity implements
     }
 
     private void textToSpeak() {
+        if(mAlarmEntity.isMelodyOn()) {
+            binding.fabPlay.setVisibility(View.GONE);
 
-        binding.fabPlay.setVisibility(View.GONE);
+            CustomMediaPlayer.getMediaPlayerInstance().stopAudioFile();
+            mTextToSpeech = new TextToSpeech(this, this);
 
-        CustomMediaPlayer.getMediaPlayerInstance().stopAudioFile();
-        mTextToSpeech = new TextToSpeech(this, this);
+            handler = new Handler(Looper.getMainLooper());
+            delayedRunnable = () -> {
+                CustomMediaPlayer.getMediaPlayerInstance().playAudioFile();
+                binding.fabPlay.setVisibility(View.VISIBLE);
 
-        handler = new Handler(Looper.getMainLooper());
-        delayedRunnable = () -> {
-            CustomMediaPlayer.getMediaPlayerInstance().playAudioFile();
-            binding.fabPlay.setVisibility(View.VISIBLE);
+                // set original vol
+                AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+                am.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicCurrentVol, 0);
+            };
 
-            // set original vol
-            AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            am.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicCurrentVol, 0);
-        };
-
-        int multiplier = 5;
-        if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
-            multiplier = 13;
-        handler.postDelayed(delayedRunnable, 1000*multiplier); // 13 sec or 7 sec
+            int multiplier = 5;
+            if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
+                multiplier = 13;
+            handler.postDelayed(delayedRunnable, 1000 * multiplier); // 13 sec or 7 sec
+        }
     }
 
     @Override

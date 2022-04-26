@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
 import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -19,12 +20,18 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -65,7 +72,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChangedListener {
+public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChangedListener  {
 
     public static final String KEY_ALARM_ID = "alarm_id";
     public static final String KEY_DUPLICATE_ALARM = "duplicate selected alarm";
@@ -107,7 +114,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                             if(bundle.containsKey(KEY_DUPLICATE_ALARM))
                                 if(((boolean)bundle.get(KEY_DUPLICATE_ALARM)))
                                     addAlarmViewModel.setDuplicate();
-
                             populateUI(alarmEntity);
                     },
                     throwable -> Log.e(LOG_TAG, "Unable to load alarm: ", throwable)));
@@ -146,6 +152,13 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         else
             binding.repeatValue.setText(RepeatManager.getRepeatOptions(requireContext())
                     .get(addAlarmViewModel.getSelectedRepeat()));
+    }
+
+    private void updatePhrasesValue(boolean phrasesOn) {
+        if (!phrasesOn)
+            binding.phrasesValue.setText(getString(R.string.no_phrases_string));
+        else
+            binding.phrasesValue.setText(getString(R.string.phrases_string));
     }
 
     private void updatePostponeValue(boolean postponeOn) {
@@ -259,15 +272,17 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
         updateRepeatValue(addAlarmViewModel.isRepeatOn());
 
-        //**** selected repeat ****//
-        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
-
         //**** selected sign ****//
+        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
         String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
         binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
 
         //**** selected weather ****//
         binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
+
+        //**** selected phrases ****//
+        binding.phrasesSwitch.setChecked(addAlarmViewModel.isPhrasesOn());
+        updatePhrasesValue(addAlarmViewModel.isPhrasesOn());
     }
 
     @Override
@@ -324,6 +339,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         });
 
         // pick date listener
+        ((MainActivity)requireActivity()).getBinding().appBarMain.timePicker.setAddStatesFromChildren(true);
         ((MainActivity)requireActivity()).getBinding().appBarMain.timePicker
                 .setOnTimeChangedListener(this);
 
@@ -335,6 +351,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             }
         };
         sharedPref.registerOnSharedPreferenceChangeListener(mListener);
+
     }
 
     private void checkLocationPermissions() {
@@ -483,6 +500,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         changeColorsView(binding.textViewRepeat, binding.repeatValue, addAlarmViewModel.isRepeatOn());
         changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, addAlarmViewModel.isHoroscopeOn());
         changeColorsView(binding.textViewWeather, null, addAlarmViewModel.isWeatherOn());
+        changeColorsView(binding.textViewPhrases, binding.phrasesValue, addAlarmViewModel.isPhrasesOn());
 
         binding.ringtoneSwitch.setChecked(addAlarmViewModel.isMelodyOn());
         binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
@@ -490,6 +508,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
         binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
         binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
+        binding.phrasesSwitch.setChecked(addAlarmViewModel.isPhrasesOn());
     }
 
     public void offRingtone(){
@@ -518,6 +537,13 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         addAlarmViewModel.setRepeatOn(isChecked);
         changeColorsView(binding.textViewRepeat, binding.repeatValue, isChecked);
         updateRepeatValue(isChecked);
+    }
+
+    public void offPhrases(){
+        boolean isChecked = binding.phrasesSwitch.isChecked();
+        addAlarmViewModel.setPhrasesOn(isChecked);
+        changeColorsView(binding.textViewPhrases, binding.phrasesValue, isChecked);
+        updatePhrasesValue(isChecked);
     }
 
     private void changeColorsView(TextView textView1, TextView textView2, boolean isChecked) {
@@ -561,7 +587,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
             // Other 'case' lines to check for other
             // permissions this app might request.
         }
-}
+    }
 
     public void offWeather(){
         boolean isChecked = binding.weatherSwitch.isChecked();

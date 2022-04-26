@@ -9,10 +9,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -97,16 +104,16 @@ public class AlarmService extends Service {
 
     private void displayAlarm(AlarmEntity alarmEntity) {
         Intent notificationIntent = new Intent(this, AlarmActivity.class);
-        notificationIntent.putExtra(ALARM_ENTITY,alarmEntity);
-        notificationIntent.putExtra(IS_PREVIEW,comeFromPreview);
-        if(latitude!=-1){
-            notificationIntent.putExtra(LATITUDE,latitude);
-            notificationIntent.putExtra(LONGITUDE,longitude);
+        notificationIntent.putExtra(ALARM_ENTITY, alarmEntity);
+        notificationIntent.putExtra(IS_PREVIEW, comeFromPreview);
+        if (latitude != -1) {
+            notificationIntent.putExtra(LATITUDE, latitude);
+            notificationIntent.putExtra(LONGITUDE, longitude);
         }
 
         PendingIntent pendingIntent;
         pendingIntent = PendingIntent.getActivity(this, 0,
-                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // create snooze intent //
         Intent snoozeIntent = new Intent(this, AlarmService.class);
@@ -115,7 +122,7 @@ public class AlarmService extends Service {
         snoozeIntent.putExtra(ALARM_ENTITY, alarmEntity);
         PendingIntent snoozePendingIntent;
         snoozePendingIntent = PendingIntent.getService(this, 1, snoozeIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // discard action //
         Intent intentDismiss = new Intent(this, ActionReceiver.class);
@@ -124,14 +131,14 @@ public class AlarmService extends Service {
         intentDismiss.setAction(ALARM_ENTITY);
         PendingIntent dismissPendingIntent;
         dismissPendingIntent = PendingIntent.getBroadcast(this, 2,
-                intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                intentDismiss, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // full screen intent //
         Intent fullScreenIntent = new Intent(this, AlarmActivity.class);
         fullScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(latitude!=-1){
-            fullScreenIntent.putExtra(LATITUDE,latitude);
-            fullScreenIntent.putExtra(LONGITUDE,longitude);
+        if (latitude != -1) {
+            fullScreenIntent.putExtra(LATITUDE, latitude);
+            fullScreenIntent.putExtra(LONGITUDE, longitude);
         }
 
         fullScreenIntent.putExtra(ALARM_ENTITY, alarmEntity);
@@ -139,7 +146,7 @@ public class AlarmService extends Service {
 
         PendingIntent fullScreenPendingIntent;
         fullScreenPendingIntent = PendingIntent.getActivity(this, 3,
-                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_MUTABLE);
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         String contentText = "Ring Ring .. Ring Ring";
         if (!alarmEntity.getTitle().isEmpty())
@@ -154,6 +161,7 @@ public class AlarmService extends Service {
                 .setContentIntent(pendingIntent)
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setAutoCancel(true)
+                .setOngoing(true)
                 .setFullScreenIntent(fullScreenPendingIntent, true)
                 .addAction(R.drawable.ic_snooze, getString(R.string.snooze),
                         snoozePendingIntent)
@@ -161,7 +169,7 @@ public class AlarmService extends Service {
                         dismissPendingIntent)
                 .build();
 
-        if(alarmEntity.isMelodyOn()) {
+        if (alarmEntity.isMelodyOn()) {
             try {
                 playRingtone(alarmEntity.getMelodyUri(), alarmEntity.getVolume());
             } catch (IOException e) {
@@ -169,8 +177,9 @@ public class AlarmService extends Service {
             }
         }
 
-        if(alarmEntity.isVibrationOn())
+        if (alarmEntity.isVibrationOn()){
             vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
+        }
 
         startForeground(101, notification);
     }
@@ -181,10 +190,9 @@ public class AlarmService extends Service {
      * @param volume Selected volume
      * @throws IOException
      */
-    public void playRingtone(String uri, int volume) throws IOException {
+    private void playRingtone(String uri, int volume) throws IOException {
         if(uri!=null)
             CustomMediaPlayer.getMediaPlayerInstance().playAudioFile(this, uri, volume);
-
     }
 
     @SuppressLint("MissingPermission")

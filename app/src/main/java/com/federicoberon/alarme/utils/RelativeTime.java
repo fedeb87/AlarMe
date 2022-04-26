@@ -60,7 +60,7 @@ public class RelativeTime extends Application {
         }
 
         if(diff >= MINUTE_MILLIS){
-            minutes = (int) (diff / MINUTE_MILLIS);
+            minutes = (int) (diff / MINUTE_MILLIS) + 1;
             results = results.concat(String.format(ctx.getString(R.string.minutes), minutes));
         }
 

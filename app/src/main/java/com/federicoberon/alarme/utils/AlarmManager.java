@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.federicoberon.alarme.R;
@@ -29,11 +30,7 @@ public class AlarmManager {
         intent.putExtra(ALARM_ENTITY, alarmEntity);
 
         PendingIntent alarmPendingIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmPendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, PendingIntent.FLAG_IMMUTABLE);
-        }else{
-            alarmPendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, 0);
-        }
+        alarmPendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(alarmEntity.getAlarmDate());
@@ -41,7 +38,6 @@ public class AlarmManager {
         calendar.set(Calendar.MILLISECOND, 0);
 
         String toastText = String.format(context.getString(R.string.scheduled_alarm_msg),
-                alarmEntity.getTitle(),
                 RelativeTime.getTimeAgo(calendar.getTimeInMillis(), context));
 
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
@@ -73,13 +69,8 @@ public class AlarmManager {
         intent.putExtra(ALARM_ENTITY, alarmEntity);
 
         PendingIntent pendingIntent;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getBroadcast(context, (int)alarmEntity.getId(),
-                    intent, PendingIntent.FLAG_IMMUTABLE);
-        }else{
-            pendingIntent = PendingIntent.getBroadcast(context, (int)alarmEntity.getId(),
-                    intent, 0);
-        }
+
+        pendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
         alarmManager.cancel(pendingIntent); //Remove any alarms with a matching Inten
 
     }

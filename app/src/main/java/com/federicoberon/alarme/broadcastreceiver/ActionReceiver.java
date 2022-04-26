@@ -28,12 +28,16 @@ public class ActionReceiver extends BroadcastReceiver {
 
         // disable alarm
         Intent intentService = new Intent(context, AlarmService.class);
+        intentService.putExtra(ALARM_ENTITY, alarmEntity);
         context.stopService(intentService);
 
         boolean isPreview = false;
         if(intent.hasExtra(IS_PREVIEW)) {
             isPreview = intent.getBooleanExtra(IS_PREVIEW, false);
         }
+
+        // in any case discard it
+        AlarmManager.dismissAlarm(context, alarmEntity);
 
         if(AlarmManager.recurring(alarmEntity)) {
             // tiene dias fijos activos
@@ -74,16 +78,15 @@ public class ActionReceiver extends BroadcastReceiver {
             alarmEntity.setStarted(false);
         }
 
-        // todo do this only when not come from preview alarm
         if(!isPreview) {
             serviceUtil.updateAlarm(alarmEntity)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(id -> {
-                                // stop alarm service
-                                Log.w("MIO", "Alarm disable: " + id);
-                            },
-                            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
+                        // stop alarm service
+                        Log.w("MIO", "Alarm updated: " + id);
+                    },
+                    throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
         }
     }
 }

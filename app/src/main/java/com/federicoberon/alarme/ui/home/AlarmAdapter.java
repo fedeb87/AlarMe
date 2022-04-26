@@ -250,7 +250,10 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         public void onBind(int position) {
             AlarmEntity alarm = alarms.get(position);
 
-            mBinding.textCardTitle.setText(alarm.getTitle());
+            if (alarm.getTitle().isEmpty() || alarm.getTitle().equals(" "))
+                mBinding.textCardTitle.setVisibility(View.GONE);
+            else
+                mBinding.textCardTitle.setText(alarm.getTitle());
 
             itemView.setTag(alarm.getId());
             Calendar calendar = Calendar.getInstance();

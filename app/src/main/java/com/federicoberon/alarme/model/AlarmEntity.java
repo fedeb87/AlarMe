@@ -36,6 +36,7 @@ public class AlarmEntity implements Serializable {
     private int volume;
 
     private boolean vibrationOn;
+    private boolean isPhrasesOn;
     private String vibrationPatter;
 
     private boolean postponeOn;
@@ -59,7 +60,7 @@ public class AlarmEntity implements Serializable {
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
-                       boolean weatherOn, boolean started) {
+                       boolean weatherOn, boolean isPhrasesOn, boolean started) {
         this.id = id;
         this.title = title;
         this.alarmDate = alarmDate;
@@ -87,6 +88,7 @@ public class AlarmEntity implements Serializable {
         this.started = started;
         this.horoscopeOn = horoscopeOn;
         this.weatherOn = weatherOn;
+        this.isPhrasesOn = isPhrasesOn;
     }
 
     @Ignore
@@ -94,7 +96,7 @@ public class AlarmEntity implements Serializable {
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
-                       boolean weatherOn, boolean started) {
+                       boolean weatherOn, boolean isPhrasesOn, boolean started) {
         this.title = title;
         this.alarmDate = alarmDate;
         this.hour = hour;
@@ -121,6 +123,7 @@ public class AlarmEntity implements Serializable {
         this.started = started;
         this.horoscopeOn = horoscopeOn;
         this.weatherOn = weatherOn;
+        this.isPhrasesOn = isPhrasesOn;
     }
 
     public long getId() {
@@ -273,6 +276,14 @@ public class AlarmEntity implements Serializable {
             return array;
         }
         return daysOfWeek;
+    }
+
+    public boolean isPhrasesOn() {
+        return isPhrasesOn;
+    }
+
+    public void setPhrasesOn(boolean phrasesOn) {
+        isPhrasesOn = phrasesOn;
     }
 
     public int getVolume() {

@@ -163,6 +163,8 @@
     <string name="hours_string">%d horas</string>
     <string name="hours_string_single">%d hora</string>
     <string name="no_repeat_string">No repetir</string>
+    <string name="no_phrases_string">No mostrar</string>
+    <string name="phrases_string">Mostrar</string>
     <string name="no_postpone_string">No posponer</string>
     <string name="no_vibrate_string">Sin vibración</string>
     <string name="no_melody_string">Sin melodia</string>
@@ -404,6 +406,7 @@ All Rights Reserved"</string>
 
     <string name="horoscopeEnable">Horoscopo habilitado</string>
     <string name="show_horoscope_option">Mostrar horoscopo del día</string>
+    <string name="show_phrases_option">Mostrar frase del día</string>
     <string name="show_weather_option">Mostrar el clima del dia</string>
     <string name="aries" translatable="false">Aries</string>
     <string name="taurus">Tauro</string>
@@ -804,7 +807,7 @@ All Rights Reserved"</string>
     <string name="days">" %d dias"</string>
     <string name="hours">" %d horas"</string>
     <string name="minutes">" %d minutos"</string>
-    <string name="scheduled_alarm_msg">Alarma %s programada en %s</string>
+    <string name="scheduled_alarm_msg">Alarma programada en %s</string>
     <string name="enable_location_snackbar">Necesita habilitar la ubicación</string>
     <string name="access_location_permission_snackbar">Permitir que AlarMe acceda a la ubicacion</string>
 </resources>
