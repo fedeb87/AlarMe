@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Rect;
 import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -20,17 +19,12 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,7 +36,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentAddAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.model.MelodyEntity;
@@ -93,7 +87,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         // Injects this activity to the just created Registration component
-        ((AlarMe)requireActivity().getApplication()).appComponent.inject(this);
+        ((AlarMeApplication)requireActivity().getApplication()).appComponent.inject(this);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

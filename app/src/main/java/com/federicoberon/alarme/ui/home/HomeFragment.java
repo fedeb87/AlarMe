@@ -30,7 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentHomeBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.service.AlarmService;
@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe) requireActivity().getApplicationContext())
+        ((AlarMeApplication) requireActivity().getApplicationContext())
                 .appComponent.inject(this);
     }
 

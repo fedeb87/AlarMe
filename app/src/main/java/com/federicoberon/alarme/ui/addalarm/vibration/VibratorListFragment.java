@@ -18,7 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentVibratorListBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.utils.VibrationManager;
@@ -48,7 +48,7 @@ public class VibratorListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe)requireActivity().getApplication()).appComponent.inject(this);
+        ((AlarMeApplication)requireActivity().getApplication()).appComponent.inject(this);
     }
 
     @Override

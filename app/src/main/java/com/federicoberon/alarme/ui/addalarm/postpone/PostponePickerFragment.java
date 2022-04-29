@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentPostponePickerBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.utils.PostponeManager;
@@ -41,7 +41,7 @@ public class PostponePickerFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe)requireActivity().getApplication()).appComponent.inject(this);
+        ((AlarMeApplication)requireActivity().getApplication()).appComponent.inject(this);
     }
 
     @Override

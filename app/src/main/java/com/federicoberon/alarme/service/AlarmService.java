@@ -9,16 +9,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
-import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,15 +21,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import static com.federicoberon.alarme.AlarMe.CHANNEL_ID;
+import static com.federicoberon.alarme.AlarMeApplication.CHANNEL_ID;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
 
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.ui.alarm.AlarmActivity;
@@ -66,7 +62,7 @@ public class AlarmService extends Service {
     @Override
     public void onCreate() {
 
-        ((AlarMe) getApplicationContext())
+        ((AlarMeApplication) getApplicationContext())
                 .appComponent.inject(this);
 
         super.onCreate();
@@ -82,6 +78,11 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
+
+        if(intent.hasExtra(STOP_SERVICE)){
+            stopForeground(true);
+            stopSelf();
+        }
 
         if(intent.hasExtra(IS_PREVIEW)){
             comeFromPreview = true;

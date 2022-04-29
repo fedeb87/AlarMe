@@ -17,18 +17,16 @@ import com.federicoberon.alarme.retrofit.HoroscopeServiceTwo;
 import com.federicoberon.alarme.retrofit.WeatherService;
 import com.federicoberon.alarme.retrofit.WeatherServiceTwo;
 
+import dagger.Provides;
+
 /**
  * Android Application class. Used for accessing singletons.
  */
-public class AlarMe extends Application {
+public class AlarMeApplication extends Application {
     public static final String CHANNEL_ID = "ALARM_SERVICE_CHANNEL";
 
     // Reference to the application graph that is used across the whole app
     public ApplicationComponent appComponent = initializeComponent();
-    private HoroscopeService horoscopeService;
-    private HoroscopeServiceTwo horoscopeServiceTwo;
-    private WeatherService weatherService;
-    private WeatherServiceTwo weatherServiceTwo;
 
 
     @Override
@@ -45,8 +43,8 @@ public class AlarMe extends Application {
                 .build();
     }
 
-    public static AlarMe get(Context context) {
-        return (AlarMe) context.getApplicationContext();
+    public static AlarMeApplication get(Context context) {
+        return (AlarMeApplication) context.getApplicationContext();
     }
 
     public AppDatabase getDatabase() {
@@ -68,33 +66,5 @@ public class AlarMe extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
-    }
-
-    public WeatherService getWeatherService() {
-        if (this.weatherService == null) {
-            this.weatherService = WeatherService.Factory.create();
-        }
-        return weatherService;
-    }
-
-    public WeatherServiceTwo getWeatherServiceTwo() {
-        if (this.weatherServiceTwo == null) {
-            this.weatherServiceTwo = WeatherServiceTwo.Factory.create();
-        }
-        return weatherServiceTwo;
-    }
-
-    public HoroscopeService getHoroscopeService() {
-        if (this.horoscopeService == null) {
-            this.horoscopeService = HoroscopeService.Factory.create();
-        }
-        return horoscopeService;
-    }
-
-    public HoroscopeServiceTwo getHoroscopeServiceTwo() {
-        if (this.horoscopeServiceTwo == null) {
-            this.horoscopeServiceTwo = HoroscopeServiceTwo.Factory.create();
-        }
-        return horoscopeServiceTwo;
     }
 }

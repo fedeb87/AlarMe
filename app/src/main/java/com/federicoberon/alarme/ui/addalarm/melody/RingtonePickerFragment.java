@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import android.widget.SeekBar;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentRingtonePickerBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 
@@ -50,7 +49,7 @@ public class RingtonePickerFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe)requireActivity().getApplication()).appComponent.inject(this);
+        ((AlarMeApplication)requireActivity().getApplication()).appComponent.inject(this);
     }
 
     @Override

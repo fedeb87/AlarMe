@@ -1,15 +1,10 @@
 package com.federicoberon.alarme.ui.alarm;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
-
-import com.federicoberon.alarme.AlarMe;
-import com.federicoberon.alarme.repositories.AlarmRepository;
 import com.federicoberon.alarme.retrofit.Horoscope;
 import com.federicoberon.alarme.retrofit.HoroscopeService;
 import com.federicoberon.alarme.retrofit.HoroscopeServiceTwo;
@@ -28,8 +23,11 @@ import retrofit2.Response;
 public class AlarmViewModel extends ViewModel {
 
     private static final String TAG = "AlarmViewModel";
+    private final WeatherService weatherService;
+    private final WeatherServiceTwo weatherServiceTwo;
+    private final HoroscopeService horoscopeService;
+    private final HoroscopeServiceTwo horoscopeServiceTwo;
     @SuppressLint("StaticFieldLeak")
-    private final Context context;
     public boolean isPreview;
     private String sign;
     private Horoscope horoscope;
@@ -49,8 +47,12 @@ public class AlarmViewModel extends ViewModel {
     private boolean inCelsius;
 
     @Inject
-    public AlarmViewModel(Application app, AlarmRepository alarmRepository) {
-        this.context = ((AlarMe) app).appComponent.getContext();
+    public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo,
+                          HoroscopeService horoscopeService, HoroscopeServiceTwo horoscopeServiceTwo) {
+        this.weatherService = weatherService;
+        this.weatherServiceTwo = weatherServiceTwo;
+        this.horoscopeService = horoscopeService;
+        this.horoscopeServiceTwo = horoscopeServiceTwo;
         this.isPreview = false;
         inCelsius = true;
         latitude = 0;
@@ -67,10 +69,8 @@ public class AlarmViewModel extends ViewModel {
     }
 
     private void callWeatherAPITwo(double latitude, double longitude) {
-        AlarMe application = AlarMe.get(context);
-        WeatherServiceTwo weatherService = application.getWeatherServiceTwo();
 
-        weatherService.getWeather(latitude, longitude,"minutely,hourly,alerts", "imperial", "33b26b2199a99f5ddb67b87ce114460a")
+        weatherServiceTwo.getWeather(latitude, longitude,"minutely,hourly,alerts", "imperial", "33b26b2199a99f5ddb67b87ce114460a")
                 .enqueue(new Callback<WeatherResponseTwo>() {
                     @Override
                     public void onResponse(@NonNull Call<WeatherResponseTwo> call,
@@ -101,9 +101,6 @@ public class AlarmViewModel extends ViewModel {
         this.longitude = lon;
 
         if (lat != 0.0 || lon != 0.0) {
-            AlarMe application = AlarMe.get(context);
-            WeatherService weatherService = application.getWeatherService();
-
             weatherService.getWeather("576d14184a3e42cc8cd10015222203", new double[]{lat, lon}, 1)
                     .enqueue(new Callback<WeatherResponse>() {
                         @Override
@@ -128,10 +125,7 @@ public class AlarmViewModel extends ViewModel {
         }
     }
 
-    public void loadHoroscope() {
-        AlarMe application = AlarMe.get(context);
-        HoroscopeService horoscopeService = application.getHoroscopeService();
-
+    public void loadHoroscope(Context context) {
         horoscopeService.getHoroscope(HoroscopeManager.getNameURL(context, sign), "today")
                 .enqueue(new Callback<Horoscope>() {
             @Override
@@ -155,10 +149,7 @@ public class AlarmViewModel extends ViewModel {
         });
     }
 
-    public void loadHoroscopeTwo() {
-        AlarMe application = AlarMe.get(context);
-        HoroscopeServiceTwo horoscopeServiceTwo = application.getHoroscopeServiceTwo();
-
+    public void loadHoroscopeTwo(Context context) {
         horoscopeServiceTwo.getHoroscope(HoroscopeManager.getNameURLTwo(context, sign))
                 .enqueue(new Callback<HoroscopeTwo>() {
             @Override

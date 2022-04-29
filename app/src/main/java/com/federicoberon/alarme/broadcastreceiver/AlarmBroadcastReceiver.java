@@ -19,6 +19,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String ACTION_SNOOZE = "Snooze";
     public static final String ALARM_ENTITY = "AlarmEntity";
     public static final String IS_PREVIEW = "Come from preview";
+    public static final String STOP_SERVICE = "Stop service";
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
     Intent intentService;

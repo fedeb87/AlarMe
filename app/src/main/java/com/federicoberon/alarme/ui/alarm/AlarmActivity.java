@@ -9,6 +9,7 @@ import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -28,7 +29,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
@@ -68,7 +69,7 @@ public class AlarmActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
-        ((AlarMe) getApplicationContext())
+        ((AlarMeApplication) getApplicationContext())
                 .appComponent.inject(this);
 
         super.onCreate(savedInstanceState);
@@ -104,6 +105,7 @@ public class AlarmActivity extends AppCompatActivity implements
             i.putExtra(ALARM_ENTITY, mAlarmEntity);
             i.putExtra(IS_PREVIEW, alarmViewModel.isPreview);
             i.setAction(ALARM_ENTITY);
+
             sendBroadcast(i);
             finish();
         });
@@ -125,7 +127,7 @@ public class AlarmActivity extends AppCompatActivity implements
         });
 
         if(mAlarmEntity.isHoroscopeOn()) {
-            alarmViewModel.loadHoroscope();
+            alarmViewModel.loadHoroscope(this);
         }else
             binding.horoscopeCardView.setVisibility(View.GONE);
 
@@ -240,7 +242,7 @@ public class AlarmActivity extends AppCompatActivity implements
             binding.horoscopeCardView.setVisibility(View.VISIBLE);
             loadHoroscopeInfo(horoscope.getDescription());
         }else{
-            alarmViewModel.loadHoroscopeTwo();
+            alarmViewModel.loadHoroscopeTwo(this);
         }
     }
 
@@ -348,9 +350,9 @@ public class AlarmActivity extends AppCompatActivity implements
                 am.setStreamVolume(AudioManager.STREAM_MUSIC, streamMusicCurrentVol, 0);
             };
 
-            int multiplier = 5;
+            int multiplier = 4;
             if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
-                multiplier = 13;
+                multiplier = 12;
             handler.postDelayed(delayedRunnable, 1000 * multiplier); // 13 sec or 7 sec
         }
     }

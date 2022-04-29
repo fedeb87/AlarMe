@@ -2,7 +2,7 @@ package com.federicoberon.alarme.service;
 
 import android.content.Context;
 
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.repositories.AlarmRepository;
 
@@ -16,8 +16,8 @@ public class ServiceUtil {
     private AlarmRepository mAlarmRepository;
 
     public ServiceUtil(Context context) {
-        mAlarmRepository = new AlarmRepository(((AlarMe)context.getApplicationContext()).appComponent.getAlarmDao(),
-                ((AlarMe)context.getApplicationContext()).appComponent.getMelodyDao());
+        mAlarmRepository = new AlarmRepository(((AlarMeApplication)context.getApplicationContext()).appComponent.getAlarmDao(),
+                ((AlarMeApplication)context.getApplicationContext()).appComponent.getMelodyDao());
     }
 
     public Maybe<Long> updateAlarm(AlarmEntity alarmEntity){

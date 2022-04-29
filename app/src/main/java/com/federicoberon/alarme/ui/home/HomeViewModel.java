@@ -20,7 +20,6 @@ import io.reactivex.Maybe;
 public class HomeViewModel extends ViewModel {
 
     private final AlarmRepository mAlarmRepository;
-    private long currentAlarmId;
     private boolean isMultiSelect = false;
     private List<AlarmEntity> alarms;
     private ArrayList<AlarmEntity> multiselect_list;
@@ -29,7 +28,6 @@ public class HomeViewModel extends ViewModel {
     @Inject
     public HomeViewModel(AlarmRepository repo) {
         this.mAlarmRepository = repo;
-        this.currentAlarmId = -1;
         multiselect_list = new ArrayList<>();
     }
 
@@ -39,10 +37,6 @@ public class HomeViewModel extends ViewModel {
 
     public Flowable<List<AlarmEntity>> getFirstAlarmStarted() {
         return mAlarmRepository.getFirstAlarmStarted();
-    }
-
-    public long getCurrentAlarmId(){
-        return currentAlarmId;
     }
 
     public boolean isMultiSelect() {
@@ -84,11 +78,6 @@ public class HomeViewModel extends ViewModel {
 
     public ArrayList<AlarmEntity> getMultiselect_list() {
         return multiselect_list;
-    }
-
-    public Flowable<AlarmEntity> getAlarmById(long id) {
-        this.currentAlarmId = id;
-        return mAlarmRepository.getAlarmById(id);
     }
 
     public Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity) {

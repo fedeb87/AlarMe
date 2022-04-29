@@ -18,7 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentAboutBinding;
 
 import javax.inject.Inject;
@@ -42,7 +42,7 @@ public class AboutFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe) requireActivity().getApplicationContext())
+        ((AlarMeApplication) requireActivity().getApplicationContext())
                 .appComponent.inject(this);
     }
 

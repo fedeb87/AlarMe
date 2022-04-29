@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LifecycleService;
 
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.repositories.AlarmRepository;
 import com.federicoberon.alarme.utils.AlarmManager;
@@ -33,7 +33,7 @@ public class RescheduleAlarmsService extends LifecycleService {
     @Override
     public void onCreate() {
 
-        ((AlarMe) getApplicationContext())
+        ((AlarMeApplication) getApplicationContext())
                 .appComponent.inject(this);
 
         super.onCreate();

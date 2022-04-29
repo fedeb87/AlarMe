@@ -3,7 +3,6 @@ package com.federicoberon.alarme.ui.addalarm.melody;
 import static android.app.Activity.RESULT_OK;
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,7 +10,6 @@ import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +33,7 @@ import android.widget.Toast;
 
 import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
-import com.federicoberon.alarme.AlarMe;
+import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentRingtoneListBinding;
 import com.federicoberon.alarme.model.MelodyEntity;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
@@ -70,7 +68,7 @@ public class RingtoneListFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        ((AlarMe)requireActivity().getApplication()).appComponent.inject(this);
+        ((AlarMeApplication)requireActivity().getApplication()).appComponent.inject(this);
     }
 
     @Override

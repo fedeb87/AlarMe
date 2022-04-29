@@ -2,14 +2,17 @@ package com.federicoberon.alarme.broadcastreceiver;
 
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.service.AlarmService;
+import com.federicoberon.alarme.service.RescheduleAlarmsService;
 import com.federicoberon.alarme.service.ServiceUtil;
 import com.federicoberon.alarme.utils.AlarmManager;
 
@@ -23,23 +26,33 @@ public class ActionReceiver extends BroadcastReceiver {
     @SuppressLint("CheckResult")
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.w("MIO", "<<< RECIBIDO >>> ");
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
         ServiceUtil serviceUtil = new ServiceUtil(context);
-
-        // disable alarm
-        Intent intentService = new Intent(context, AlarmService.class);
-        intentService.putExtra(ALARM_ENTITY, alarmEntity);
-        context.stopService(intentService);
 
         boolean isPreview = false;
         if(intent.hasExtra(IS_PREVIEW)) {
             isPreview = intent.getBooleanExtra(IS_PREVIEW, false);
         }
 
+        // disable alarm
+        Intent intentService = new Intent(context, AlarmService.class);
+        intentService.putExtra(ALARM_ENTITY, alarmEntity);
+        intentService.putExtra(STOP_SERVICE, true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(intentService);
+        } else {
+            context.startService(intentService);
+        }
+
+        //context.stopService(intentService);
+
         // in any case discard it
         AlarmManager.dismissAlarm(context, alarmEntity);
 
         if(AlarmManager.recurring(alarmEntity)) {
+            Log.w("MIO", "<<< ES RECURRENTE >>> ");
             // tiene dias fijos activos
             int days_to_add = 0;
             // lunes es 2, domingo sera 1
@@ -65,6 +78,7 @@ public class ActionReceiver extends BroadcastReceiver {
 
             AlarmManager.schedule(context, alarmEntity);
         }else if(alarmEntity.isRepeatOn()){
+            Log.w("MIO", "<<< ES REPETITIVA >>> ");
             // repetir activado
             Calendar alarmCal = Calendar.getInstance();
             // a este despues le sumo cuando sepa cuanto
@@ -75,6 +89,7 @@ public class ActionReceiver extends BroadcastReceiver {
             alarmEntity.setAlarmDate(alarmCal.getTime());
             AlarmManager.schedule(context, alarmEntity);
         } else{
+            Log.w("MIO", "<<< ES SIMPLE >>> ");
             alarmEntity.setStarted(false);
         }
 
