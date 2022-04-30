@@ -1,6 +1,7 @@
 package com.federicoberon.alarme.broadcastreceiver;
 
 import android.app.AlarmManager;
+import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String ALARM_ENTITY = "AlarmEntity";
     public static final String IS_PREVIEW = "Come from preview";
     public static final String STOP_SERVICE = "Stop service";
+    public static final String LOCKED_SCREEN = "Locked screen";
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
     Intent intentService;
@@ -33,7 +35,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             startRescheduleAlarmsService(context);
         }  else if(Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())){
-            KeyEvent event = (KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
                 // Handle key press.
                 if(intentService != null){
                     context.stopService(intentService);

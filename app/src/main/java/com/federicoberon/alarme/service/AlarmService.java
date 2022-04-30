@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -80,26 +84,26 @@ public class AlarmService extends Service {
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
 
         if(intent.hasExtra(STOP_SERVICE)){
-            stopForeground(true);
-            stopSelf();
+            finishService();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }else {
+
+            if (intent.hasExtra(IS_PREVIEW)) {
+                comeFromPreview = true;
+            }
+
+            if (intent.hasExtra(ACTION_SNOOZE)) {
+                AlarmManager.schedule(this, AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime()));
+                stopSelf();
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+            // get current location and request weather
+            if (alarmEntity.isWeatherOn())
+                getCurrentLocation(alarmEntity);
+            else
+                displayAlarm(alarmEntity);
         }
-
-        if(intent.hasExtra(IS_PREVIEW)){
-            comeFromPreview = true;
-        }
-
-        if(intent.hasExtra(ACTION_SNOOZE)){
-            AlarmManager.schedule(this, AlarmManager.getSnoozedAlarm(alarmEntity, alarmEntity.getPostponeTime()));
-            stopSelf();
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        // get current location and request weather
-        if(alarmEntity.isWeatherOn())
-            getCurrentLocation(alarmEntity);
-        else
-            displayAlarm(alarmEntity);
-
         return START_NOT_STICKY;
     }
 
@@ -178,9 +182,8 @@ public class AlarmService extends Service {
             }
         }
 
-        if (alarmEntity.isVibrationOn()){
+        if (alarmEntity.isVibrationOn())
             vibrator.vibrate(VibrationManager.getVibrationByName(alarmEntity.getVibrationPatter()), 0);
-        }
 
         startForeground(101, notification);
     }
@@ -291,14 +294,18 @@ public class AlarmService extends Service {
 
     @Override
     public void onDestroy() {
+        finishService();
+        super.onDestroy();
+    }
+
+    private void finishService() {
         stopForeground(true);
-        stopSelf();
-        //mediaPlayer.stop();
         CustomMediaPlayer.getMediaPlayerInstance().stopAudioFile();
         mDisposable.clear();
         vibrator.cancel();
-        super.onDestroy();
+        stopSelf();
     }
+
 
     @Nullable
     @Override

@@ -353,7 +353,7 @@ public class AlarmActivity extends AppCompatActivity implements
             int multiplier = 4;
             if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
                 multiplier = 12;
-            handler.postDelayed(delayedRunnable, 1000 * multiplier); // 13 sec or 7 sec
+            handler.postDelayed(delayedRunnable, 1000 * multiplier); // 12 sec or 4 sec
         }
     }
 

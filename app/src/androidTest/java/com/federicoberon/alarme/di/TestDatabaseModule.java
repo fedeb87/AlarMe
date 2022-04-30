@@ -11,6 +11,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.federicoberon.alarme.TestDataHelper;
 import com.federicoberon.alarme.datasource.AppDatabase;
 import com.federicoberon.alarme.datasource.dao.AlarmDao;
+import com.federicoberon.alarme.datasource.dao.MelodyDao;
 
 import javax.inject.Singleton;
 
@@ -49,7 +50,7 @@ public class TestDatabaseModule {
                 contentValues = new ContentValues();
                 contentValues.put("title", "Visit uncle Bill");
                 contentValues.put("description", "Visit uncle Bill and her cats :)");
-                contentValues.put("milestone_date", TestDataHelper.getDate1().getTimeInMillis());
+                contentValues.put("milestone_date", TestDataHelper.getDate1().getTime());
                 contentValues.put("type", 1);
                 db.insert("milestones", OnConflictStrategy.IGNORE, contentValues);
             }
@@ -59,5 +60,9 @@ public class TestDatabaseModule {
     @Singleton
     @Provides
     AlarmDao provideMilestoneDao(AppDatabase db) { return db.alarmDao(); }
+
+    @Singleton
+    @Provides
+    MelodyDao provideMelodyDao(AppDatabase db) { return db.melodyDao(); }
 
 }

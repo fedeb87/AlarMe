@@ -2,9 +2,8 @@ package com.federicoberon.alarme.di.component;
 
 import com.federicoberon.alarme.di.TestDatabaseModule;
 import com.federicoberon.alarme.di.module.ApplicationModule;
-import com.federicoberon.alarme.di.module.AlarmManagerModule;
-import com.federicoberon.alarme.ui.AddAlarmActivityTest;
-import com.federicoberon.alarme.ui.MainActivityTest;
+import com.federicoberon.alarme.di.module.AudioManagerModule;
+import com.federicoberon.alarme.di.module.RingtoneManagerModule;
 
 import javax.inject.Singleton;
 
@@ -14,9 +13,8 @@ import dagger.Component;
 @Component(modules = {
         ApplicationModule.class,
         TestDatabaseModule.class,
-        AlarmManagerModule.class
+        RingtoneManagerModule.class,
+        AudioManagerModule.class
 })
 public interface TestApplicationComponent extends ApplicationComponent {
-    void inject(MainActivityTest mainActivityTest);
-    void inject(AddAlarmActivityTest addMilestoneActivityTest);
 }
