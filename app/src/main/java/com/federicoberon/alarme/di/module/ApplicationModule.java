@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.federicoberon.alarme.AlarMeApplication;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
+import com.federicoberon.alarme.api.WeatherService;
+import com.federicoberon.alarme.api.WeatherServiceTwo;
 import com.federicoberon.alarme.di.ApplicationContext;
-import com.federicoberon.alarme.retrofit.HoroscopeService;
-import com.federicoberon.alarme.retrofit.HoroscopeServiceTwo;
-import com.federicoberon.alarme.retrofit.WeatherService;
-import com.federicoberon.alarme.retrofit.WeatherServiceTwo;
 
 import javax.inject.Singleton;
 
@@ -18,14 +19,10 @@ import dagger.Provides;
 
 @Module
 public class ApplicationModule {
-    private final Application mApplication;
-    private HoroscopeService horoscopeService;
-    private HoroscopeServiceTwo horoscopeServiceTwo;
-    private WeatherService weatherService;
-    private WeatherServiceTwo weatherServiceTwo;
+    private final AlarMeApplication mApplication;
 
     public ApplicationModule(Application app) {
-        mApplication = app;
+        mApplication = (AlarMeApplication)app;
     }
 
     @Singleton
@@ -47,41 +44,29 @@ public class ApplicationModule {
         return PreferenceManager.getDefaultSharedPreferences(mApplication);
     }
 
-
     @Provides
     @Singleton
-    public WeatherService getWeatherService() {
-        if (this.weatherService == null) {
-            this.weatherService = WeatherService.Factory.create();
-        }
-        return weatherService;
+    public WeatherService provideWeatherService() {
+        return mApplication.getWeatherService();
     }
 
     @Provides
     @Singleton
-    public WeatherServiceTwo getWeatherServiceTwo() {
-        if (this.weatherServiceTwo == null) {
-            this.weatherServiceTwo = WeatherServiceTwo.Factory.create();
-        }
-        return weatherServiceTwo;
+    public WeatherServiceTwo provideWeatherServiceTwo() {
+        return mApplication.getWeatherServiceTwo();
     }
 
     @Provides
     @Singleton
-    public HoroscopeService getHoroscopeService() {
-        if (this.horoscopeService == null) {
-            this.horoscopeService = HoroscopeService.Factory.create();
-        }
-        return horoscopeService;
+    public HoroscopeService provideHoroscopeService() {
+        return mApplication.getHoroscopeService();
     }
 
     @Provides
     @Singleton
-    public HoroscopeServiceTwo getHoroscopeServiceTwo() {
-        if (this.horoscopeServiceTwo == null) {
-            this.horoscopeServiceTwo = HoroscopeServiceTwo.Factory.create();
-        }
-        return horoscopeServiceTwo;
+    public HoroscopeServiceTwo provideHoroscopeServiceTwo() {
+        return mApplication.getHoroscopeServiceTwo();
     }
+
 }
 

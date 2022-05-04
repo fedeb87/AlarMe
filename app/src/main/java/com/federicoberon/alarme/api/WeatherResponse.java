@@ -1,4 +1,4 @@
-package com.federicoberon.alarme.retrofit;
+package com.federicoberon.alarme.api;
 
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;

@@ -3,41 +3,30 @@ package com.federicoberon.alarme.ui.alarm;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-import androidx.annotation.NonNull;
+
 import androidx.lifecycle.ViewModel;
-import com.federicoberon.alarme.retrofit.Horoscope;
-import com.federicoberon.alarme.retrofit.HoroscopeService;
-import com.federicoberon.alarme.retrofit.HoroscopeServiceTwo;
-import com.federicoberon.alarme.retrofit.HoroscopeTwo;
-import com.federicoberon.alarme.retrofit.WeatherResponse;
-import com.federicoberon.alarme.retrofit.WeatherResponseTwo;
-import com.federicoberon.alarme.retrofit.WeatherService;
-import com.federicoberon.alarme.retrofit.WeatherServiceTwo;
+import com.federicoberon.alarme.api.Horoscope;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
+import com.federicoberon.alarme.api.HoroscopeTwo;
+import com.federicoberon.alarme.api.WeatherResponse;
+import com.federicoberon.alarme.api.WeatherResponseTwo;
+import com.federicoberon.alarme.api.WeatherService;
+import com.federicoberon.alarme.api.WeatherServiceTwo;
 import com.federicoberon.alarme.utils.HoroscopeManager;
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
 
 public class AlarmViewModel extends ViewModel {
-
-    private static final String TAG = "AlarmViewModel";
     private final WeatherService weatherService;
     private final WeatherServiceTwo weatherServiceTwo;
     private final HoroscopeService horoscopeService;
     private final HoroscopeServiceTwo horoscopeServiceTwo;
-    @SuppressLint("StaticFieldLeak")
     public boolean isPreview;
     private String sign;
-    private Horoscope horoscope;
-    private OnResponseUpdateListener listener;
-    private HoroscopeTwo horoscopeTwo;
-    private WeatherResponse weatherResponse;
 
     public double latitude;
     public double longitude;
-    private WeatherResponseTwo weatherResponseTwo;
     private Double currentTempF;
     private double currentTempC;
     private double maxTempC;
@@ -59,8 +48,7 @@ public class AlarmViewModel extends ViewModel {
         longitude = 0;
     }
 
-    public void init(OnResponseUpdateListener listener, String sign) {
-        this.listener = listener;
+    public void init(String sign) {
         this.sign = sign;
     }
 
@@ -68,108 +56,54 @@ public class AlarmViewModel extends ViewModel {
         return this.sign;
     }
 
-    private void callWeatherAPITwo(double latitude, double longitude) {
+    public Observable<WeatherResponseTwo> callWeatherAPITwo(double latitude, double longitude) {
+        try{
+            return weatherServiceTwo.getWeather(latitude, longitude,"minutely,hourly,alerts"
+                    , "imperial", "33b26b2199a99f5ddb67b87ce114460a");
+        }catch (Exception e){
+            Log.w("ERROR", e.getMessage());
+        }
+        return Observable.empty();
 
-        weatherServiceTwo.getWeather(latitude, longitude,"minutely,hourly,alerts", "imperial", "33b26b2199a99f5ddb67b87ce114460a")
-                .enqueue(new Callback<WeatherResponseTwo>() {
-                    @Override
-                    public void onResponse(@NonNull Call<WeatherResponseTwo> call,
-                                           @NonNull Response<WeatherResponseTwo> response) {
-                        if (response.body() != null) {
-                            if (response.isSuccessful()) {
-                                AlarmViewModel.this.weatherResponseTwo = response.body();
-                                if (listener != null)
-                                    listener.onWeatherChangedTwo(weatherResponseTwo);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<WeatherResponseTwo> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Error loading weather ", t);
-                        listener.onWeatherChanged(null);
-                    }
-                });
     }
 
-    public boolean coordsCached(){
+    public boolean cordsCached(){
         return latitude != 0 || longitude !=0;
     }
 
-    public void callWeatherAPI(double lat, double lon) {
+    @SuppressLint("CheckResult")
+    public Observable<WeatherResponse> callWeatherAPI(double lat, double lon) {
         this.latitude = lat;
         this.longitude = lon;
+        if (lat != 0.0 || lon != 0.0){
+            try{
+                return weatherService.getWeather("576d14184a3e42cc8cd10015222203"
+                        , new double[]{lat, lon}, 1);
+            }catch (Exception e){
+                Log.w("ERROR", e.getMessage());
+                return Observable.empty();
+            }
+        }
+        return Observable.empty();
+    }
 
-        if (lat != 0.0 || lon != 0.0) {
-            weatherService.getWeather("576d14184a3e42cc8cd10015222203", new double[]{lat, lon}, 1)
-                    .enqueue(new Callback<WeatherResponse>() {
-                        @Override
-                        public void onResponse(@NonNull Call<WeatherResponse> call,
-                                               @NonNull Response<WeatherResponse> response) {
-                            if (response.body() != null) {
-                                if (response.isSuccessful()) {
-                                    AlarmViewModel.this.weatherResponse = response.body();
-                                    if (listener != null)
-                                        listener.onWeatherChanged(weatherResponse);
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(@NonNull Call<WeatherResponse> call, @NonNull Throwable t) {
-                            callWeatherAPITwo(lat, lon);
-                            Log.e(TAG, "Error loading weather ", t);
-                            listener.onWeatherChanged(null);
-                        }
-                    });
+    public Observable<Horoscope> loadHoroscope(String _sign) {
+        try{
+            return horoscopeService.getHoroscope(_sign, "today");
+        }catch (Exception e){
+            Log.w("ERROR", e.getMessage());
+            return Observable.empty();
         }
     }
 
-    public void loadHoroscope(Context context) {
-        horoscopeService.getHoroscope(HoroscopeManager.getNameURL(context, sign), "today")
-                .enqueue(new Callback<Horoscope>() {
-            @Override
-            public void onResponse(@NonNull Call<Horoscope> call,
-                                   @NonNull Response<Horoscope> response) {
-                if (response.body() != null) {
-                    if (response.isSuccessful()) {
-                        AlarmViewModel.this.horoscope = response.body();
-                        if (listener != null){
-                            listener.onHoroscopeChanged(horoscope);
-                        }
-                    }
-                }
-            }
+    public Observable<HoroscopeTwo> loadHoroscopeTwo(String _sign) {
+        try{
+            return horoscopeServiceTwo.getHoroscope(_sign);
+        }catch (Exception e){
+            Log.w("ERROR", "HUBO UN ERROR " + e.getMessage());
+            return Observable.empty();
+        }
 
-            @Override
-            public void onFailure(@NonNull Call<Horoscope> call, @NonNull Throwable t) {
-                Log.e(TAG, "Error loading horoscope ", t);
-                listener.onHoroscopeChanged(null);
-            }
-        });
-    }
-
-    public void loadHoroscopeTwo(Context context) {
-        horoscopeServiceTwo.getHoroscope(HoroscopeManager.getNameURLTwo(context, sign))
-                .enqueue(new Callback<HoroscopeTwo>() {
-            @Override
-            public void onResponse(@NonNull Call<HoroscopeTwo> call,
-                                   @NonNull Response<HoroscopeTwo> response) {
-                if (response.body() != null) {
-                    if (response.isSuccessful()) {
-                        AlarmViewModel.this.horoscopeTwo = response.body();
-                        if (listener != null)
-                            listener.onHoroscopeChangedTwo(horoscopeTwo);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<HoroscopeTwo> call, @NonNull Throwable t) {
-                Log.e(TAG, "Error loading horoscope ", t);
-                listener.onHoroscopeChanged(null);
-            }
-        });
     }
 
     public void setCurrentTempF(Double currentTempF) {
@@ -226,13 +160,5 @@ public class AlarmViewModel extends ViewModel {
 
     public double getMaxTempF() {
         return maxTempF;
-    }
-
-    public interface OnResponseUpdateListener {
-        void onHoroscopeChanged(Horoscope horoscope);
-        void onHoroscopeChangedTwo(HoroscopeTwo horoscope);
-
-        void onWeatherChanged(WeatherResponse weatherResponse);
-        void onWeatherChangedTwo(WeatherResponseTwo weatherResponse);
     }
 }

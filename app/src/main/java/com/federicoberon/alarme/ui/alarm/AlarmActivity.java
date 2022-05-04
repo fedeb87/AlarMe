@@ -9,7 +9,6 @@ import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,10 +32,10 @@ import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
-import com.federicoberon.alarme.retrofit.Horoscope;
-import com.federicoberon.alarme.retrofit.HoroscopeTwo;
-import com.federicoberon.alarme.retrofit.WeatherResponse;
-import com.federicoberon.alarme.retrofit.WeatherResponseTwo;
+import com.federicoberon.alarme.api.Horoscope;
+import com.federicoberon.alarme.api.HoroscopeTwo;
+import com.federicoberon.alarme.api.WeatherResponse;
+import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.HoroscopeManager;
@@ -47,10 +46,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
-public class AlarmActivity extends AppCompatActivity implements
-        AlarmViewModel.OnResponseUpdateListener, TextToSpeech.OnInitListener{
+public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
     private static final String LOG_TAG = "AlarmActivity";
     private FragmentAlarmBinding binding;
     private AlarmEntity mAlarmEntity;
@@ -64,6 +64,7 @@ public class AlarmActivity extends AppCompatActivity implements
 
     @Inject
     AlarmViewModel alarmViewModel;
+
     private int streamMusicCurrentVol;
 
     @Override
@@ -82,8 +83,7 @@ public class AlarmActivity extends AppCompatActivity implements
         binding = FragmentAlarmBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        alarmViewModel.init(this,
-                sharedPref.getString(getString(R.string.sign_name), "aries"));
+        alarmViewModel.init(sharedPref.getString(getString(R.string.sign_name), "aries"));
 
         // ----- If extra alarmEntity not found then exit activity
         Intent intent = getIntent();
@@ -127,7 +127,18 @@ public class AlarmActivity extends AppCompatActivity implements
         });
 
         if(mAlarmEntity.isHoroscopeOn()) {
-            alarmViewModel.loadHoroscope(this);
+            mDisposable.add(alarmViewModel.loadHoroscope(HoroscopeManager.getNameURL(this, alarmViewModel.getSign()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                    .subscribe(horoscope -> {
+                        if (horoscope != null)
+                            onHoroscopeChanged(horoscope);
+                        else
+                            onHoroscopeChanged(null);
+
+                    },throwable -> {
+                        onHoroscopeChanged(null);
+                    }));
         }else
             binding.horoscopeCardView.setVisibility(View.GONE);
 
@@ -145,7 +156,34 @@ public class AlarmActivity extends AppCompatActivity implements
                 binding.weatherCardView.setVisibility(View.GONE);
             }
 
-            alarmViewModel.callWeatherAPI(lat, lon);
+            double finalLat = lat;
+            double finalLon = lon;
+            mDisposable.add(alarmViewModel.callWeatherAPI(lat, lon)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                    .subscribe(weatherResponse -> {
+                                if (weatherResponse != null)
+                                    //AlarmViewModel.this.weatherResponse = weatherResponse;
+                                    onWeatherChanged(weatherResponse);
+                                else
+                                    onWeatherChanged(null);
+                            },
+                            throwable -> {
+                                mDisposable.add(alarmViewModel.callWeatherAPITwo(finalLat, finalLon).observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                                        .subscribe(weatherResponse -> {
+                                                    if (weatherResponse != null)
+                                                        onWeatherChangedTwo(weatherResponse);
+                                                    else
+                                                        onWeatherChangedTwo(null);
+                                                },
+                                                throwable2 -> {
+                                                    Log.e(LOG_TAG, "Error loading weather ", throwable2);
+                                                    onWeatherChangedTwo(null);
+                                                }));
+                                Log.e(LOG_TAG, "Error loading weather ", throwable);
+                                onWeatherChanged(null);
+                            }));
 
         }else {
             binding.weatherCardView.setVisibility(View.GONE);
@@ -177,12 +215,7 @@ public class AlarmActivity extends AppCompatActivity implements
             binding.textPhrase.setVisibility(View.GONE);
         }
         // listener for play button
-        binding.fabPlay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textToSpeak();
-            }
-        });
+        binding.fabPlay.setOnClickListener(view -> textToSpeak());
     }
 
     private void stopAlarmService() {
@@ -210,13 +243,7 @@ public class AlarmActivity extends AppCompatActivity implements
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        /*if (    keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP
-                || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE || keyCode == KeyEvent.KEYCODE_POWER
-                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN
-                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP
-                || event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_MUTE
-                || event.getKeyCode() == KeyEvent.KEYCODE_POWER)*/
-            stopAlarmService();
+        stopAlarmService();
         return true;
     }
 
@@ -236,18 +263,25 @@ public class AlarmActivity extends AppCompatActivity implements
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @Override
     public void onHoroscopeChanged(Horoscope horoscope) {
         if(horoscope!=null){
             binding.horoscopeCardView.setVisibility(View.VISIBLE);
             loadHoroscopeInfo(horoscope.getDescription());
         }else{
-            alarmViewModel.loadHoroscopeTwo(this);
+            mDisposable.add(alarmViewModel.loadHoroscopeTwo(HoroscopeManager.getNameURLTwo(this, alarmViewModel.getSign()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                    .subscribe(this::onHoroscopeChangedTwo, throwable -> {
+                        Log.e("MIO", "T DEL SEGUNDO: ", throwable);
+                        onHoroscopeChangedTwo(null);
+                    }));
+
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void loadHoroscopeInfo(String description) {
+        binding.horoscopeCardView.setVisibility(View.VISIBLE);
         binding.signImage.setBackground(
                 getDrawable(HoroscopeManager.getIconId(this, alarmViewModel.getSign())));
 
@@ -279,11 +313,10 @@ public class AlarmActivity extends AppCompatActivity implements
             }).start();
     }
 
-    @Override
     public void onHoroscopeChangedTwo(HoroscopeTwo horoscope) {
         if(horoscope!=null){
             binding.horoscopeCardView.setVisibility(View.VISIBLE);
-            loadHoroscopeInfo(horoscope.getDescription());
+            loadHoroscopeInfo(horoscope.description);
         }else{
             binding.horoscopeCardView.setVisibility(View.GONE);
         }
@@ -293,12 +326,11 @@ public class AlarmActivity extends AppCompatActivity implements
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             Locale locale;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                 locale = getResources().getConfiguration().getLocales().get(0);
-            } else{
-                //noinspection deprecation
+            else
                 locale = getResources().getConfiguration().locale;
-            }
+
 
             if(!locale.getLanguage().equals("en")){
                 locale = new Locale("spa", "MEX");
@@ -322,7 +354,7 @@ public class AlarmActivity extends AppCompatActivity implements
                         , cal.get(Calendar.MINUTE));
 
                 String tempText = "";
-                if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
+                if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.cordsCached()))
                     tempText = String.format(getString(R.string.temp_speach),
                         alarmViewModel.getCurrentTempC(), alarmViewModel.getCurrentTempF());
 
@@ -351,13 +383,12 @@ public class AlarmActivity extends AppCompatActivity implements
             };
 
             int multiplier = 4;
-            if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.coordsCached()))
+            if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.cordsCached()))
                 multiplier = 12;
             handler.postDelayed(delayedRunnable, 1000 * multiplier); // 12 sec or 4 sec
         }
     }
 
-    @Override
     public void onWeatherChanged(WeatherResponse weatherResponse) {
         if(weatherResponse!=null) {
             // current data
@@ -392,7 +423,6 @@ public class AlarmActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
     public void onWeatherChangedTwo(WeatherResponseTwo weatherResponse) {
         // current data
         // (32 °F − 32) × 5/9 = 0 °C

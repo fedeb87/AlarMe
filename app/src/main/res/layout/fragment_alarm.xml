@@ -71,7 +71,7 @@
             app:cardCornerRadius="8dp"
             app:cardBackgroundColor="@color/transparent2"
             app:cardElevation="4dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
         <LinearLayout
             android:gravity="center"

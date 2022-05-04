@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,20 +67,11 @@ public class RepeatPickerFragment extends Fragment {
         binding.repeatList.setAdapter(adapter);
 
         // on/off switch
-        binding.onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableAllControls(isChecked, vibNames);
-            }
-        });
+        binding.onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> enableAllControls(isChecked, vibNames));
         binding.onOffSwitch.setChecked(viewModel.isRepeatOn());
 
         // add on click listener to update selections
-        binding.repeatList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                viewModel.setSelectedRepeat(RepeatManager.getRepeatTime(i));
-            }
-        });
+        binding.repeatList.setOnItemClickListener((adapterView, view1, i, l) -> viewModel.setSelectedRepeat(RepeatManager.getRepeatTime(i)));
 
         // set postpone checked in the list
         binding.repeatList.setItemChecked(

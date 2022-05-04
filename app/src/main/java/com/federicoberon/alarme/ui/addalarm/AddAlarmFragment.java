@@ -383,11 +383,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     }
 
     private void showSnackBar2(int messageId) {
-
-        //binding.weatherSwitch.setChecked(false);
-        //addAlarmViewModel.setWeatherOn(false);
-        //changeColorsView(binding.textViewWeather, null, false);
-
         binding.okButton.setEnabled(false);
 
         if (mSnackbar == null || !mSnackbar.isShown()) {
@@ -399,12 +394,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     private void showSnackBar(int messageId) {
 
-        //binding.weatherSwitch.setChecked(false);
-        //changeColorsView(binding.textViewWeather, null, false);
-
         binding.okButton.setEnabled(false);
-        //addAlarmViewModel.setWeatherOn(false);
-
         /*
          style the snackbar text
          TextView sbText = sb.getView().findViewById(com.google.android.material.R.id.snackbar_text);
@@ -528,9 +518,32 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     public void offRepeat(){
         boolean isChecked = binding.repeatSwitch.isChecked();
+        /*if (isChecked){
+            addAlarmViewModel.disableDaysOfWeek();
+            binding.cbMonday.setChecked(false);
+            binding.cbTuesday.setChecked(false);
+            binding.cbWednesday.setChecked(false);
+            binding.cbThursday.setChecked(false);
+            binding.cbFriday.setChecked(false);
+            binding.cbSaturday.setChecked(false);
+            binding.cbSunday.setChecked(false);
+            enableDaysOfWeek(false);
+        }else
+            enableDaysOfWeek(true);*/
+
         addAlarmViewModel.setRepeatOn(isChecked);
         changeColorsView(binding.textViewRepeat, binding.repeatValue, isChecked);
         updateRepeatValue(isChecked);
+    }
+
+    private void enableDaysOfWeek(boolean b) {
+        binding.cbMonday.setEnabled(b);
+        binding.cbTuesday.setEnabled(b);
+        binding.cbWednesday.setEnabled(b);
+        binding.cbThursday.setEnabled(b);
+        binding.cbFriday.setEnabled(b);
+        binding.cbSaturday.setEnabled(b);
+        binding.cbSunday.setEnabled(b);
     }
 
     public void offPhrases(){

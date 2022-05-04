@@ -3,9 +3,7 @@ package com.federicoberon.alarme.broadcastreceiver;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
-
 import android.annotation.SuppressLint;
-import android.app.KeyguardManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +35,6 @@ public class ActionReceiver extends BroadcastReceiver {
         // disable alarm
         Intent intentService = new Intent(context, AlarmService.class);
         intentService.putExtra(ALARM_ENTITY, alarmEntity);
-        //intentService.putExtra(IS_PREVIEW, isPreview);
         intentService.putExtra(STOP_SERVICE, true);
 
         context.stopService(intentService);
@@ -52,16 +49,47 @@ public class ActionReceiver extends BroadcastReceiver {
         // in any case discard it
         AlarmManager.dismissAlarm(context, alarmEntity);
 
-        if(AlarmManager.recurring(alarmEntity)) {
-            // tiene dias fijos activos
-            int days_to_add = 0;
-            // lunes es 2, domingo sera 1
-            // y sabado sera 7
+        if(alarmEntity.isRepeatOn()){
+            // repetir activado
             Calendar alarmCal = Calendar.getInstance();
             // a este despues le sumo cuando sepa cuanto
             alarmCal.setTime(alarmEntity.getAlarmDate());
 
-            // empieza en mañana
+            if(alarmCal.get(Calendar.HOUR_OF_DAY)+alarmEntity.getRepeatTime()>=24){
+                if(AlarmManager.recurring(alarmEntity)){
+
+                    int day_of_week = alarmCal.get(Calendar.DAY_OF_WEEK);
+                    boolean find = false;
+                    int days_to_add = 0;
+
+                    while(!find){
+                        days_to_add += 1;
+                        if(alarmEntity.getDaysOfWeek()[day_of_week])
+                            find = true;
+                        else
+                            day_of_week = day_of_week+1==7? 0 : day_of_week+1;
+                    }
+                    alarmCal.add(Calendar.DAY_OF_YEAR, days_to_add);
+                }else {
+                    alarmCal.add(Calendar.DAY_OF_YEAR, 1);
+                }
+            }
+
+            alarmCal.add(Calendar.HOUR_OF_DAY, alarmEntity.getRepeatTime());
+
+            alarmEntity.setAlarmDate(alarmCal.getTime());
+            AlarmManager.schedule(context, alarmEntity);
+
+        }else if(AlarmManager.recurring(alarmEntity)) {
+
+            // had active days
+            int days_to_add = 0;
+            // monday is 2, sunday will be 1
+            // and saturday will be 7
+            Calendar alarmCal = Calendar.getInstance();
+            alarmCal.setTime(alarmEntity.getAlarmDate());
+
+            // starts tomorrow
             int day_of_week = alarmCal.get(Calendar.DAY_OF_WEEK);
             boolean find = false;
 
@@ -73,19 +101,9 @@ public class ActionReceiver extends BroadcastReceiver {
                     day_of_week = day_of_week+1==7? 0 : day_of_week+1;
             }
 
-            alarmCal.add(Calendar.DAY_OF_MONTH, days_to_add);
+            alarmCal.add(Calendar.DAY_OF_YEAR, days_to_add);
             alarmEntity.setAlarmDate(alarmCal.getTime());
 
-            AlarmManager.schedule(context, alarmEntity);
-        }else if(alarmEntity.isRepeatOn()){
-            // repetir activado
-            Calendar alarmCal = Calendar.getInstance();
-            // a este despues le sumo cuando sepa cuanto
-            alarmCal.setTime(alarmEntity.getAlarmDate());
-
-            alarmCal.add(Calendar.HOUR_OF_DAY, alarmEntity.getRepeatTime());
-
-            alarmEntity.setAlarmDate(alarmCal.getTime());
             AlarmManager.schedule(context, alarmEntity);
         } else{
             alarmEntity.setStarted(false);

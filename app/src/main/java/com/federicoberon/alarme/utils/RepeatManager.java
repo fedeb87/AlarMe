@@ -20,7 +20,6 @@ public class RepeatManager {
             put(4,                 String.format(context.getString(R.string.hours_string), 4));
             put(DEFAULT_REPEAT,      String.format(context.getString(R.string.hours_string), DEFAULT_REPEAT));
             put(12,    String.format(context.getString(R.string.hours_string), 12));
-            put(16,    String.format(context.getString(R.string.hours_string), 16));
         }};
     }
 
@@ -41,7 +40,7 @@ public class RepeatManager {
         Set<Integer> keySet = repeatOptions.keySet();
 
         Integer[] keyArray
-                = keySet.toArray(new Integer[keySet.size()]);
+                = keySet.toArray(new Integer[0]);
 
         return keyArray[indexOf];
     }

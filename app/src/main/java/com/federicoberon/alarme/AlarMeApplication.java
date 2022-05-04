@@ -12,18 +12,27 @@ import com.federicoberon.alarme.di.component.DaggerApplicationComponent;
 import com.federicoberon.alarme.di.module.ApplicationModule;
 import com.federicoberon.alarme.di.module.AudioManagerModule;
 import com.federicoberon.alarme.di.module.DatabaseModule;
-import com.federicoberon.alarme.retrofit.HoroscopeService;
-import com.federicoberon.alarme.retrofit.HoroscopeServiceTwo;
-import com.federicoberon.alarme.retrofit.WeatherService;
-import com.federicoberon.alarme.retrofit.WeatherServiceTwo;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
+import com.federicoberon.alarme.api.WeatherService;
+import com.federicoberon.alarme.api.WeatherServiceTwo;
 
-import dagger.Provides;
+//import rx.Scheduler;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
+//import rx.schedulers.Schedulers;
 
 /**
  * Android Application class. Used for accessing singletons.
  */
 public class AlarMeApplication extends Application {
     public static final String CHANNEL_ID = "ALARM_SERVICE_CHANNEL";
+
+    private HoroscopeService horoscopeService;
+    private HoroscopeServiceTwo horoscopeServiceTwo;
+    private WeatherService weatherService;
+    private WeatherServiceTwo weatherServiceTwo;
+    private Scheduler defaultSubscribeScheduler;
 
     // Reference to the application graph that is used across the whole app
     public ApplicationComponent appComponent = initializeComponent();
@@ -66,5 +75,60 @@ public class AlarMeApplication extends Application {
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
+    }
+
+    public Scheduler defaultSubscribeScheduler() {
+        if (defaultSubscribeScheduler == null) {
+            defaultSubscribeScheduler = Schedulers.io();
+        }
+        return defaultSubscribeScheduler;
+    }
+
+    public void setDefaultSubscribeScheduler(Scheduler scheduler) {
+        this.defaultSubscribeScheduler = scheduler;
+    }
+
+    public void setWeatherService(WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
+
+    public void setWeatherServiceTwo(WeatherServiceTwo weatherService) {
+        this.weatherServiceTwo = weatherService;
+    }
+
+    public void setHoroscopeService(HoroscopeService horoscopeService) {
+        this.horoscopeService = horoscopeService;
+    }
+
+    public void setHoroscopeServiceTwo(HoroscopeServiceTwo horoscopeService) {
+        this.horoscopeServiceTwo = horoscopeService;
+    }
+
+    public WeatherService getWeatherService() {
+        if (this.weatherService == null) {
+            this.weatherService = WeatherService.Factory.create();
+        }
+        return weatherService;
+    }
+
+    public WeatherServiceTwo getWeatherServiceTwo() {
+        if (this.weatherServiceTwo == null) {
+            this.weatherServiceTwo = WeatherServiceTwo.Factory.create();
+        }
+        return weatherServiceTwo;
+    }
+
+    public HoroscopeService getHoroscopeService() {
+        if (this.horoscopeService == null) {
+            this.horoscopeService = HoroscopeService.Factory.create();
+        }
+        return horoscopeService;
+    }
+
+    public HoroscopeServiceTwo getHoroscopeServiceTwo() {
+        if (this.horoscopeServiceTwo == null) {
+            this.horoscopeServiceTwo = HoroscopeServiceTwo.Factory.create();
+        }
+        return horoscopeServiceTwo;
     }
 }

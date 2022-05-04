@@ -1,8 +1,10 @@
-package com.federicoberon.alarme.retrofit;
+package com.federicoberon.alarme.api;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -18,14 +20,14 @@ public interface HoroscopeService {
 
 
     @POST("/")
-    Call<Horoscope> getHoroscope(@Query("sign") String sign, @Query("day") String day);
+    Observable<Horoscope> getHoroscope(@Query("sign") String sign, @Query("day") String day);
 
     class Factory {
         public static HoroscopeService create() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://aztro.sameerkumar.website/")
+                    .baseUrl("https://aztro.sameerkumar.websiteee/")
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();
             return retrofit.create(HoroscopeService.class);
         }

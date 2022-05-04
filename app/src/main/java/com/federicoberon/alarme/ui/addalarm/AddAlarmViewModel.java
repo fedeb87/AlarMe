@@ -2,11 +2,8 @@ package com.federicoberon.alarme.ui.addalarm;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.model.MelodyEntity;
 import com.federicoberon.alarme.repositories.AlarmRepository;
@@ -103,6 +100,10 @@ public class AddAlarmViewModel extends ViewModel {
         this.mYear = -1;
         this.mMonth = -1;
         this.mDay = -1;
+    }
+
+    public void disableDaysOfWeek(){
+        this.daysOfWeek = new boolean[7];
     }
 
     public boolean[] getDaysOfWeek() {
