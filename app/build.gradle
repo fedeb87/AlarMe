@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -12,9 +13,11 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-        //testInstrumentationRunner "com.federicoberon.alarme.MyCustomTestRunner"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.federicoberon.alarme.MyCustomTestRunner"
+        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    useLibrary 'android.test.mock'
     
     dataBinding {
         enabled = true
@@ -47,6 +50,10 @@ android {
     testOptions.unitTests {
         includeAndroidResources = true
         returnDefaultValues = true
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 
     compileOptions {
@@ -149,5 +156,4 @@ dependencies {
 
     // location api
     implementation 'com.google.android.gms:play-services-location:19.0.1'
-
 }

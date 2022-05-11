@@ -5,8 +5,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.util.Log;
-
 import java.io.IOException;
 
 public class CustomMediaPlayer extends MediaPlayer  {
@@ -19,7 +17,6 @@ public class CustomMediaPlayer extends MediaPlayer  {
     private CustomMediaPlayer(){
         super();
     }
-
 
     public static CustomMediaPlayer getMediaPlayerInstance() {
         if (Instance == null) {
@@ -47,7 +44,6 @@ public class CustomMediaPlayer extends MediaPlayer  {
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(MediaPlayer::start);
         } catch (IOException e) {
-            Log.w("MIO", "<<< ERROR 1 >>>");
             e.printStackTrace();
             Uri defaultRingtoneUri = RingtoneManager.getActualDefaultRingtoneUri(context
                     , RingtoneManager.TYPE_RINGTONE);

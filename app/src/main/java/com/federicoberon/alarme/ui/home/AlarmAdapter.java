@@ -219,7 +219,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     @SuppressLint("NotifyDataSetChanged")
     public void setAlarms(List<AlarmEntity> allAlarms) {
         this.alarms = Collections.emptyList();
-        //this.alarms = new ArrayList<>();
         this.alarms = allAlarms;
         notifyDataSetChanged();
     }

@@ -102,67 +102,6 @@ public class DatabaseModule {
         }
     }
 
-    private RoomDatabase.Callback getRDC2() {
-        final Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(Calendar.YEAR, 2021);
-        calendar1.set(Calendar.MONTH, 9);
-        calendar1.set(Calendar.DAY_OF_MONTH, 10);
-        calendar1.set(Calendar.HOUR, 0);
-        calendar1.set(Calendar.HOUR_OF_DAY, 0);
-        calendar1.set(Calendar.MINUTE, 0);
-        calendar1.set(Calendar.SECOND, 0);
-        calendar1.set(Calendar.MILLISECOND, 0);
-        calendar1.set(Calendar.MILLISECOND, 0);
-
-        final Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.YEAR, 2022);
-        calendar2.set(Calendar.MONTH, 6);
-        calendar2.set(Calendar.DAY_OF_MONTH, 7);
-        calendar2.set(Calendar.HOUR, 4);
-        calendar2.set(Calendar.HOUR_OF_DAY, 0);
-        calendar2.set(Calendar.MINUTE, 0);
-        calendar2.set(Calendar.SECOND, 0);
-        calendar2.set(Calendar.MILLISECOND, 0);
-        calendar2.set(Calendar.MILLISECOND, 0);
-
-        return new RoomDatabase.Callback(){
-            public void onCreate (@NonNull SupportSQLiteDatabase db){
-                ContentValues contentValues = new ContentValues();
-                contentValues.put("title", "Visit uncle Bill");
-                contentValues.put("repeat_time", 0);
-                contentValues.put("postpone_time", 0);
-                contentValues.put("monday", false);
-                contentValues.put("tuesday", false);
-                contentValues.put("wednesday", false);
-                contentValues.put("thursday", false);
-                contentValues.put("friday", false);
-                contentValues.put("saturday", false);
-                contentValues.put("sunday", false);
-                contentValues.put("started", true);
-                contentValues.put("hour", 20);
-                contentValues.put("minute", 0);
-                contentValues.put("alarm_date", calendar1.getTimeInMillis());
-                db.insert("alarms", OnConflictStrategy.IGNORE, contentValues);
-                contentValues = new ContentValues();
-                contentValues.put("title", "Stephan birthday");
-                contentValues.put("repeat_time", 0);
-                contentValues.put("postpone_time", 0);
-                contentValues.put("monday", false);
-                contentValues.put("tuesday", false);
-                contentValues.put("wednesday", false);
-                contentValues.put("thursday", false);
-                contentValues.put("friday", false);
-                contentValues.put("saturday", false);
-                contentValues.put("sunday", false);
-                contentValues.put("started", true);
-                contentValues.put("hour", 12);
-                contentValues.put("minute", 0);
-                contentValues.put("alarm_date", calendar2.getTimeInMillis());
-                db.insert("alarms", OnConflictStrategy.IGNORE, contentValues);
-            }
-        };
-    }
-
     @Provides
     @DatabaseInfo
     String provideDatabaseName() { return mDBName; }

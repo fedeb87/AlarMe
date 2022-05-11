@@ -2,8 +2,6 @@ package com.federicoberon.alarme.utils;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
-
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.model.AlarmEntity;
 import java.text.DateFormatSymbols;
@@ -13,9 +11,7 @@ import java.util.Locale;
 public class StringHelper {
 
     public static String getFormatedAlarmDate(Context context, AlarmEntity alarmEntity) {
-
         boolean[] daysOfWeek = DateUtils.getArrayBooleanDays(alarmEntity);
-
         Calendar nextAlarm = Calendar.getInstance();
         nextAlarm.setTime(alarmEntity.getAlarmDate());
 
@@ -28,7 +24,6 @@ public class StringHelper {
         // Cada Mar
         // Cada Mie
         // Vie. 15 de abr
-
         if(containsTrue(daysOfWeek)){
 
             if(allTrue(daysOfWeek))
@@ -91,26 +86,5 @@ public class StringHelper {
     public static boolean allTrue(boolean[] daysOfWeek) {
         for(boolean b : daysOfWeek) if(!b) return false;
         return true;
-    }
-
-    public static String toDay(int day) {
-        switch (day) {
-            case Calendar.SUNDAY:
-                return "Sunday";
-            case Calendar.MONDAY:
-                return "Monday";
-            case Calendar.TUESDAY:
-                return "Tuesday";
-            case Calendar.WEDNESDAY:
-                return "Wednesday";
-            case Calendar.THURSDAY:
-                return "Thursday";
-            case Calendar.FRIDAY:
-                return "Friday";
-            case Calendar.SATURDAY:
-                return "Saturday";
-            default:
-                return "Wrong Day";
-        }
     }
 }

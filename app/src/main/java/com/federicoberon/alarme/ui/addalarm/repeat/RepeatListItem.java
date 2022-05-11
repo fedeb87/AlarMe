@@ -22,10 +22,6 @@ public class RepeatListItem extends LinearLayout implements Checkable {
         checkBox.setPadding(40, 0,0,0);
     }
 
-    public String getRepeatName() {
-        return (String)(checkBox.getText());
-    }
-
     public void setRepeatName(String name) {
         checkBox.setText(name);
     }

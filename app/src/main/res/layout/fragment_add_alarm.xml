@@ -27,6 +27,7 @@
         android:src="@drawable/background" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/parentNestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -214,12 +215,44 @@
 
                 </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageTitleOn"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
+                    android:onClick="@{() -> fragment.readTitleOff()}"
+                    android:background="@drawable/ic_volume"
+                    />
+
+                <ImageView
+                    android:id="@+id/imageTitleOff"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/ic_mute"
+                    android:onClick="@{() -> fragment.readTitleOn()}"
+                    android:backgroundTint="@color/white_transparent"
+                    android:visibility="gone"
+                    />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="16dp"
                     android:textColorHint="@color/colorGray">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -233,6 +266,9 @@
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

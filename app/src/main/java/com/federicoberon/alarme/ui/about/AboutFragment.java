@@ -27,9 +27,6 @@ public class AboutFragment extends Fragment {
 
     private FragmentAboutBinding binding;
 
-    @Inject
-    AboutViewModel aboutViewModel;
-
     @Override
     public void onResume() {
         super.onResume();

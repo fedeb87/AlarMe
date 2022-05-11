@@ -448,7 +448,7 @@
     <string name="delete_alarms_title">Delete alarms?</string>
     <string name="delete_alarms_msg">Are you sure you want to delete the selected alarms?</string>
     <string name="delete_alarm_title">Delete alarm?</string>
-    <string name="ring_permission_title">Melody in sleep mode</string>
+    <string name="ring_permission_title">Run in sleep mode</string>
     <string name="ring_permission_msg">You need to grant permissions to the app to allow it to work when the device screen is locked.</string>
     <string name="delete_alarm_msg">Are you sure you want to delete the alarm?</string>
     <string name="alarms_every">Every %s at %s</string>

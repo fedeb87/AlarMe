@@ -9,9 +9,7 @@ import java.util.Set;
 
 public class RepeatManager {
     public static final Integer DEFAULT_REPEAT = 8;
-
     private static LinkedHashMap<Integer, String> repeatOptions;
-
 
     private static void startRepeatOptions(Context context){
         repeatOptions = new LinkedHashMap<Integer, String>(){{
@@ -22,7 +20,6 @@ public class RepeatManager {
             put(12,    String.format(context.getString(R.string.hours_string), 12));
         }};
     }
-
 
     public static LinkedHashMap<Integer, String> getRepeatOptions(Context context){
         if (repeatOptions == null)

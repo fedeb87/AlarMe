@@ -16,6 +16,7 @@ import java.util.Objects;
 @Entity(tableName = "alarms")
 public class AlarmEntity implements Serializable {
 
+    private boolean readTitle;
     @PrimaryKey(autoGenerate = true)
     private long id;
     @NonNull
@@ -60,7 +61,7 @@ public class AlarmEntity implements Serializable {
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
-                       boolean weatherOn, boolean isPhrasesOn, boolean started) {
+                       boolean weatherOn, boolean isPhrasesOn, boolean readTitle, boolean started) {
         this.id = id;
         this.title = title;
         this.alarmDate = alarmDate;
@@ -89,6 +90,7 @@ public class AlarmEntity implements Serializable {
         this.horoscopeOn = horoscopeOn;
         this.weatherOn = weatherOn;
         this.isPhrasesOn = isPhrasesOn;
+        this.readTitle = readTitle;
     }
 
     @Ignore
@@ -96,7 +98,7 @@ public class AlarmEntity implements Serializable {
                        boolean[] daysOfWeek, boolean melodyOn, String melodyUri, String melodyName, int volume,
                        boolean vibrationOn, String vibrationPatter, boolean postponeOn,
                        int postponeTime, boolean repeatOn, int repeatTime, boolean horoscopeOn,
-                       boolean weatherOn, boolean isPhrasesOn, boolean started) {
+                       boolean weatherOn, boolean isPhrasesOn, boolean readTitle, boolean started) {
         this.title = title;
         this.alarmDate = alarmDate;
         this.hour = hour;
@@ -124,6 +126,15 @@ public class AlarmEntity implements Serializable {
         this.horoscopeOn = horoscopeOn;
         this.weatherOn = weatherOn;
         this.isPhrasesOn = isPhrasesOn;
+        this.readTitle = readTitle;
+    }
+
+    public boolean isReadTitle() {
+        return readTitle;
+    }
+
+    public void setReadTitle(boolean readTitle) {
+        this.readTitle = readTitle;
     }
 
     public long getId() {

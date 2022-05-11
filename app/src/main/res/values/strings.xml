@@ -177,7 +177,7 @@
     <string name="delete_alarms_title">Eliminar alarmas?</string>
     <string name="delete_alarms_msg">Esta seguro que desea eliminar las alarmas seleccionadas?</string>
     <string name="delete_alarm_title">Eliminar alarma?</string>
-    <string name="ring_permission_title">Melodía en reposo</string>
+    <string name="ring_permission_title">Ejecución en reposo</string>
     <string name="ring_permission_msg">Necesita otorgar permisos a la aplicacion para permitirle funcionar cuando la pantalla del dispositivo se encuentra bloqueada</string>
     <string name="delete_alarm_msg">Esta seguro que desea eliminar la alarma?</string>
     <string name="alarms_every">Todos los %s a las %s</string>

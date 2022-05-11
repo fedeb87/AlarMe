@@ -20,9 +20,6 @@ public interface AlarmDao extends BaseDao<AlarmEntity>{
     @Query("SELECT * FROM alarms ORDER BY started DESC, alarm_date ASC")
     Flowable<List<AlarmEntity>> getFirstAlarmStarted();
 
-    @Query("SELECT m.* FROM alarms m WHERE m.title LIKE :filter ORDER BY m.hourInMinutes DESC")
-    Flowable<List<AlarmEntity>> getAlarm(String filter);
-
     @Query("SELECT m.* FROM alarms m WHERE m.id = :id")
     Flowable<AlarmEntity> getAlarmById(long id);
 

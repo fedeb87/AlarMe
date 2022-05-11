@@ -41,6 +41,7 @@ import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.CustomMediaPlayer;
 import com.federicoberon.alarme.utils.PhrasesManager;
+
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -125,6 +126,13 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
             stopAlarmService();
             finish();
         });
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            alarmViewModel.setLocale(getResources().getConfiguration().getLocales().get(0));
+        else
+            alarmViewModel.setLocale(getResources().getConfiguration().locale);
 
         if(mAlarmEntity.isHoroscopeOn()) {
             mDisposable.add(alarmViewModel.loadHoroscope(HoroscopeManager.getNameURL(this, alarmViewModel.getSign()))
@@ -325,18 +333,12 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
-            Locale locale;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                locale = getResources().getConfiguration().getLocales().get(0);
-            else
-                locale = getResources().getConfiguration().locale;
 
-
-            if(!locale.getLanguage().equals("en")){
-                locale = new Locale("spa", "MEX");
+            if(!alarmViewModel.getLocale().getLanguage().equals("en")){
+                alarmViewModel.setLocale(new Locale("spa", "MEX"));
             }
             //int result = mTextToSpeech.setLanguage(Locale.ENGLISH);
-            int result = mTextToSpeech.setLanguage(locale);
+            int result = mTextToSpeech.setLanguage(alarmViewModel.getLocale());
             mTextToSpeech.setSpeechRate(0.8f);
             mTextToSpeech.setPitch(0.7f);
 
@@ -354,11 +356,17 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                         , cal.get(Calendar.MINUTE));
 
                 String tempText = "";
+                String titleText = "";
+
+
+                if (mAlarmEntity.isReadTitle() && !mAlarmEntity.getTitle().isEmpty())
+                    titleText = mAlarmEntity.getTitle();
+
                 if(mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.cordsCached()))
                     tempText = String.format(getString(R.string.temp_speach),
                         alarmViewModel.getCurrentTempC(), alarmViewModel.getCurrentTempF());
 
-                mTextToSpeech.speak(hourText + ". " + tempText, TextToSpeech.QUEUE_FLUSH, null);
+                mTextToSpeech.speak(hourText + ". " + titleText + ". " + tempText, TextToSpeech.QUEUE_FLUSH, null);
             }
         } else {
             Log.e("error", "Failed to Initialize");
@@ -384,7 +392,9 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
             int multiplier = 4;
             if (mAlarmEntity.isWeatherOn() && (AlarmService.locationEnabled(this) || alarmViewModel.cordsCached()))
-                multiplier = 12;
+                multiplier += 7;
+            if (mAlarmEntity.isReadTitle() && !mAlarmEntity.getTitle().isEmpty())
+                multiplier += 5;
             handler.postDelayed(delayedRunnable, 1000 * multiplier); // 12 sec or 4 sec
         }
     }

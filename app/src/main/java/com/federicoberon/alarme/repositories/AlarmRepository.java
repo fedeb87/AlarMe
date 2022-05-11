@@ -52,20 +52,8 @@ public class AlarmRepository implements AlarmDataSource {
     }
 
     @Override
-    public Flowable<List<AlarmEntity>> getAlarms(String filter) {
-        String finalFilter = "%" +
-                filter +
-                "%";
-        return mAlarmDao.getAlarm(finalFilter);
-    }
-
-    @Override
     public Maybe<Long> insertOrUpdateAlarm(AlarmEntity alarmEntity) {
        return mAlarmDao.insert(alarmEntity);
-    }
-
-    public Maybe<Integer> updateAlarm(AlarmEntity alarmEntity) {
-       return mAlarmDao.update(alarmEntity);
     }
 
     public Maybe<Integer> deleteAlarm(AlarmEntity alarmEntity) {
@@ -90,7 +78,7 @@ public class AlarmRepository implements AlarmDataSource {
         return mMelodyDao.getAllMelodies();
     }
 
-    public Flowable<MelodyEntity> getMelodyId(long id) {
+    public Single<MelodyEntity> getMelodyId(long id) {
         return mMelodyDao.getMelody(id);
     }
 

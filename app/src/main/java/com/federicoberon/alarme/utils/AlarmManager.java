@@ -1,20 +1,15 @@
 package com.federicoberon.alarme.utils;
 
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
-
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.widget.Toast;
-
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver;
 import com.federicoberon.alarme.model.AlarmEntity;
-
 import java.util.Calendar;
 import java.util.List;
 
@@ -73,37 +68,6 @@ public class AlarmManager {
         pendingIntent = PendingIntent.getBroadcast(context, (int) alarmEntity.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT |PendingIntent.FLAG_IMMUTABLE);
         alarmManager.cancel(pendingIntent); //Remove any alarms with a matching Inten
 
-    }
-
-    public static String getRecurringDaysText(AlarmEntity alarmEntity) {
-        if (!recurring(alarmEntity)) {
-            return null;
-        }
-
-        String days = "";
-        if (alarmEntity.isMonday()) {
-            days += "Mo ";
-        }
-        if (alarmEntity.isTuesday()) {
-            days += "Tu ";
-        }
-        if (alarmEntity.isWednesday()) {
-            days += "We ";
-        }
-        if (alarmEntity.isThursday()) {
-            days += "Th ";
-        }
-        if (alarmEntity.isFriday()) {
-            days += "Fr ";
-        }
-        if (alarmEntity.isSaturday()) {
-            days += "Sa ";
-        }
-        if (alarmEntity.isSunday()) {
-            days += "Su ";
-        }
-
-        return days;
     }
 
     public static boolean recurring(AlarmEntity alarmEntity) {

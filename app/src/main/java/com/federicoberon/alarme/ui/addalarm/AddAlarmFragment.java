@@ -232,19 +232,19 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                     .getApplicationContext(), RingtoneManager.TYPE_RINGTONE);
             Ringtone defaultRingtone = RingtoneManager
                     .getRingtone(getActivity(), defaultRingtoneUri);
-            defaultRingtone.getTitle(requireContext());
 
             mDisposable.add(addAlarmViewModel.getMelodyByName(defaultRingtone.getTitle(requireContext()))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(melody -> {
-                                addAlarmViewModel.setSelectedMelody(melody);
-                                if(addAlarmViewModel.isMelodyOn())
-                                    binding.ringtoneValue.setText(melody.getTitle());
-                                else
-                                    binding.ringtoneValue.setText(getString(R.string.no_melody_string));
-                            },
-                            throwable -> Log.e("MIO", "Unable to get alarm: ", throwable)));
+
+                        addAlarmViewModel.setSelectedMelody(melody);
+                        if(addAlarmViewModel.isMelodyOn())
+                            binding.ringtoneValue.setText(melody.getTitle());
+                        else
+                            binding.ringtoneValue.setText(getString(R.string.no_melody_string));
+                    },
+                    throwable -> Log.e("MIO", "Unable to get alarm: ", throwable)));
 
         }else {
             if (addAlarmViewModel.isMelodyOn())
@@ -417,6 +417,12 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     }
 
     private void showPermissionsOnLockDialog() {
+        /*if (mSnackbar == null || !mSnackbar.isShown()) {
+            mSnackbar = Snackbar.make(binding.getRoot(), R.string.ring_permission_title, Snackbar.LENGTH_INDEFINITE);
+            mSnackbar.setAction(R.string.go_Settings, view -> startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)));
+            mSnackbar.show();
+        }*/
+
         new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom))
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(getString(R.string.ring_permission_title))
@@ -662,5 +668,17 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         fusedLocationClient.requestLocationUpdates(mLocationRequest,
                 locationCallback,
                 Looper.getMainLooper());
+    }
+
+    public void readTitleOff(){
+        addAlarmViewModel.setReadTitle(false);
+        binding.imageTitleOn.setVisibility(View.GONE);
+        binding.imageTitleOff.setVisibility(View.VISIBLE);
+    }
+
+    public void readTitleOn(){
+        addAlarmViewModel.setReadTitle(true);
+        binding.imageTitleOn.setVisibility(View.VISIBLE);
+        binding.imageTitleOff.setVisibility(View.GONE);
     }
 }

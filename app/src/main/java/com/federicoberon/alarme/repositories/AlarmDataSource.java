@@ -23,8 +23,6 @@ public interface AlarmDataSource {
 
     Flowable<List<AlarmEntity>> getAlarmByIds(List<Long> ids);
 
-    Flowable<List<AlarmEntity>> getAlarms(String filter);
-
     Flowable<List<AlarmEntity>> getFirstAlarmStarted();
 
     Flowable<AlarmEntity> getAlarmById(long id);

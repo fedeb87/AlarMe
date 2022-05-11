@@ -2,11 +2,7 @@ package com.federicoberon.alarme.utils;
 
 import android.app.Application;
 import android.content.Context;
-
 import com.federicoberon.alarme.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class RelativeTime extends Application {
 

@@ -97,7 +97,8 @@ public class VibratorListFragment extends Fragment {
                 String vibName = vView.getVibrationName();
 
                 // preview vibration
-                VibrationManager.vibrateByName(view.getContext(), vibName);
+                VibrationManager.vibrateByName((Vibrator) view.getContext()
+                        .getSystemService(Context.VIBRATOR_SERVICE), vibName);
                 viewModel.setSelectedVibration(vibName);
 
             }

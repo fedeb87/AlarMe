@@ -39,18 +39,6 @@ public class HoroscopeManager {
         }};
     }
 
-    public static LinkedHashMap<String, HoroscopeNames> getHoroscopes(Context context){
-        if (horoscopes == null)
-            initHoroscopes(context);
-        return horoscopes;
-    }
-
-    public static HoroscopeNames getHoroscopeByName(Context context, String name){
-        if (horoscopes == null)
-            initHoroscopes(context);
-        return horoscopes.get(name);
-    }
-
     public static String getName(Context context, String id){
         if (horoscopes == null)
             initHoroscopes(context);

@@ -25,7 +25,7 @@ public interface HoroscopeService {
     class Factory {
         public static HoroscopeService create() {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://aztro.sameerkumar.websiteee/")
+                    .baseUrl("https://aztro.sameerkumar.website/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();

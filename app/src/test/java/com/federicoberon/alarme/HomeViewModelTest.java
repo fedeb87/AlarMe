@@ -44,7 +44,7 @@ public class HomeViewModelTest {
 
     @Test
     public void test_getAllAlarms_whenNoAlarmsSaved() {
-        // UserDataSource returns an empty list of users
+        // UserDataSource returns an empty list of alarms
         when(alarmRepository.getAllAlarms()).thenReturn(Flowable.empty());
 
         //When getting the milestone

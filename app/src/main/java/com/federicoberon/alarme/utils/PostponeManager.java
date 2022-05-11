@@ -9,9 +9,7 @@ import java.util.Set;
 
 public class PostponeManager {
     private static final Integer DEFAULT_POSTPONE = 5;
-
     private static LinkedHashMap<Integer, String> postponeOptions;
-
 
     private static void startPostponeOptions(Context context){
         postponeOptions = new LinkedHashMap<Integer, String>(){{
@@ -22,7 +20,6 @@ public class PostponeManager {
             put(30,    String.format(context.getString(R.string.minutes_string), 30));
         }};
     }
-
 
     public static LinkedHashMap<Integer, String> getPostponeOptions(Context context){
         if (postponeOptions == null)
@@ -45,4 +42,3 @@ public class PostponeManager {
         return keyArray[indexOf];
     }
 }
-//String.format("%s Alarm", intent.getStringExtra(TITLE));

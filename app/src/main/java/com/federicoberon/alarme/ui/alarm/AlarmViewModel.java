@@ -14,6 +14,9 @@ import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.api.WeatherService;
 import com.federicoberon.alarme.api.WeatherServiceTwo;
 import com.federicoberon.alarme.utils.HoroscopeManager;
+
+import java.util.Locale;
+
 import javax.inject.Inject;
 import io.reactivex.Observable;
 
@@ -34,6 +37,7 @@ public class AlarmViewModel extends ViewModel {
     private double minTempF;
     private double maxTempF;
     private boolean inCelsius;
+    private Locale locale;
 
     @Inject
     public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo,
@@ -65,6 +69,14 @@ public class AlarmViewModel extends ViewModel {
         }
         return Observable.empty();
 
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public boolean cordsCached(){
