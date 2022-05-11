@@ -42,7 +42,6 @@ import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.model.MelodyEntity;
 import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.ui.CustomDatePicker;
-import com.federicoberon.alarme.ui.addalarm.horoscope.HoroscopeDialogFragment;
 import com.federicoberon.alarme.utils.DateUtils;
 import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.PostponeManager;
@@ -266,11 +265,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
         updateRepeatValue(addAlarmViewModel.isRepeatOn());
 
-        //**** selected sign ****//
-        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
-        String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
-        binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
-
         //**** selected weather ****//
         binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
 
@@ -337,13 +331,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         ((MainActivity)requireActivity()).getBinding().appBarMain.timePicker
                 .setOnTimeChangedListener(this);
 
-        // Listener for de SharedPreference
-        mListener = (prefs, key) -> {
-            if (key.equals(getString(R.string.sign_name))) {
-                String horoscope_id = sharedPref.getString(getString(R.string.sign_name), "aries");
-                binding.horoscopeValue.setText(HoroscopeManager.getName(requireContext(), horoscope_id));
-            }
-        };
         sharedPref.registerOnSharedPreferenceChangeListener(mListener);
 
     }
@@ -488,7 +475,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         changeColorsView(binding.textViewVibration, binding.vibrationValue, addAlarmViewModel.isVibrationOn());
         changeColorsView(binding.textViewPostpone, binding.postponeValue, addAlarmViewModel.isPostponeOn());
         changeColorsView(binding.textViewRepeat, binding.repeatValue, addAlarmViewModel.isRepeatOn());
-        changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, addAlarmViewModel.isHoroscopeOn());
         changeColorsView(binding.textViewWeather, null, addAlarmViewModel.isWeatherOn());
         changeColorsView(binding.textViewPhrases, binding.phrasesValue, addAlarmViewModel.isPhrasesOn());
 
@@ -496,7 +482,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         binding.vibrationSwitch.setChecked(addAlarmViewModel.isVibrationOn());
         binding.postponeSwitch.setChecked(addAlarmViewModel.isPostponeOn());
         binding.repeatSwitch.setChecked(addAlarmViewModel.isRepeatOn());
-        binding.horoscopeSwitch.setChecked(addAlarmViewModel.isHoroscopeOn());
         binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
         binding.phrasesSwitch.setChecked(addAlarmViewModel.isPhrasesOn());
     }
@@ -572,22 +557,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         textView1.setTextColor(color1);
         if(textView2!=null)
             textView2.setTextColor(color2);
-    }
-
-    public void openSignSelector(){
-        FragmentManager fm = requireActivity().getSupportFragmentManager();
-        HoroscopeDialogFragment horoscopeDialogFragment = HoroscopeDialogFragment.newInstance();
-        horoscopeDialogFragment.show(fm, "fragment_terms_dialog");
-    }
-
-    public void offHoroscope(){
-        boolean isChecked = binding.horoscopeSwitch.isChecked();
-        addAlarmViewModel.setHoroscopeOn(isChecked);
-        changeColorsView(binding.textViewHoroscope, binding.horoscopeValue, isChecked);
-
-        if(!sharedPref.contains(getString(R.string.sign_name))){
-            openSignSelector();
-        }
     }
 
     @Override

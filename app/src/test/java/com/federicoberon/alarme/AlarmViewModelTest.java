@@ -5,11 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-
-import com.federicoberon.alarme.api.Horoscope;
-import com.federicoberon.alarme.api.HoroscopeService;
-import com.federicoberon.alarme.api.HoroscopeServiceTwo;
-import com.federicoberon.alarme.api.HoroscopeTwo;
 import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.api.WeatherService;
@@ -43,12 +38,6 @@ public class AlarmViewModelTest {
     @Mock
     private WeatherServiceTwo weatherServiceTwo;
 
-    @Mock
-    private HoroscopeService horoscopeService;
-
-    @Mock
-    private HoroscopeServiceTwo horoscopeServiceTwo;
-
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
     double latitude = 1.5;
@@ -57,7 +46,7 @@ public class AlarmViewModelTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mViewModel = new AlarmViewModel(weatherService, weatherServiceTwo, horoscopeService, horoscopeServiceTwo);
+        mViewModel = new AlarmViewModel(weatherService, weatherServiceTwo);
         mViewModel.init("sign");
     }
 
@@ -147,66 +136,6 @@ public class AlarmViewModelTest {
     }
 
     @Test
-    public void test_loadHoroscope() {
-        Observable<Horoscope> response = Observable.just(new Horoscope());
-
-        when(horoscopeService.getHoroscope("aries", "today"))
-                .thenReturn(response);
-
-        Observable<Horoscope> result = mViewModel.loadHoroscope("aries");
-
-        assertSame(result, response);
-    }
-
-    @Test
-    public void test_loadHoroscope_wrong_param() {
-
-        // wrongs params
-        when(horoscopeService.getHoroscope("ariess", "today"))
-                .thenReturn(Observable.empty());
-
-        Observable<Horoscope> result = mViewModel.loadHoroscope("ariess");
-        assertSame(result, Observable.empty());
-
-        // problems in a remote service
-        when(horoscopeService.getHoroscope("aries", "today"))
-                .thenThrow(new RuntimeException());
-
-        result = mViewModel.loadHoroscope("aries");
-        assertSame(result, Observable.empty());
-    }
-
-    @Test
-    public void test_loadHoroscopeTwo() {
-        Observable<HoroscopeTwo> response = Observable.just(new HoroscopeTwo());
-
-        when(horoscopeServiceTwo.getHoroscope("aries"))
-                .thenReturn(response);
-
-        Observable<HoroscopeTwo> result = mViewModel.loadHoroscopeTwo("aries");
-
-        assertSame(result, response);
-    }
-
-    @Test
-    public void test_loadHoroscopeTwo_wrong_param() {
-
-        // wrongs params
-        when(horoscopeServiceTwo.getHoroscope("ariess"))
-                .thenReturn(Observable.empty());
-
-        Observable<HoroscopeTwo> result = mViewModel.loadHoroscopeTwo("ariess");
-        assertSame(result, Observable.empty());
-
-        // problems in a remote service
-        when(horoscopeServiceTwo.getHoroscope("aries"))
-                .thenThrow(new RuntimeException());
-
-        result = mViewModel.loadHoroscopeTwo("aries");
-        assertSame(result, Observable.empty());
-    }
-
-    @Test
     public void test_coordsCached() {
         assertFalse(mViewModel.cordsCached());
         mViewModel.latitude = 1;
@@ -215,8 +144,7 @@ public class AlarmViewModelTest {
 
     @Test
     public void propertiesAreSetAlarmConstructor() {
-        AlarmViewModel alarmViewModel = new AlarmViewModel(weatherService, weatherServiceTwo
-                , horoscopeService, horoscopeServiceTwo);
+        AlarmViewModel alarmViewModel = new AlarmViewModel(weatherService, weatherServiceTwo);
 
         try {
             // I'm use reflection to test private methods
@@ -224,24 +152,16 @@ public class AlarmViewModelTest {
                     "weatherService");
             Field weatherServiceTwo_field = AlarmViewModel.class.getDeclaredField(
                     "weatherServiceTwo");
-            Field horoscopeService_field = AlarmViewModel.class.getDeclaredField(
-                    "horoscopeService");
-            Field horoscopeServiceTwo_field = AlarmViewModel.class.getDeclaredField(
-                    "horoscopeServiceTwo");
             Field isPreview_field = AlarmViewModel.class.getDeclaredField("isPreview");
             Field inCelsius_field = AlarmViewModel.class.getDeclaredField("inCelsius");
 
             weatherService_field.setAccessible(true);
             weatherServiceTwo_field.setAccessible(true);
-            horoscopeService_field.setAccessible(true);
-            horoscopeServiceTwo_field.setAccessible(true);
             isPreview_field.setAccessible(true);
             inCelsius_field.setAccessible(true);
 
             assertEquals(weatherService, weatherService_field.get(alarmViewModel));
             assertEquals(weatherServiceTwo, weatherServiceTwo_field.get(alarmViewModel));
-            assertEquals(horoscopeService, horoscopeService_field.get(alarmViewModel));
-            assertEquals(horoscopeServiceTwo, horoscopeServiceTwo_field.get(alarmViewModel));
             assertEquals(false, isPreview_field.get(alarmViewModel));
             assertEquals(true, inCelsius_field.get(alarmViewModel));
 

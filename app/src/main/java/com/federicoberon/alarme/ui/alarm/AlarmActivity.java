@@ -7,7 +7,6 @@ import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
-import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -32,13 +31,10 @@ import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
-import com.federicoberon.alarme.api.Horoscope;
-import com.federicoberon.alarme.api.HoroscopeTwo;
 import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.utils.AlarmManager;
-import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.CustomMediaPlayer;
 import com.federicoberon.alarme.utils.PhrasesManager;
 
@@ -134,22 +130,6 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
         else
             alarmViewModel.setLocale(getResources().getConfiguration().locale);
 
-        if(mAlarmEntity.isHoroscopeOn()) {
-            mDisposable.add(alarmViewModel.loadHoroscope(HoroscopeManager.getNameURL(this, alarmViewModel.getSign()))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
-                    .subscribe(horoscope -> {
-                        if (horoscope != null)
-                            onHoroscopeChanged(horoscope);
-                        else
-                            onHoroscopeChanged(null);
-
-                    },throwable -> {
-                        onHoroscopeChanged(null);
-                    }));
-        }else
-            binding.horoscopeCardView.setVisibility(View.GONE);
-
         double lat = 0;
         double lon = 0;
         if(mAlarmEntity.isWeatherOn()) {
@@ -166,16 +146,11 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
             double finalLat = lat;
             double finalLon = lon;
+            //AlarmViewModel.this.weatherResponse = weatherResponse;
             mDisposable.add(alarmViewModel.callWeatherAPI(lat, lon)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
-                    .subscribe(weatherResponse -> {
-                                if (weatherResponse != null)
-                                    //AlarmViewModel.this.weatherResponse = weatherResponse;
-                                    onWeatherChanged(weatherResponse);
-                                else
-                                    onWeatherChanged(null);
-                            },
+                    .subscribe(this::onWeatherChanged,
                             throwable -> {
                                 mDisposable.add(alarmViewModel.callWeatherAPITwo(finalLat, finalLon).observeOn(AndroidSchedulers.mainThread())
                                         .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
@@ -268,66 +243,6 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
         mDisposable.clear();
         binding = null;
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    public void onHoroscopeChanged(Horoscope horoscope) {
-        if(horoscope!=null){
-            binding.horoscopeCardView.setVisibility(View.VISIBLE);
-            loadHoroscopeInfo(horoscope.getDescription());
-        }else{
-            mDisposable.add(alarmViewModel.loadHoroscopeTwo(HoroscopeManager.getNameURLTwo(this, alarmViewModel.getSign()))
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
-                    .subscribe(this::onHoroscopeChangedTwo, throwable -> {
-                        Log.e("MIO", "T DEL SEGUNDO: ", throwable);
-                        onHoroscopeChangedTwo(null);
-                    }));
-
-        }
-    }
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    private void loadHoroscopeInfo(String description) {
-        binding.horoscopeCardView.setVisibility(View.VISIBLE);
-        binding.signImage.setBackground(
-                getDrawable(HoroscopeManager.getIconId(this, alarmViewModel.getSign())));
-
-        binding.signTitle.setText(HoroscopeManager.getName(
-                this, alarmViewModel.getSign()));
-
-        binding.signDesc.animate().alpha(0f).setDuration(0)
-            .setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (binding!=null) {
-                        binding.signDesc.setText(description);
-                        binding.signDesc.animate().alpha(1f).setDuration(600)
-                                .start();
-                    }
-                }
-
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-                }
-            }).start();
-    }
-
-    public void onHoroscopeChangedTwo(HoroscopeTwo horoscope) {
-        if(horoscope!=null){
-            binding.horoscopeCardView.setVisibility(View.VISIBLE);
-            loadHoroscopeInfo(horoscope.description);
-        }else{
-            binding.horoscopeCardView.setVisibility(View.GONE);
-        }
     }
 
     @Override

@@ -1,19 +1,12 @@
 package com.federicoberon.alarme.ui.alarm;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
-
 import androidx.lifecycle.ViewModel;
-import com.federicoberon.alarme.api.Horoscope;
-import com.federicoberon.alarme.api.HoroscopeService;
-import com.federicoberon.alarme.api.HoroscopeServiceTwo;
-import com.federicoberon.alarme.api.HoroscopeTwo;
 import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.api.WeatherService;
 import com.federicoberon.alarme.api.WeatherServiceTwo;
-import com.federicoberon.alarme.utils.HoroscopeManager;
 
 import java.util.Locale;
 
@@ -23,8 +16,6 @@ import io.reactivex.Observable;
 public class AlarmViewModel extends ViewModel {
     private final WeatherService weatherService;
     private final WeatherServiceTwo weatherServiceTwo;
-    private final HoroscopeService horoscopeService;
-    private final HoroscopeServiceTwo horoscopeServiceTwo;
     public boolean isPreview;
     private String sign;
 
@@ -40,12 +31,9 @@ public class AlarmViewModel extends ViewModel {
     private Locale locale;
 
     @Inject
-    public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo,
-                          HoroscopeService horoscopeService, HoroscopeServiceTwo horoscopeServiceTwo) {
+    public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo) {
         this.weatherService = weatherService;
         this.weatherServiceTwo = weatherServiceTwo;
-        this.horoscopeService = horoscopeService;
-        this.horoscopeServiceTwo = horoscopeServiceTwo;
         this.isPreview = false;
         inCelsius = true;
         latitude = 0;
@@ -97,25 +85,6 @@ public class AlarmViewModel extends ViewModel {
             }
         }
         return Observable.empty();
-    }
-
-    public Observable<Horoscope> loadHoroscope(String _sign) {
-        try{
-            return horoscopeService.getHoroscope(_sign, "today");
-        }catch (Exception e){
-            Log.w("ERROR", e.getMessage());
-            return Observable.empty();
-        }
-    }
-
-    public Observable<HoroscopeTwo> loadHoroscopeTwo(String _sign) {
-        try{
-            return horoscopeServiceTwo.getHoroscope(_sign);
-        }catch (Exception e){
-            Log.w("ERROR", "HUBO UN ERROR " + e.getMessage());
-            return Observable.empty();
-        }
-
     }
 
     public void setCurrentTempF(Double currentTempF) {
