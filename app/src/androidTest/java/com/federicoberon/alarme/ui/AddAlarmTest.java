@@ -22,7 +22,6 @@ import com.federicoberon.alarme.MainActivity;
 import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.TestDataHelper;
 import com.federicoberon.alarme.model.AlarmEntity;
-
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.FixMethodOrder;

@@ -350,7 +350,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
                 }else{
                     dismissSnackbar();
-                    // necesito pedirla por primera vez aunque sea
+                    // get location for first time
                     getCurrentLocation();
                 }
             }else {

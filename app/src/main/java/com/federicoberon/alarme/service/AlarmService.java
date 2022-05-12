@@ -101,8 +101,8 @@ public class AlarmService extends Service {
             // get current location and request weather
             if (alarmEntity.isWeatherOn())
                 getCurrentLocation(alarmEntity);
-            else
-                displayAlarm(alarmEntity);
+
+            displayAlarm(alarmEntity);
         }
         return START_NOT_STICKY;
     }
@@ -272,21 +272,21 @@ public class AlarmService extends Service {
     }
 
     private boolean checkLocationPermissions() {
-        // check locaiton permissions
+        // check location permissions
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
-            Log.e("MIO" ,"<<< NO HAY PERMISOS >>>");
+            Log.e("MIO" ,"<<< NO PERMISSIONS >>>");
             return false;
         }
 
         // check google service installed
         if(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
                 != ConnectionResult.SUCCESS) {
-            Log.e("MIO", "<<< NO TIENE LOS SERVICIOS INSTALADOS >>>");
+            Log.e("MIO", "<<< GOOGLE SERVICE ARE NOT INSTALLED >>>");
             return false;
         }
         return true;

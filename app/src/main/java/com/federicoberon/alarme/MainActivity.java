@@ -1,5 +1,7 @@
 package com.federicoberon.alarme;
 
+import static com.federicoberon.alarme.utils.ThemeUtil.THEME_RED;
+
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -20,12 +22,16 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import com.federicoberon.alarme.databinding.ActivityMainBinding;
+import com.federicoberon.alarme.model.Theme;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.ui.home.HomeFragment;
+import com.federicoberon.alarme.utils.ThemeUtil;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -36,6 +42,12 @@ public class MainActivity extends AppCompatActivity  {
     public static final int ACCESS_LOCATION_CODE = 101;
     public static final String LAT_KEY = "lat";
     public static final String LON_KEY = "lon";
+
+    public static List<Theme> mThemeList = new ArrayList<>();
+    public static int mTheme = THEME_RED;
+    public static boolean mIsNightMode = false;
+    public static int selectedTheme = 0;
+
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private ActivityMainBinding binding;
@@ -58,6 +70,8 @@ public class MainActivity extends AppCompatActivity  {
 
         super.onCreate(savedInstanceState);
 
+        setTheme(ThemeUtil.getThemeId(mTheme));
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -74,9 +88,10 @@ public class MainActivity extends AppCompatActivity  {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_about)
+                R.id.nav_home, R.id.nav_themes, R.id.nav_about)
                 .setOpenableLayout(drawer)
                 .build();
+
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);

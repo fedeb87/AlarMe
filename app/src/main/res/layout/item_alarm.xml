@@ -41,7 +41,7 @@
                 android:layout_height="43dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="32sp"
+                android:textSize="@dimen/large_text"
                 tools:ignore="RtlSymmetry"
                 tools:text="08:00" />
 

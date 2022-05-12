@@ -23,6 +23,7 @@ import com.federicoberon.alarme.ui.addalarm.repeat.RepeatPickerFragment;
 import com.federicoberon.alarme.ui.addalarm.vibration.VibratorListFragment;
 import com.federicoberon.alarme.ui.alarm.AlarmActivity;
 import com.federicoberon.alarme.ui.home.HomeFragment;
+import com.federicoberon.alarme.ui.themes.ThemesFragment;
 
 import javax.inject.Singleton;
 import dagger.Component;
@@ -49,6 +50,7 @@ public interface ApplicationComponent {
     void inject (PostponePickerFragment postponePickerFragment);
     void inject (RepeatPickerFragment repeatPickerFragment);
     void inject (AlarmService alarmService);
+    void inject(ThemesFragment themesFragment);
 
     void inject(ActionReceiver actionReceiver);
 
