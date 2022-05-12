@@ -45,12 +45,12 @@
 
         <ListView
             android:id="@+id/vibrations_list"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_above="@+id/okButton"
+
             android:layout_below="@+id/onOffSwitch"
+            android:layout_marginTop="16dp"
             android:choiceMode="singleChoice"
             android:divider="@null"
             android:footerDividersEnabled="false"

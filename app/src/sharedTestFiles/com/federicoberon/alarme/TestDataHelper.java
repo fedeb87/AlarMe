@@ -11,17 +11,17 @@ public class TestDataHelper {
     public static final AlarmEntity ALARM_1 = new AlarmEntity(1, "First title", getDate1(), 20,
             0, 20*60, getDaysOfWeek_all_unchecked(), true, " ", " ",
             5, true, " ", false, 5, true,
-            5, true, false, true, false);
+            5, true, false, true, false, false);
 
     public static final AlarmEntity ALARM_2 = new AlarmEntity(2, " ", getDate2(), 15,
             10, 910, getDaysOfWeek_all_checked(), false, " ", " ",
             5, true, " ", true, 5, true,
-            5, true, true, true, true);
+            5, true, true, true, false, true);
 
     public static final AlarmEntity ALARM_3 = new AlarmEntity(3, "Third alarm", getDate3(), 14,
-            30, 1010, getDaysOfWeek_all_checked(), true, "Melody Uri", "Melody Name",
+            30, 1010, getDaysOfWeek_all_checked(), true, "content://media/internal/audio/media/9", "Flutey Phone",
             5, false, " ", true, 5, false,
-            0, true, false, true, true);
+            0, true, false, true, false, true);
 
     public static final MelodyEntity MELODY_1 = new MelodyEntity(1, "Test Melody", "Melody URI");
     public static final MelodyEntity MELODY_2 = new MelodyEntity(2, "Test Melody 2 ", "Melody 2 URI");

@@ -53,7 +53,7 @@ public class AddAlarmViewModel extends ViewModel {
     private boolean isPhrasesOn;
     private boolean readTitle;
 
-    @Inject
+    //@Inject
     public AddAlarmViewModel(AudioManager audioManager, AlarmRepository alarmRepository) {
         this.mAudioManager = audioManager;
         this.nextAlarm = new MutableLiveData<>();

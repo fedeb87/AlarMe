@@ -133,10 +133,4 @@
             android:defaultValue="0L" />
 
     </dialog>
-
-    <fragment
-        android:id="@+id/nav_themes"
-        android:name="com.federicoberon.alarme.ui.themes.ThemesFragment"
-        android:label="fragment_themes"
-        tools:layout="@layout/fragment_themes" />
 </navigation>

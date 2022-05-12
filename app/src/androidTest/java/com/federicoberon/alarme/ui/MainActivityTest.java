@@ -32,6 +32,9 @@ import java.util.Objects;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MainActivityTest {
 
+    // todo test long click pressed
+    // todo test swipe to dismiss
+
     @Rule
     public ActivityScenarioRule<MainActivity> activityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);

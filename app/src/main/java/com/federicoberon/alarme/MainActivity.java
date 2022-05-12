@@ -1,7 +1,5 @@
 package com.federicoberon.alarme;
 
-import static com.federicoberon.alarme.utils.ThemeUtil.THEME_RED;
-
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -25,7 +23,6 @@ import com.federicoberon.alarme.databinding.ActivityMainBinding;
 import com.federicoberon.alarme.model.Theme;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 import com.federicoberon.alarme.ui.home.HomeFragment;
-import com.federicoberon.alarme.utils.ThemeUtil;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -44,10 +41,6 @@ public class MainActivity extends AppCompatActivity  {
     public static final String LON_KEY = "lon";
 
     public static List<Theme> mThemeList = new ArrayList<>();
-    public static int mTheme = THEME_RED;
-    public static boolean mIsNightMode = false;
-    public static int selectedTheme = 0;
-
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private ActivityMainBinding binding;
@@ -69,8 +62,6 @@ public class MainActivity extends AppCompatActivity  {
                 .appComponent.inject(this);
 
         super.onCreate(savedInstanceState);
-
-        setTheme(ThemeUtil.getThemeId(mTheme));
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
