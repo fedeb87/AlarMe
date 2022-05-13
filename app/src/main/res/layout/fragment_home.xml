@@ -15,6 +15,7 @@
         android:layoutAnimation="@anim/layout_animation"
         android:paddingTop="@dimen/vertical_margin_half"
         android:paddingBottom="@dimen/vertical_margin_half"
+        android:layout_marginBottom="64dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/item_alarm" />
 
