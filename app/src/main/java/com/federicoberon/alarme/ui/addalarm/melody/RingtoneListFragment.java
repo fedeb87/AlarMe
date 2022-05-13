@@ -80,7 +80,7 @@ public class RingtoneListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mMediaPlayer = new MediaPlayer();
@@ -136,51 +136,42 @@ public class RingtoneListFragment extends Fragment {
             }
         });
 
-        binding.okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(binding.radioGroupRingtone.getCheckedRadioButtonId() == -1){
-                    Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
-                }
-                mDisposable.add(viewModel.getMelodyById(binding.radioGroupRingtone.getCheckedRadioButtonId())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(melody -> {
-                        viewModel.setSelectedMelody(melody);
-                        Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
-                        },
-                throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
-
+        binding.okButton.setOnClickListener(view13 -> {
+            if(binding.radioGroupRingtone.getCheckedRadioButtonId() == -1){
+                Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
             }
+            mDisposable.add(viewModel.getMelodyById(binding.radioGroupRingtone.getCheckedRadioButtonId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(melody -> {
+                    viewModel.setSelectedMelody(melody);
+                    Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
+                    },
+            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
+
         });
 
         // select melody from storage listener
-        binding.musicFromDisk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.musicFromDisk.setOnClickListener(view12 -> {
 
-                // check storage permissions
-                if (ContextCompat.checkSelfPermission(requireActivity(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED)
-                    ActivityCompat.requestPermissions(requireActivity()
-                            , new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+            // check storage permissions
+            if (ContextCompat.checkSelfPermission(requireActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE)
+                    != PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.requestPermissions(requireActivity()
+                        , new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
 
-                Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-                chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-                chooseFile.setType("audio/*");
-                chooseFile = Intent.createChooser(chooseFile, getString(R.string.choose_a_file));
-                startActivityForResult(chooseFile, 101);
+            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+            chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+            chooseFile.setType("audio/*");
+            chooseFile = Intent.createChooser(chooseFile, getString(R.string.choose_a_file));
+            startActivityForResult(chooseFile, 101);
 
-            }
         });
 
-        binding.selectedFromDisk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.radioGroupRingtone.clearCheck();
-                playRingtone(viewModel.getSelectedMelody().getUri());
-            }
+        binding.selectedFromDisk.setOnClickListener(view1 -> {
+            binding.radioGroupRingtone.clearCheck();
+            playRingtone(viewModel.getSelectedMelody().getUri());
         });
     }
 
@@ -276,13 +267,10 @@ public class RingtoneListFragment extends Fragment {
         radiobutton.setPadding(40, 0,0,0);
         radiobutton.setTextColor(ContextCompat.getColor(requireContext(), R.color.white));
         radiobutton.setText(melody.getTitle());
-        radiobutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //binding.selectedFromDisk.setVisibility(View.GONE);
-                playRingtone(melody.getUri());
-                binding.selectedFromDisk.setChecked(false);
-            }
+        radiobutton.setOnClickListener(view -> {
+            //binding.selectedFromDisk.setVisibility(View.GONE);
+            playRingtone(melody.getUri());
+            binding.selectedFromDisk.setChecked(false);
         });
         return radiobutton;
     }

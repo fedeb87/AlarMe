@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,50 +87,39 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         AlarmEntity alarmEntity = alarms.get(position);
         holder.onBind(position);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClicked(v, position, false);
-            }
-        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                listener.onItemLongClicked(v, position);
-                return true;
-            }
+        holder.itemView.setOnClickListener(v -> listener.onItemClicked(v, position, false));
+        holder.itemView.setOnLongClickListener(v -> {
+            listener.onItemLongClicked(v, position);
+            return true;
         });
 
-        holder.mBinding.switchAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean isChecked = holder.mBinding.switchAlarm.isChecked();
-                // change state
-                alarmEntity.setStarted(isChecked);
-                if(isChecked){
-                    // change day
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(alarmEntity.getAlarmDate());
-                    calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(alarmEntity.getHour(),
-                            alarmEntity.getMinute()));
+        holder.mBinding.switchAlarm.setOnClickListener(view -> {
+            boolean isChecked = holder.mBinding.switchAlarm.isChecked();
+            // change state
+            alarmEntity.setStarted(isChecked);
+            if(isChecked){
+                // change day
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(alarmEntity.getAlarmDate());
+                calendar.set(Calendar.DAY_OF_MONTH, DateUtils.isTomorrow(alarmEntity.getHour(),
+                        alarmEntity.getMinute()));
 
-                    alarmEntity.setAlarmDate(calendar.getTime());
+                alarmEntity.setAlarmDate(calendar.getTime());
 
-                    // programarla
-                    AlarmManager.schedule(view.getContext(), alarmEntity);
+                // programarla
+                AlarmManager.schedule(view.getContext(), alarmEntity);
 
-                    // change visible text for the card
-                    String textToSet = StringHelper.getFormatedAlarmDate(
-                            view.getContext(), alarmEntity);
-                    holder.mBinding.textCardDays.setText(textToSet);
+                // change visible text for the card
+                String textToSet = StringHelper.getFormatedAlarmDate(
+                        view.getContext(), alarmEntity);
+                holder.mBinding.textCardDays.setText(textToSet);
 
-                }else
-                    // cancelarla
-                    AlarmManager.dismissAlarm(view.getContext(), alarmEntity);
+            }else
+                // cancelarla
+                AlarmManager.dismissAlarm(view.getContext(), alarmEntity);
 
-                // update database
-                listener.onEvent(alarmEntity);
-            }
+            // update database
+            listener.onEvent(alarmEntity);
         });
 
         // lo contiene y no tiene el fondo correcto
@@ -282,7 +270,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     public class CardItemClickListener implements PopupMenu.OnMenuItemClickListener {
         private final View itemView;
-        private int position;
+        private final int position;
         public CardItemClickListener(View itemView, int position) {
             this.itemView = itemView;
             this.position = position;

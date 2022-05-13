@@ -1,17 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">AlarMe</string>
-
-    <string name="event_detail_title">Titulo del evento</string>
     <string name="description_subtitle">DESCRIPCIÓN</string>
     <string name="desc" translatable="false">Simple icon</string>
-    <string name="default_date" translatable="false">18/12/2021 15:00hs</string>
-    <string name="desc_default" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
-
     <string name="about_menu">Acerca De</string>
-    <string name="themes_menu">Temas</string>
-    <string name="logout">Logout</string>
-    <string name="delete_milestone_title">Eliminar Evento?</string>
-    <string name="delete_milestone_msg">Esta seguro de que desea eliminar el evento?</string>
     <string name="ok_button">Aceptar</string>
     <string name="go_Settings">Ir a Configuracion</string>
     <string name="cancel_button">Cancelar</string>
@@ -21,8 +12,6 @@
     <string name="menu_home">Inicio</string>
     <string name="userName" translatable="false"> </string>
 
-
-    <string name="menu_detail">Detalle</string>
     <string name="menu_about">Acerca</string>
 
     <!-- Settings -->
@@ -31,18 +20,8 @@
     <string name="VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION" translatable="false">Shows notifications whenever work starts</string>
     <string name="NOTIFICATION_ID" translatable="false">1</string>
     <string name="vibration_key" translatable="false">vibrar</string>
-    <string name="hit_search">Buscar eventos…</string>
-    <string name="event_type">Tipo del evento</string>
-    <string name="new_event_title">Nueva Alarma</string>
     <string name="title_hint_milestone">Nombre de la alarma</string>
-    <string name="event_type_title">Tipo de evento</string>
-    <string name="message_hint_milestone">Descripcion del evento</string>
-    <string name="date_hint">Dia *</string>
-    <string name="time_hint">Horario *</string>
-    <string name="edit_menu">Editar</string>
     <string name="delete_menu">Eliminar</string>
-    <string name="remember_alarm">Recordatorio: </string>
-    <string name="about_title">FRAGMENTO ACERCA DE</string>
     <string name="large_text" translatable="false">
         "Material is the metaphor.\n\n"
 
@@ -147,15 +126,8 @@
     <string name="on_string">Activado</string>
     <string name="off_string">Desactivado</string>
     <string name="melody">Melodia</string>
-    <!-- Preference Titles -->
-    <string name="sync_header" translatable="false">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title" translatable="false">Your signature</string>
-    <string name="reply_title" translatable="false">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title" translatable="false">Sync email periodically</string>
     <string name="selected_melody">Melodia seleccionada</string>
     <string name="selected_vibration">Vibracion</string>
     <string name="selected_repeat">Repetir</string>
@@ -173,8 +145,6 @@
     <string name="snack_bar_text">Deshacer item borrado</string>
     <string name="snack_bar_undo">Deshacer</string>
     <string name="select_all_menu">Todo</string>
-    <string name="activate_menu">Activar</string>
-    <string name="inactivate_menu">Desactivar</string>
     <string name="delete_alarms_title">Eliminar alarmas?</string>
     <string name="delete_alarms_msg">Esta seguro que desea eliminar las alarmas seleccionadas?</string>
     <string name="delete_alarm_title">Eliminar alarma?</string>
@@ -376,10 +346,10 @@ Para cumplir nuestro contrato con usted o suscribir un contrato con usted a peti
 
 
 6. Seguridad De Su Información
-Buscamos utilizar medidas organizativas, técnicas y administrativas razonables para proteger la Información personal bajo nuestro control. Desafortunadamente, no se puede garantizar que la transmisión de datos a través de Internet o el sistema de almacenamiento de datos sea 100% seguro. Si tiene motivos para creer que su interacción con nosotros ya no es segura (por ejemplo, si cree que la seguridad de cualquier cuenta que pueda tener con nosotros se ha visto comprometida), notifíquenos de inmediato el problema comunicándose con nosotros de acuerdo con con la sección “Comuníquese con nosotros” a continuación. Su cuenta TeacherKit está protegida por una contraseña. Puede ayudarnos a protegernos contra el acceso no autorizado a su cuenta manteniendo su contraseña en secreto en todo momento.
+Buscamos utilizar medidas organizativas, técnicas y administrativas razonables para proteger la Información personal bajo nuestro control. Desafortunadamente, no se puede garantizar que la transmisión de datos a través de Internet o el sistema de almacenamiento de datos sea 100%% seguro. Si tiene motivos para creer que su interacción con nosotros ya no es segura (por ejemplo, si cree que la seguridad de cualquier cuenta que pueda tener con nosotros se ha visto comprometida), notifíquenos de inmediato el problema comunicándose con nosotros de acuerdo con con la sección “Comuníquese con nosotros” a continuación. Su cuenta TeacherKit está protegida por una contraseña. Puede ayudarnos a protegernos contra el acceso no autorizado a su cuenta manteniendo su contraseña en secreto en todo momento.
 Nuestro equipo de ingenieros se dedica a mantener segura su información personal. Trabajamos con un equipo de investigadores de seguridad para probar continuamente las prácticas de TeacherKit en busca de vulnerabilidades. Revisamos periódicamente nuestras prácticas de recopilación, almacenamiento y procesamiento de información, incluidas las medidas de seguridad física para protegernos contra el acceso no autorizado a los sistemas. Desarrollamos e implementamos continuamente funciones para mantener segura su información personal; por ejemplo, cuando ingresa cualquier información en cualquier lugar del Servicio, encriptamos la transmisión de esa información utilizando (SSL / TLS) de forma predeterminada.
 Nos aseguramos de que las contraseñas se almacenen y transfieran de forma segura mediante cifrado. Eliminamos automáticamente las cuentas activas después de un período de tiempo específico.
-Aunque hacemos esfuerzos concertados de buena fe para mantener la seguridad de la información personal y trabajamos arduamente para garantizar la integridad y seguridad de nuestros sistemas, ninguna práctica es 100% inmune y no podemos garantizar la seguridad de la información.
+Aunque hacemos esfuerzos concertados de buena fe para mantener la seguridad de la información personal y trabajamos arduamente para garantizar la integridad y seguridad de nuestros sistemas, ninguna práctica es 100%% inmune y no podemos garantizar la seguridad de la información.
 Las interrupciones, los ataques, los errores humanos, las fallas del sistema, el uso no autorizado y otros factores pueden comprometer la seguridad de la información del usuario en cualquier momento. Si una brecha de seguridad aumentara a nuestro
 conocimiento, intentaremos notificarle electrónicamente \ | (sujeto a las leyes aplicables) para que pueda tomar los procedimientos de protección
 
@@ -400,13 +370,8 @@ Este sitio web pudiera contener enlaces a otros sitios o documentos que pudieran
 Copyright 2021 - 2022
 All Rights Reserved"</string>
 
-    <!-- keys to retrieve from settings -->
-    <string name="sign_format_1" translatable="false">sign format 1</string>
-    <string name="sign_format_2" translatable="false">sign format 2</string>
     <string name="sign_name" translatable="false">sign</string>
 
-    <string name="horoscopeEnable">Horoscopo habilitado</string>
-    <string name="show_horoscope_option">Mostrar horoscopo del día</string>
     <string name="show_phrases_option">Mostrar frase del día</string>
     <string name="show_weather_option">Mostrar el clima del dia</string>
     <string name="aries" translatable="false">Aries</string>
@@ -426,10 +391,6 @@ All Rights Reserved"</string>
     <string name="today">Hoy</string>
     <string name="choose_a_file">Elije una melodia</string>
     <string name="no_sound">No se encontro la melodia</string>
-    <string name="button_start">Iniciar</string>
-    <string name="button_pause">Pausar</string>
-    <string name="button_stop">Detener</string>
-    <string name="button_clear">Limpiar</string>
 
     <!-- phrases -->
     <string name="phrase_enero_1">"“Estoy convencido de que por lo menos la mitad de lo que separa a los emprendedores exitosos de los que no lo son es mera perseverancia”: Steve Jobs"</string>
@@ -442,7 +403,7 @@ All Rights Reserved"</string>
     <string name="phrase_enero_8">"“No importa cuántas veces falles, sólo debes de estar en lo correcto una vez. Entonces todos te llamarán un éxito de la noche a la mañana y te dirán lo afortunado que eres”: Mark Cuban"</string>
     <string name="phrase_enero_9">"“Nunca vayas por el camino trazado, porque conduce hacia donde otros ya han estado”: Alexander Graham Bell"</string>
     <string name="phrase_enero_10">"“Si no te gusta tomar riesgos, debes salir corriendo del negocio”: Ray Kroc"</string>
-    <string name="phrase_enero_11">"“El éxito es 1% inspiración y 99% transpiración”: Thomas Edison"</string>
+    <string name="phrase_enero_11">"“El éxito es 1%% inspiración y 99%% transpiración”: Thomas Edison"</string>
     <string name="phrase_enero_12">"“Tu trabajo va a llenar gran parte de tu vida, la única manera de estar realmente satisfecho es hacer lo que creas es un gran trabajo y la única manera de hacerlo es amar lo que haces.”: Anónimo"</string>
     <string name="phrase_enero_13">"“Si no lo has encontrado aún, sigue buscando. Como con todo lo que tiene que ver con el corazón, sabrás cuando lo hayas encontrado”: Steve Jobs"</string>
     <string name="phrase_enero_14">"“Mantén siempre tus ojos abiertos, Siempre observando. Porque cualquier cosa que veas puede inspirarte”: Grace Coddington"</string>
@@ -669,7 +630,7 @@ All Rights Reserved"</string>
     <string name="phrase_agosto_21">"“Casi todo lo que realice será insignificante, pero es muy importante que lo haga”: Mahatma Gandhi"</string>
     <string name="phrase_agosto_22">"“Nunca consideres el estudio como una obligación, sino como una oportunidad para penetrar en el bello y maravilloso mundo del saber”: Albert Einstein"</string>
     <string name="phrase_agosto_23">"“Tu tiempo es limitado, así que no lo desperdicies viviendo la vida de alguien más.”: Steve Jobs"</string>
-    <string name="phrase_agosto_24">"“Una buena idea es un 10% de implementación y de trabajo, el otro 90% es suerte”: Guy Kawasaki"</string>
+    <string name="phrase_agosto_24">"“Una buena idea es un 10%% de implementación y de trabajo, el otro 90%% es suerte”: Guy Kawasaki"</string>
     <string name="phrase_agosto_25">"“Está bien celebrar el éxito pero es más importante prestar atención a las lecciones del fracaso”: Bill Gates"</string>
     <string name="phrase_agosto_26">"“Mi meta nunca fue sólo crear una empresa. Mucha gente malinterpreta eso, como si no me importaran las ganancias o el beneficio o cualquiera de esas cosas. Pero el no ser sólo otra empresa significa para mi construir algo que realmente genere un gran cambio”: Mark Zuckerberg"</string>
     <string name="phrase_agosto_27">"“No importa qué tan lento vayas mientras no te detengas”: Confucio"</string>
@@ -755,7 +716,7 @@ All Rights Reserved"</string>
     <string name="phrase_noviembre_13">"“No te disculpes por tener altos estándares. Las personas que realmente quieren estar en tu vida alcanzarán este nivel”: Ziad K. Abdelnour"</string>
     <string name="phrase_noviembre_14">"“Es difícil derrotar a una persona que nunca se rinde”: Babe Ruth"</string>
     <string name="phrase_noviembre_15">"“Tú sabes que estás en el camino del éxito si estás dispuesto a hacer tu trabajo aun cuando no te paguen”: Oprah Winfrey"</string>
-    <string name="phrase_noviembre_16">"“El 80% del éxito se basa simplemente en insistir”: Woody Allen"</string>
+    <string name="phrase_noviembre_16">"“El 80%% del éxito se basa simplemente en insistir”: Woody Allen"</string>
     <string name="phrase_noviembre_17">"“El valor de la vida puede ser medido por las veces en las que tu alma ha estado muy agitada”: Soichiro Honda"</string>
     <string name="phrase_noviembre_18">"“No basta con hacer productos buenos. Tienes que hacer que la gente se entere de lo que estás haciendo”: Phil Knight"</string>
     <string name="phrase_noviembre_19">"“El dinero normalmente se atrae, no se persigue”: Jim Rohn"</string>
@@ -811,4 +772,11 @@ All Rights Reserved"</string>
     <string name="scheduled_alarm_msg">Alarma programada en %s</string>
     <string name="enable_location_snackbar">Necesita habilitar la ubicación</string>
     <string name="access_location_permission_snackbar">Permitir que AlarMe acceda a la ubicacion</string>
+    <string name="alarm_sound">Sonido de la Alarma</string>
+    <string name="vibration_text">Vibracion</string>
+    <string name="postpone_text">Posponer</string>
+    <string name="repeat_text">Repetir</string>
+    <string name="c_temp">° C</string>
+    <string name="pipe_text">|</string>
+    <string name="temp_f">F</string>
 </resources>

@@ -39,12 +39,12 @@ public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback{
     }
 
     @Override
-    public float getSwipeThreshold( RecyclerView.ViewHolder viewHolder){
+    public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder){
         return .2f;
     }
 
     @Override
-    public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+    public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX,
                 dY, actionState, isCurrentlyActive);
         View itemView = viewHolder.itemView;

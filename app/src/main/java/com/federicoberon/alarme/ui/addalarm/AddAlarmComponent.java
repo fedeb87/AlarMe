@@ -14,10 +14,4 @@ public interface AddAlarmComponent {
     interface Factory {
         AddAlarmComponent create();
     }
-/*
-    void inject (AddAlarmFragment addAlarmFragment);
-    void inject (RingtoneListFragment ringtoneListFragment);
-    void inject (RingtonePickerFragment ringtonePickerFragment);
-
- */
 }

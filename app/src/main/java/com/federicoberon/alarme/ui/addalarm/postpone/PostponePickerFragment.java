@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +51,7 @@ public class PostponePickerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPostponePickerBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -70,21 +68,12 @@ public class PostponePickerFragment extends Fragment {
         binding.postponeList.setAdapter(adapter);
 
         // on/off switch
-        binding.onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableAllControls(isChecked, vibNames);
-            }
-        });
+        binding.onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> enableAllControls(isChecked, vibNames));
 
         binding.onOffSwitch.setChecked(viewModel.isPostponeOn());
 
         // add on click listener to update selections
-        binding.postponeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                viewModel.setSelectedPostpone(PostponeManager.getPostponeTime(i));
-            }
-        });
+        binding.postponeList.setOnItemClickListener((adapterView, view1, i, l) -> viewModel.setSelectedPostpone(PostponeManager.getPostponeTime(i)));
 
         // set postpone checked in the list
         binding.postponeList.setItemChecked(

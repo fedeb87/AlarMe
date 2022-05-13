@@ -13,7 +13,7 @@ import io.reactivex.Maybe;
 
 public class ServiceUtil {
 
-    private AlarmRepository mAlarmRepository;
+    private final AlarmRepository mAlarmRepository;
 
     public ServiceUtil(Context context) {
         mAlarmRepository = new AlarmRepository(((AlarMeApplication)context.getApplicationContext()).appComponent.getAlarmDao(),

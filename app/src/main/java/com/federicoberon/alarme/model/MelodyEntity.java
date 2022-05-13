@@ -10,7 +10,6 @@ public class MelodyEntity {
 
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @NonNull
     private String title;
     private String uri;
 

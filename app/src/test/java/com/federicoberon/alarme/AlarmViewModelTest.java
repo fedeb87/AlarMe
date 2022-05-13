@@ -40,8 +40,8 @@ public class AlarmViewModelTest {
 
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
-    double latitude = 1.5;
-    double longitude = 1.6;
+    final double latitude = 1.5;
+    final double longitude = 1.6;
 
     @Before
     public void setUp() {

@@ -13,16 +13,6 @@
     <color name="colorGrayLight">#F1EFEF</color>
     <color name="black_effective">#2a2a2a</color>
 
-
-    <!--Design colors-->
-    <color name="red_dark">#F06423</color>
-    <color name="red_dark2">#D85A1B</color>
-    <color name="cyan_light">#c9ebee</color>
-    <color name="cyan">#b5e3e7</color>
-    <color name="cyan_dark">#70BDC6</color>
-    <color name="navy_blue">#214258</color>
-    <color name="navy_blue_dark">#1C3A4E</color>
-
     <color name="white_transparent">#75ffffff</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>

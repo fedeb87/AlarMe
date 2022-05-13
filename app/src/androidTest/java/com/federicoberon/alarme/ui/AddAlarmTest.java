@@ -68,7 +68,7 @@ public class AddAlarmTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Rule
-    public CountingTaskExecutorRule mCountingTaskExecutorRule = new CountingTaskExecutorRule();
+    public final CountingTaskExecutorRule mCountingTaskExecutorRule = new CountingTaskExecutorRule();
     private AlarmEntity alarm_to_insert;
 
     @Inject
@@ -83,7 +83,6 @@ public class AddAlarmTest {
         TestApplicationComponent component = (TestApplicationComponent) app.appComponent;
         mContext = app.appComponent.getContext();
         component.inject(this);
-
         alarm_to_insert = TestDataHelper.ALARM_3;
 
         when(viewmodel.getMelodyByName(any())).thenReturn(Single.just(TestDataHelper.MELODY_1));

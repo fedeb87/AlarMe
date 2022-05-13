@@ -5,8 +5,6 @@ import android.media.AudioManager;
 
 import com.federicoberon.alarme.di.ApplicationContext;
 
-import javax.inject.Named;
-
 import dagger.Module;
 import dagger.Provides;
 

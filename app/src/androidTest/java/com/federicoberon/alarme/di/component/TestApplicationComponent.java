@@ -6,7 +6,6 @@ import com.federicoberon.alarme.di.module.ApplicationModule;
 import com.federicoberon.alarme.di.module.AudioManagerModule;
 import com.federicoberon.alarme.di.module.RingtoneManagerModule;
 import com.federicoberon.alarme.ui.AddAlarmTest;
-import com.federicoberon.alarme.ui.MainActivityTest;
 
 import javax.inject.Singleton;
 

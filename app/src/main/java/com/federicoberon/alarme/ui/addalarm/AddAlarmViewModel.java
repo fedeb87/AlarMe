@@ -2,7 +2,6 @@ package com.federicoberon.alarme.ui.addalarm;
 
 import android.content.Context;
 import android.media.AudioManager;
-import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +15,7 @@ import com.federicoberon.alarme.utils.AlarmManager;
 import com.federicoberon.alarme.utils.DateUtils;
 import com.federicoberon.alarme.utils.RepeatManager;
 import com.federicoberon.alarme.utils.StringHelper;
-import javax.inject.Inject;
+
 import javax.inject.Singleton;
 
 import io.reactivex.Flowable;

@@ -2,10 +2,9 @@ package com.federicoberon.alarme;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.media.RingtoneManager;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -26,7 +25,7 @@ public class TestUtils {
     public static AppDatabase initDb(){
 
         RoomDatabase.Callback rdc = new RoomDatabase.Callback(){
-            public void onCreate (SupportSQLiteDatabase db){
+            public void onCreate (@NonNull SupportSQLiteDatabase db){
             }
         };
 

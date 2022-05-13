@@ -16,7 +16,6 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 
 import com.federicoberon.alarme.MainActivity;
@@ -24,8 +23,6 @@ import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentRingtonePickerBinding;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -61,7 +58,7 @@ public class RingtonePickerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentRingtonePickerBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -71,11 +68,7 @@ public class RingtonePickerFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //binding.seekBarVolume.set
-        binding.onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableAllControls(isChecked);
-            }
-        });
+        binding.onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> enableAllControls(isChecked));
 
         mMediaPlayer = new MediaPlayer();
         binding.onOffSwitch.setChecked(viewModel.isMelodyOn());
@@ -125,8 +118,6 @@ public class RingtonePickerFragment extends Fragment {
             mMediaPlayer.setVolume(progress, progress);
             mMediaPlayer.prepare();
             mMediaPlayer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,29 +2,12 @@
 <resources>
     <string name="about_menu">"About "</string>
     <string name="description_subtitle">DESCRIPTION</string>
-    <string name="event_detail_title">Event Titlte</string>
-    <string name="logout">Logout</string>
-    <string name="delete_milestone_title">Delete event?</string>
-    <string name="delete_milestone_msg">Are you sure you want to delete the event?</string>
-    <string name="ok_button">Ok</string>
+    <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
     <string name="menu_home">Home</string>
-    <string name="menu_detail">Detail</string>
     <string name="menu_about">About</string>
-    <string name="hit_search">Search milestones…</string>
-    <string name="event_type">Event Type</string>
-    <string name="new_event_title">New Alarm</string>
     <string name="title_hint_milestone">Alarm Name</string>
-    <string name="event_type_title">Event Type</string>
-    <string name="message_hint_milestone">Event Description</string>
-    <string name="date_hint">Day *</string>
-    <string name="time_hint">Hour *</string>
-    <string name="edit_menu">Edit</string>
     <string name="delete_menu">Delete</string>
-    <string name="remember_alarm">Remember:</string>
-    <string name="about_title">FRAGMENT ABOUT</string>
-    <string name="horoscopeEnable">Horoscope enable</string>
-    <string name="show_horoscope_option">Show daily horoscope</string>
     <string name="sagittarius">Sagittarius</string>
     <string name="capricorn">Capricorn</string>
     <string name="aquarius">Aquarius</string>
@@ -43,7 +26,7 @@
     <string name="phrase_enero_8">"“No matter how many times you fail, you only have to be right once. Then everyone will call you an overnight success and tell you how lucky you are” – Mark Cuban"</string>
     <string name="phrase_enero_9">"“Never go the way you have set out, because it leads where others have already been” - Alexander Graham Bell"</string>
     <string name="phrase_enero_10">"“If you don't like to take risks, you should run out of business”: Ray Kroc"</string>
-    <string name="phrase_enero_11">"“Success is 1% inspiration and 99% perspiration” - Thomas Edison"</string>
+    <string name="phrase_enero_11">"“Success is 1%% inspiration and 99%% perspiration” - Thomas Edison"</string>
     <string name="phrase_enero_12">"“Your work is going to fill a large part of your life, the only way to be truly satisfied is to do what you believe is great work and the only way to do it is to love what you do.”: Anonymous"</string>
     <string name="phrase_enero_13">"“Always keep your eyes open, Always watching. Because anything you see can inspire you”: Grace Coddington"</string>
     <string name="phrase_enero_14">"“If you haven't found it yet, keep looking. As with everything that has to do with the heart, you will know when you have found it” - Steve Jobs"</string>
@@ -257,7 +240,7 @@
     <string name="phrase_agosto_8">"“We have to have a goal, a purpose in our lives. If you don't know where you're aiming, you don't have a goal”: Mary Kay Ash"</string>
     <string name="phrase_agosto_9">"“Some people dream of success, while others wake up and work for it”: Anonymous"</string>
     <string name="phrase_agosto_10">"“The people who are crazy enough to think they can change the world... are the ones who change it”: Steve Jobs"</string>
-    <string name="phrase_agosto_11">"“The tragedy in life is not not achieving your goals. The tragedy in life is not having goals to achieve”: Benjamin E. Mays</string>
+    <string name="phrase_agosto_11">"“The tragedy in life is not achieving your goals. The tragedy in life is not having goals to achieve”: Benjamin E. Mays</string>
     <string name="phrase_agosto_12">"“Wealth flows from energy and ideas”: William Feather"</string>
     <string name="phrase_agosto_13">"“The greatest failure is never to have tried”: Chinese proverb"</string>
     <string name="phrase_agosto_14">"“An investment in knowledge pays the best interest” - Benjamin Franklin</string>
@@ -270,7 +253,7 @@
     <string name="phrase_agosto_21">"“Almost everything you do will be insignificant, but it is very important that you do it” – Mahatma Gandhi"</string>
     <string name="phrase_agosto_22">"“Never consider study as an obligation, but as an opportunity to penetrate the beautiful and wonderful world of knowledge”: Albert Einstein"</string>
     <string name="phrase_agosto_23">"“Your time is limited, so don't waste it living someone else's life.” - Steve Jobs"</string>
-    <string name="phrase_agosto_24">"“A good idea is 10% implementation and work, the other 90% is luck”: Guy Kawasaki"</string>
+    <string name="phrase_agosto_24">"“A good idea is 10%% implementation and work, the other 90%% is luck”: Guy Kawasaki"</string>
     <string name="phrase_agosto_25">"“It's okay to celebrate success, but it's more important to heed the lessons of failure.” - Bill Gates"</string>
     <string name="phrase_agosto_26">"“My goal was never just to create a company. A lot of people misunderstand that, as if I don't care about profit or profit or any of those things. But not being just another company means for me to build something that really generates a great change ”: Mark Zuckerberg"</string>
     <string name="phrase_agosto_27">"“It doesn't matter how slowly you go as long as you don't stop” - Confucius"</string>
@@ -356,7 +339,7 @@
     <string name="phrase_noviembre_13">"“Don't apologize for having high standards. People who really want to be in your life will reach this level”: Ziad K. Abdelnour</string>
     <string name="phrase_noviembre_14">"“It is difficult to defeat a person who never gives up”: Babe Ruth</string>
     <string name="phrase_noviembre_15">"“You know you're on the road to success if you're willing to do your job even if you don't get paid.” - Oprah Winfrey"</string>
-    <string name="phrase_noviembre_16">"“80% of success is simply based on insisting” - Woody Allen"</string>
+    <string name="phrase_noviembre_16">"“80%% of success is simply based on insisting” - Woody Allen"</string>
     <string name="phrase_noviembre_17">"“The value of life can be measured by the times your soul has been very agitated”: Soichiro Honda</string>
     <string name="phrase_noviembre_18">"“It is not enough to make good products. You have to make people aware of what you are doing”: Phil Knight</string>
     <string name="phrase_noviembre_19">"“Money is usually attracted, not chased”: Jim Rohn"</string>
@@ -443,8 +426,6 @@
     <string name="no_vibrate_string">No vibration</string>
     <string name="no_melody_string">No melody</string>
     <string name="no_alarm_entity">An unexpected error occurred while playing the alarm. Please contact support.</string>
-    <string name="activate_menu">Active</string>
-    <string name="inactivate_menu">Inactive</string>
     <string name="delete_alarms_title">Delete alarms?</string>
     <string name="delete_alarms_msg">Are you sure you want to delete the selected alarms?</string>
     <string name="delete_alarm_title">Delete alarm?</string>
@@ -460,10 +441,6 @@
     <string name="brew_personal_desc">I am excited about mobile technologies. Creator of ideas, curious and nature lover.</string>
     <string name="choose_a_file">Choose a melody</string>
     <string name="no_sound">Melody not found</string>
-    <string name="button_start">Start</string>
-    <string name="button_pause">Pause</string>
-    <string name="button_stop">Stop</string>
-    <string name="button_clear">Clean</string>
     <string name="terms_of_services_body">"These terms and conditions of use (“Terms”) apply to the mobile application called EscuelaApp (“Application”) and any documentation that we make available to you in connection with the Application (“Documents”).
 
 
@@ -667,4 +644,10 @@ This website may contain links to other sites or documents that may be of intere
     <string name="show_phrases_option">Show daily phrases</string>
     <string name="no_phrases_string">Hide</string>
     <string name="phrases_string">Show</string>
+    <string name="enable_location_snackbar">You need to enable location</string>
+    <string name="access_location_permission_snackbar">Allow AlarMe to access the location</string>
+    <string name="alarm_sound">Alarm Sound</string>
+    <string name="vibration_text">Vibration</string>
+    <string name="postpone_text">Postpone</string>
+    <string name="repeat_text">Repeat</string>
 </resources>

@@ -36,7 +36,7 @@ public class MainActivityTest {
     // todo test swipe to dismiss
 
     @Rule
-    public ActivityScenarioRule<MainActivity> activityScenarioRule =
+    public final ActivityScenarioRule<MainActivity> activityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Rule

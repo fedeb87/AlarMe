@@ -259,9 +259,9 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
             // set max volume for speaker
             AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-            int amStreamMusicMaxVol = am.getStreamMaxVolume(am.STREAM_MUSIC);
-            streamMusicCurrentVol = am.getStreamVolume(am.STREAM_MUSIC);
-            am.setStreamVolume(am.STREAM_MUSIC, amStreamMusicMaxVol, 0);
+            int amStreamMusicMaxVol = am.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            streamMusicCurrentVol = am.getStreamVolume(AudioManager.STREAM_MUSIC);
+            am.setStreamVolume(AudioManager.STREAM_MUSIC, amStreamMusicMaxVol, 0);
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("error", "This Language is not supported");

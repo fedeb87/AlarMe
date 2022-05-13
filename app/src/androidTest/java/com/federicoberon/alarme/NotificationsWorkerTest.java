@@ -37,8 +37,7 @@ public class NotificationsWorkerTest {
                 .putString("idFirebase", "idFirebase")
                 .build();
 
-        NotificationsWorker worker =
-                (NotificationsWorker) TestWorkerBuilder.from(context,
+        NotificationsWorker worker = TestWorkerBuilder.from(context,
                         NotificationsWorker.class,
                         executor)
                         .setInputData(inputData)

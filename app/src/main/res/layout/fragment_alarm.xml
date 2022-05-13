@@ -12,7 +12,8 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:alpha="0.92"
-        android:src="@drawable/background" />
+        android:src="@drawable/background"
+        android:contentDescription="@string/desc" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -91,7 +92,8 @@
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <TextView
                         android:id="@+id/textViewCurrentWeather"
@@ -105,7 +107,8 @@
                         android:id="@+id/imageViewIcon"
                         android:layout_width="112dp"
                         android:layout_height="112dp"
-                        android:src="@drawable/sun" />
+                        android:src="@drawable/sun"
+                        android:contentDescription="@string/desc" />
 
                 </LinearLayout>
                 <TextView
@@ -113,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="52sp"
                     android:layout_gravity="center"
                     tools:text="28"
@@ -131,27 +134,27 @@
                     android:layout_height="wrap_content"
                     android:textSize="32sp"
                     android:layout_gravity="center"
-                    android:text="° C"
+                    android:text="@string/c_temp"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="32sp"
                     android:layout_gravity="center"
-                    android:text="|"
+                    android:text="@string/pipe_text"
                     />
 
                 <TextView
                     android:id="@+id/textViewCurrentTempF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:textSize="32sp"
                     android:layout_gravity="center"
                     android:textColor="@color/white_transparent"
-                    android:text="F"
+                    android:text="@string/temp_f"
                     />
                 </LinearLayout>
             </LinearLayout>
@@ -167,16 +170,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/today"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="24dp"
                     android:gravity="center_vertical"/>
 
                 <ImageView
                     android:id="@+id/imageViewDailyIcon"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginLeft="12dp"
-                    android:src="@drawable/sun" />
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/sun"
+                    android:contentDescription="@string/desc" />
 
                 <TextView
                     android:id="@+id/textViewDailyWeather"
@@ -235,8 +239,8 @@
                     android:layout_width="112dp"
                     android:layout_height="112dp"
                     tools:background="@drawable/taurus"
-                    android:layout_marginRight="16dp"
-                    />
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/desc" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -283,7 +287,7 @@
             app:layout_constraintBottom_toTopOf="@+id/activity_ring_snooze"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"/>
 
         <Button
@@ -292,7 +296,7 @@
             android:layout_height="wrap_content"
             android:text="@string/snooze"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_weight="1" />

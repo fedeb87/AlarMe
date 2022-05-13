@@ -5,7 +5,6 @@ import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -256,9 +255,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         mDisposable.add(homeViewModel.deleteAlarm(alarmEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(id -> {
-                Log.w("MIO", "Alarma borrada correctamente");
-            },
+            .subscribe(id -> Log.w("MIO", "Alarma borrada correctamente"),
             throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable)));
     }
 
@@ -267,21 +264,16 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.delete_alarm_title))
                 .setMessage(getString(R.string.delete_alarm_msg))
-                .setPositiveButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
-                    @SuppressLint("CheckResult")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // stop alarm service
-                        AlarmEntity alarmEntity = homeViewModel.getAlarms().get(position);
-                        AlarmManager.dismissAlarm(requireContext(), alarmEntity);
+                .setPositiveButton(getString(R.string.ok_button), (dialog, which) -> {
+                    // stop alarm service
+                    AlarmEntity alarmEntity = homeViewModel.getAlarms().get(position);
+                    AlarmManager.dismissAlarm(requireContext(), alarmEntity);
 
-                        homeViewModel.deleteAlarm(alarmEntity)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(id -> adapter.removeAlarmFromList(position),
-                                throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
-
-                    }
+                    homeViewModel.deleteAlarm(alarmEntity)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(id -> adapter.removeAlarmFromList(position),
+                            throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
 
                 })
                 .setNegativeButton(getString(R.string.cancel_button), null)
@@ -429,6 +421,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     public void refreshAdapter() {
         adapter.notifyDataSetChanged();
     }
@@ -454,39 +447,34 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle(getString(R.string.delete_alarms_title))
                 .setMessage(getString(R.string.delete_alarms_msg))
-                .setPositiveButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
-                    @SuppressLint("CheckResult")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton(getString(R.string.ok_button), (dialog, which) -> {
 
-                        List<Long> alarmsIdToDelete = new ArrayList<>();
-                        for (AlarmEntity alarm : homeViewModel.getMultiselect_list()) {
-                            alarmsIdToDelete.add(alarm.getId());
-                        }
-
-                        mDisposable.add(homeViewModel.getAlarmsToDelete(alarmsIdToDelete)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(alarmsToDelete -> {
-                                        // stop alarm service
-                                        AlarmManager.dismissAlarm(requireContext(), alarmsToDelete);
-
-                                        homeViewModel.deleteAlarms(alarmsIdToDelete)
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(() -> {
-                                                            // stop alarm service
-                                                            Log.w("MIO", "Alarma borrada correctamente");
-                                                        },
-                                                        throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
-
-                                        adapter.setAlarms(homeViewModel.getAlarms());
-                                },
-                                throwable -> Log.e("MIO", "Unable to cancel alarm: ", throwable)));
-
-                        homeViewModel.finishActionMode();
+                    List<Long> alarmsIdToDelete = new ArrayList<>();
+                    for (AlarmEntity alarm : homeViewModel.getMultiselect_list()) {
+                        alarmsIdToDelete.add(alarm.getId());
                     }
 
+                    mDisposable.add(homeViewModel.getAlarmsToDelete(alarmsIdToDelete)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(alarmsToDelete -> {
+                                    // stop alarm service
+                                    AlarmManager.dismissAlarm(requireContext(), alarmsToDelete);
+
+                                    homeViewModel.deleteAlarms(alarmsIdToDelete)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(() -> {
+                                                        // stop alarm service
+                                                        Log.w("MIO", "Alarma borrada correctamente");
+                                                    },
+                                                    throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
+
+                                    adapter.setAlarms(homeViewModel.getAlarms());
+                            },
+                            throwable -> Log.e("MIO", "Unable to cancel alarm: ", throwable)));
+
+                    homeViewModel.finishActionMode();
                 })
                 .setNegativeButton(getString(R.string.cancel_button), null)
                 .show();

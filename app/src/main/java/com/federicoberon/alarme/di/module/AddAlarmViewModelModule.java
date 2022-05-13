@@ -5,7 +5,6 @@ import android.media.AudioManager;
 import com.federicoberon.alarme.repositories.AlarmRepository;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel;
 
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import com.federicoberon.alarme.TestDataHelper;
 
 public class VibrationManagerTest {
-    String key = "Long";
+    final String key = "Long";
 
     @Test
     public void test_getVibrations(){

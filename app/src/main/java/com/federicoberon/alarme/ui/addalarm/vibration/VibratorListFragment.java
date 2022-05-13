@@ -6,8 +6,6 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -62,7 +60,7 @@ public class VibratorListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
@@ -82,26 +80,19 @@ public class VibratorListFragment extends Fragment {
         binding.vibrationsList.setAdapter(adapter);
 
         // on/off switch
-        binding.onOffSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                enableAllControls(isChecked, vibNames);
-            }
-        });
+        binding.onOffSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> enableAllControls(isChecked, vibNames));
         binding.onOffSwitch.setChecked(viewModel.isVibrationOn());
 
         // add on click listener to update selections
-        binding.vibrationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                VibrationListItem vView = (VibrationListItem) view;
-                String vibName = vView.getVibrationName();
+        binding.vibrationsList.setOnItemClickListener((adapterView, view12, i, l) -> {
+            VibrationListItem vView = (VibrationListItem) view12;
+            String vibName = vView.getVibrationName();
 
-                // preview vibration
-                VibrationManager.vibrateByName((Vibrator) view.getContext()
-                        .getSystemService(Context.VIBRATOR_SERVICE), vibName);
-                viewModel.setSelectedVibration(vibName);
+            // preview vibration
+            VibrationManager.vibrateByName((Vibrator) view12.getContext()
+                    .getSystemService(Context.VIBRATOR_SERVICE), vibName);
+            viewModel.setSelectedVibration(vibName);
 
-            }
         });
 
         // save button listener

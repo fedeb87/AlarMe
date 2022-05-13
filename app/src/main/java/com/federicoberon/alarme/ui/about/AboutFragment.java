@@ -21,8 +21,6 @@ import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.databinding.FragmentAboutBinding;
 
-import javax.inject.Inject;
-
 public class AboutFragment extends Fragment {
 
     private FragmentAboutBinding binding;

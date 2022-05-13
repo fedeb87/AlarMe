@@ -19,7 +19,6 @@ import com.federicoberon.alarme.di.ApplicationContext;
 import com.federicoberon.alarme.di.DatabaseInfo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.inject.Singleton;
 

@@ -19,7 +19,6 @@ public class AlarmEntity implements Serializable {
     private boolean readTitle;
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @NonNull
     private String title;
     @ColumnInfo(name = "alarm_date")
     private Date alarmDate;
