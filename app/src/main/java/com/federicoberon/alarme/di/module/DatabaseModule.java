@@ -1,10 +1,12 @@
 package com.federicoberon.alarme.di.module;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.OnConflictStrategy;
@@ -27,6 +29,7 @@ import dagger.Provides;
 
 @Module
 public class DatabaseModule {
+    private static AppDatabase INSTANCE;
     @ApplicationContext
     private final Context mContext;
 
@@ -41,16 +44,22 @@ public class DatabaseModule {
         mContext = context;
     }
 
+    @SuppressLint("CheckResult")
     @Singleton
     @Provides
     AppDatabase provideDatabase () {
-        return Room.databaseBuilder(
+        if(INSTANCE != null && INSTANCE.melodyDao().getCantMelodies() > 0){
+            return INSTANCE;
+        }
+        INSTANCE = Room.databaseBuilder(
                 mContext,
                 AppDatabase.class,
                 mDBName)
                 .addCallback(getRDC())
                 .fallbackToDestructiveMigration()
                 .build();
+
+        return INSTANCE;
     }
 
     /**
@@ -69,7 +78,7 @@ public class DatabaseModule {
                     contentValues.put("id",toneIdList.get(position));
                     contentValues.put("title",toneNameList.get(position));
                     contentValues.put("uri", toneUriList.get(position).toString());
-                    db.insert("melodies", OnConflictStrategy.IGNORE, contentValues);
+                    db.insert("melodies", OnConflictStrategy.REPLACE, contentValues);
                     position++;
                 }
             }
@@ -93,8 +102,6 @@ public class DatabaseModule {
             uri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
             id = cursor.getInt(RingtoneManager.ID_COLUMN_INDEX);
             //id = cursor.getPosition();
-
-
             toneIdList.add(id);
             toneNameList.add(title);
             toneUriList.add(Uri.parse(uri + "/" + id));

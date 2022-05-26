@@ -16,6 +16,9 @@ public interface MelodyDao extends BaseDao<MelodyEntity>{
     @Query("SELECT * FROM melodies")
     Flowable<List<MelodyEntity>> getAllMelodies();
 
+    @Query("SELECT count(*) FROM melodies")
+    int getCantMelodies();
+
     @Query("SELECT * FROM melodies where id = :id")
     Single<MelodyEntity> getMelody(long id);
 

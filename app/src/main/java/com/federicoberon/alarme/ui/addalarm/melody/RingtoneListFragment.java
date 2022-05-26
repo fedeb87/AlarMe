@@ -1,10 +1,13 @@
 package com.federicoberon.alarme.ui.addalarm.melody;
 
 import static android.app.Activity.RESULT_OK;
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.AudioManager;
@@ -61,6 +64,9 @@ public class RingtoneListFragment extends Fragment {
     @Inject
     AddAlarmViewModel viewModel;
 
+    @Inject
+    SharedPreferences sharedPref;
+
     public RingtoneListFragment() {
         // Required empty public constructor
     }
@@ -109,7 +115,10 @@ public class RingtoneListFragment extends Fragment {
                     setCustomMelodyVisible(viewModel.getSelectedMelody().getTitle());
 
             },
-            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
+            throwable -> {
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.e("MIO", "Unable to get milestones: ", throwable);
+            }));
 
 
         // seekbar behaviour
@@ -147,7 +156,10 @@ public class RingtoneListFragment extends Fragment {
                     viewModel.setSelectedMelody(melody);
                     Navigation.findNavController(binding.getRoot()).popBackStack(R.id.ringtoneListFragment, true);
                     },
-            throwable -> Log.e("MIO", "Unable to get milestones: ", throwable)));
+            throwable -> {
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.e("MIO", "Unable to get milestones: ", throwable);
+            }));
 
         });
 

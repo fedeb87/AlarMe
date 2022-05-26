@@ -53,9 +53,8 @@ public class AlarmViewModel extends ViewModel {
             return weatherServiceTwo.getWeather(latitude, longitude,"minutely,hourly,alerts"
                     , "imperial", "33b26b2199a99f5ddb67b87ce114460a");
         }catch (Exception e){
-            Log.w("ERROR", e.getMessage());
+            return Observable.empty();
         }
-        return Observable.empty();
 
     }
 
@@ -80,7 +79,6 @@ public class AlarmViewModel extends ViewModel {
                 return weatherService.getWeather("576d14184a3e42cc8cd10015222203"
                         , new double[]{lat, lon}, 1);
             }catch (Exception e){
-                Log.w("ERROR", e.getMessage());
                 return Observable.empty();
             }
         }

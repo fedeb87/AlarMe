@@ -36,6 +36,8 @@ import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity  {
     public static final String GENERATED_USER_CODE = "random";
+    public static final String ENABLE_LOGS = "enable logs";
+    public static final boolean DEFAULT_ENABLE_LOGS = false;
     public static final int ACCESS_LOCATION_CODE = 101;
     public static final String LAT_KEY = "lat";
     public static final String LON_KEY = "lon";
@@ -96,6 +98,7 @@ public class MainActivity extends AppCompatActivity  {
             int code = new Random().nextInt(367);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putInt(GENERATED_USER_CODE, code);
+            editor.putBoolean(ENABLE_LOGS, DEFAULT_ENABLE_LOGS);
             editor.apply();
         }
 

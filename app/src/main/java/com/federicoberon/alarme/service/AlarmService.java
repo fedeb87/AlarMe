@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -21,6 +22,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import static com.federicoberon.alarme.AlarMeApplication.CHANNEL_ID;
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
@@ -45,6 +47,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import java.io.IOException;
 
+import javax.inject.Inject;
+
 import io.reactivex.disposables.CompositeDisposable;
 
 public class AlarmService extends Service {
@@ -55,6 +59,9 @@ public class AlarmService extends Service {
     private double latitude;
     private double longitude;
     private boolean comeFromPreview = false;
+
+    @Inject
+    SharedPreferences sharedPref;
 
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -84,7 +91,7 @@ public class AlarmService extends Service {
         }else {
 
             if (intent.hasExtra(IS_PREVIEW)) {
-                comeFromPreview = true;
+                comeFromPreview = intent.getBooleanExtra(IS_PREVIEW, false);;
             }
 
             if (intent.hasExtra(ACTION_SNOOZE)) {
@@ -96,8 +103,8 @@ public class AlarmService extends Service {
             // get current location and request weather
             if (alarmEntity.isWeatherOn())
                 getCurrentLocation(alarmEntity);
-
-            displayAlarm(alarmEntity);
+            else
+                displayAlarm(alarmEntity);
         }
         return START_NOT_STICKY;
     }
@@ -202,15 +209,16 @@ public class AlarmService extends Service {
                 fusedLocationClient.getLastLocation()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful() && task.getResult() != null) {
-
-                                Log.w("MIO", "<<< Ya teno una ubicacion >>>");
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                    Log.w(LOG_TAG, "<<< Already have a location >>>");
                                 Location location = task.getResult();
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
                                 displayAlarm(alarmEntity);
 
                             } else {
-                                Log.w("MIO", "<<< Pido una nueva ubicacion >>>");
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                    Log.w(LOG_TAG, "<<< Pido una nueva ubicacion >>>");
                                 requestNewLocation(alarmEntity);
                             }
                         });
@@ -274,14 +282,16 @@ public class AlarmService extends Service {
                 ActivityCompat.checkSelfPermission(this,
                         android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED) {
-            Log.e("MIO" ,"<<< NO PERMISSIONS >>>");
+            if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                Log.e(LOG_TAG ,"<<< NO PERMISSIONS >>>");
             return false;
         }
 
         // check google service installed
         if(GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this)
                 != ConnectionResult.SUCCESS) {
-            Log.e("MIO", "<<< GOOGLE SERVICE ARE NOT INSTALLED >>>");
+            if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                Log.e(LOG_TAG, "<<< GOOGLE SERVICE ARE NOT INSTALLED >>>");
             return false;
         }
         return true;

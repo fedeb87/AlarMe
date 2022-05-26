@@ -14,14 +14,8 @@
     <color name="black_effective">#2a2a2a</color>
 
     <color name="white_transparent">#75ffffff</color>
-    <color name="light_blue_600">#FF039BE5</color>
-    <color name="light_blue_900">#FF01579B</color>
-    <color name="light_blue_A200">#FF40C4FF</color>
-    <color name="light_blue_A400">#FF00B0FF</color>
-    <color name="black_overlay">#66000000</color>
 
     <color name="seek_bar_background">#ababab</color>
-    <color name="seek_bar_progress">#ffb600</color>
     <color name="seek_bar_secondary_progress">#3399CC</color>
     <color name="colorPrimaryLight">#469cee</color>
 
@@ -30,16 +24,5 @@
     <color name="transparent">#00000000</color>
     <color name="transparent2">#22000000</color>
     <color name="background_dark_theme">#424242</color>
-
-
-    <!-- AMBER Theme -->
-    <color name="primaryColorAmber">#FFC107</color>
-    <color name="primaryLightColorAmber">#FFECB3</color>
-    <color name="primaryDarkColorAmber">#FFA000</color>
-    <color name="secondaryColorAmber">#03A9F4</color>
-    <color name="secondaryLightColorAmber">#65c4ef</color>
-    <color name="secondaryDarkColorAmber">#1e87b6</color>
-    <color name="primaryTextColorAmber">#ffffff</color>
-    <color name="secondaryTextColorAmber">#000000</color>
 
 </resources>

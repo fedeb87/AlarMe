@@ -1,11 +1,13 @@
 package com.federicoberon.alarme.ui.home;
 
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +58,9 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
     @Inject
     AddAlarmViewModel addAlarmViewModel;
+
+    @Inject
+    SharedPreferences sharedPref;
 
     private FragmentHomeBinding binding;
     private AlarmAdapter adapter;
@@ -118,7 +123,10 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                     adapter.setAlarms(alarms);
 
                 },
-                throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                }));
 
     }
 
@@ -134,7 +142,10 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                         setFragmentHeader(null);
 
                 },
-                throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                }));
     }
 
     /**
@@ -207,11 +218,14 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(id -> {
-                    //Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
-                    Log.w("MIO", " ");
-                    //Log.w("MIO", "Alarma actualizada con el titulo: " + alarmEntity.getTitle());
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
+
                 },
-                throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                }));
 
     }
 
@@ -255,8 +269,14 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
         mDisposable.add(homeViewModel.deleteAlarm(alarmEntity)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(id -> Log.w("MIO", "Alarma borrada correctamente"),
-            throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable)));
+            .subscribe(id -> {
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.w("MIO", "Alarma borrada correctamente");
+                    },
+            throwable -> {
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.e("MIO", "Unable to delete alarm from database ", throwable);
+            }));
     }
 
     private void deleteAlarm(int position) {
@@ -269,11 +289,14 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                     AlarmEntity alarmEntity = homeViewModel.getAlarms().get(position);
                     AlarmManager.dismissAlarm(requireContext(), alarmEntity);
 
-                    homeViewModel.deleteAlarm(alarmEntity)
+                    mDisposable.add(homeViewModel.deleteAlarm(alarmEntity)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(id -> adapter.removeAlarmFromList(position),
-                            throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
+                            throwable -> {
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                    Log.e("MIO", "Unable to delete alarm from database ", throwable);
+                            }));
 
                 })
                 .setNegativeButton(getString(R.string.cancel_button), null)
@@ -384,7 +407,10 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                     adapter.setAlarms(homeViewModel.getAlarms());
                     Log.w("MIO", "Alarmas desactivados correctamente " + alarmsIdToActivate.size());
                 },
-                throwable -> Log.e("MIO", "Unable to activate alarms", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e("MIO", "Unable to activate alarms", throwable);
+                }));
     }
 
     private void activateAlarms() {
@@ -406,7 +432,10 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
 
                     }
                 },
-                throwable -> Log.e("MIO", "Unable to schedule alarms", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e("MIO", "Unable to schedule alarms", throwable);
+                }));
 
 
         //
@@ -415,9 +444,13 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     adapter.setAlarms(homeViewModel.getAlarms());
-                    Log.w("MIO", "Alarmas activadas correctamente " + alarmsIdToActivate.size());
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.w("MIO", "Alarmas activadas correctamente " + alarmsIdToActivate.size());
                 },
-                throwable -> Log.e("MIO", "Unable to activate alarms", throwable)));
+                throwable -> {
+                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                        Log.e("MIO", "Unable to activate alarms", throwable);
+                }));
     }
 
 
@@ -461,18 +494,25 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                                     // stop alarm service
                                     AlarmManager.dismissAlarm(requireContext(), alarmsToDelete);
 
-                                    homeViewModel.deleteAlarms(alarmsIdToDelete)
+                                    mDisposable.add(homeViewModel.deleteAlarms(alarmsIdToDelete)
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .subscribe(() -> {
                                                         // stop alarm service
-                                                        Log.w("MIO", "Alarma borrada correctamente");
+                                                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                                            Log.w("MIO", "Alarma borrada correctamente");
                                                     },
-                                                    throwable -> Log.e("MIO", "Unable to delete alarm from database ", throwable));
+                                                    throwable -> {
+                                                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                                            Log.e("MIO", "Unable to delete alarm from database ", throwable);
+                                                    }));
 
                                     adapter.setAlarms(homeViewModel.getAlarms());
                             },
-                            throwable -> Log.e("MIO", "Unable to cancel alarm: ", throwable)));
+                            throwable -> {
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                    Log.e("MIO", "Unable to cancel alarm: ", throwable);
+                            }));
 
                     homeViewModel.finishActionMode();
                 })

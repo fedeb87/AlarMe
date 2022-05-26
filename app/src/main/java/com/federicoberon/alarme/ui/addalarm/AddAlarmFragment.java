@@ -1,6 +1,7 @@
 package com.federicoberon.alarme.ui.addalarm;
 
 import static com.federicoberon.alarme.MainActivity.ACCESS_LOCATION_CODE;
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
 import static com.federicoberon.alarme.MainActivity.LAT_KEY;
 import static com.federicoberon.alarme.MainActivity.LON_KEY;
 
@@ -10,7 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -24,10 +24,6 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -36,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import com.federicoberon.alarme.MainActivity;
@@ -113,7 +108,10 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                                     addAlarmViewModel.setDuplicate();
                             populateUI(alarmEntity);
                     },
-                    throwable -> Log.e(LOG_TAG, "Unable to load alarm: ", throwable)));
+                    throwable -> {
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.e(LOG_TAG, "Unable to load alarm: ", throwable);
+                    }));
             }else {
                 addAlarmViewModel.setNextAlarm();
                 retrieveAlarmValues();
@@ -247,7 +245,10 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                         else
                             binding.ringtoneValue.setText(getString(R.string.no_melody_string));
                     },
-                    throwable -> Log.e("MIO", "Unable to get alarm: ", throwable)));
+                    throwable -> {
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.e("MIO", "Unable to get alarm: ", throwable);
+                    }));
 
         }else {
             if (addAlarmViewModel.isMelodyOn())
@@ -271,6 +272,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
         //**** selected weather ****//
         binding.weatherSwitch.setChecked(addAlarmViewModel.isWeatherOn());
+        changeColorsView(binding.textViewWeather, null, addAlarmViewModel.isWeatherOn());
 
         //**** selected phrases ****//
         binding.phrasesSwitch.setChecked(addAlarmViewModel.isPhrasesOn());
@@ -336,7 +338,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                 .setOnTimeChangedListener(this);
 
         sharedPref.registerOnSharedPreferenceChangeListener(mListener);
-
     }
 
     private void checkLocationPermissions() {
@@ -386,11 +387,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     private void showSnackBar(int messageId) {
 
         binding.okButton.setEnabled(false);
-        /*
-         style the snackbar text
-         TextView sbText = sb.getView().findViewById(com.google.android.material.R.id.snackbar_text);
-         sbText.setTextColor(ThemeUtils.getThemeColor(this, R.attr.odyssey_color_text_accent));
-        */
         if (mSnackbar == null || !mSnackbar.isShown()) {
             mSnackbar = Snackbar.make(binding.getRoot(), messageId, Snackbar.LENGTH_INDEFINITE);
             mSnackbar.setAction(R.string.go_Settings, view -> startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireActivity().getPackageName()))));
@@ -408,12 +404,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
     }
 
     private void showPermissionsOnLockDialog() {
-        /*if (mSnackbar == null || !mSnackbar.isShown()) {
-            mSnackbar = Snackbar.make(binding.getRoot(), R.string.ring_permission_title, Snackbar.LENGTH_INDEFINITE);
-            mSnackbar.setAction(R.string.go_Settings, view -> startActivity(new Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)));
-            mSnackbar.show();
-        }*/
-
         new androidx.appcompat.app.AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom))
             .setIcon(android.R.drawable.ic_dialog_alert)
             .setTitle(getString(R.string.ring_permission_title))
@@ -437,7 +427,10 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
                         addAlarmViewModel.scheduledAlarm(requireActivity());
                         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_addAlarmFragment_to_nav_home);
                     },
-                    throwable -> Log.e(LOG_TAG, "Unable to save Alarm", throwable)));
+                    throwable -> {
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.e(LOG_TAG, "Unable to save Alarm", throwable);
+                    }));
 
     }
 
@@ -467,10 +460,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     public void openPostponeSelector(){
         Navigation.findNavController(binding.getRoot()).navigate(R.id.action_select_postpone);
-    }
-
-    public void openDiscardSelector(){
-        Log.w("MIO", "SELECTORRRRRRRR");
     }
 
     private void updateAllOptions(){
@@ -513,19 +502,6 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     public void offRepeat(){
         boolean isChecked = binding.repeatSwitch.isChecked();
-        /*if (isChecked){
-            addAlarmViewModel.disableDaysOfWeek();
-            binding.cbMonday.setChecked(false);
-            binding.cbTuesday.setChecked(false);
-            binding.cbWednesday.setChecked(false);
-            binding.cbThursday.setChecked(false);
-            binding.cbFriday.setChecked(false);
-            binding.cbSaturday.setChecked(false);
-            binding.cbSunday.setChecked(false);
-            enableDaysOfWeek(false);
-        }else
-            enableDaysOfWeek(true);*/
-
         addAlarmViewModel.setRepeatOn(isChecked);
         changeColorsView(binding.textViewRepeat, binding.repeatValue, isChecked);
         updateRepeatValue(isChecked);

@@ -1,5 +1,6 @@
 package com.federicoberon.alarme.ui.alarm;
 
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
 import static com.federicoberon.alarme.MainActivity.GENERATED_USER_CODE;
 import static com.federicoberon.alarme.MainActivity.LAT_KEY;
 import static com.federicoberon.alarme.MainActivity.LON_KEY;
@@ -161,10 +162,12 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                                                         onWeatherChangedTwo(null);
                                                 },
                                                 throwable2 -> {
-                                                    Log.e(LOG_TAG, "Error loading weather ", throwable2);
+                                                    if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                                        Log.e(LOG_TAG, "Error loading weather ", throwable2);
                                                     onWeatherChangedTwo(null);
                                                 }));
-                                Log.e(LOG_TAG, "Error loading weather ", throwable);
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                    Log.e(LOG_TAG, "Error loading weather ", throwable);
                                 onWeatherChanged(null);
                             }));
 
@@ -264,7 +267,8 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
             am.setStreamVolume(AudioManager.STREAM_MUSIC, amStreamMusicMaxVol, 0);
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("error", "This Language is not supported");
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.e("error", "This Language is not supported");
             } else {
                 Calendar cal = Calendar.getInstance();
                 String hourText = String.format(getString(R.string.hour_speach), cal.get(Calendar.HOUR)
@@ -272,7 +276,6 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
                 String tempText = "";
                 String titleText = "";
-
 
                 if (mAlarmEntity.isReadTitle() && !mAlarmEntity.getTitle().isEmpty())
                     titleText = mAlarmEntity.getTitle();
@@ -284,7 +287,12 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                 mTextToSpeech.speak(hourText + ". " + titleText + ". " + tempText, TextToSpeech.QUEUE_FLUSH, null);
             }
         } else {
-            Log.e("error", "Failed to Initialize");
+
+            if(handler!=null)
+                handler.removeCallbacks(delayedRunnable);
+
+            if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                Log.e("error", "Failed to Initialize " + status);
         }
     }
 

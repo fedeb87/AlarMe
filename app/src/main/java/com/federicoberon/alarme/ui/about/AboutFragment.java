@@ -69,7 +69,7 @@ public class AboutFragment extends Fragment {
                 .setVersionNameAsAppSubTitle()
                 .addShareAction(R.string.app_name)
                 .setActionsColumnsCount(2)
-                .addFeedbackAction("soporte.escuelapp@gmail.com")
+                .addFeedbackAction("soporte.alarme@gmail.com")
                 .addPrivacyPolicyAction(v -> {
 
                     Bundle args = new Bundle();

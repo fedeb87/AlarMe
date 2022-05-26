@@ -1,5 +1,6 @@
 package com.federicoberon.alarme.broadcastreceiver;
 
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
@@ -7,7 +8,9 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.service.AlarmService;
@@ -21,9 +24,12 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ActionReceiver extends BroadcastReceiver {
 
+    private SharedPreferences sharedPref;
+
     @SuppressLint("CheckResult")
     @Override
     public void onReceive(Context context, Intent intent) {
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         AlarmEntity alarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
         ServiceUtil serviceUtil = new ServiceUtil(context);
 
@@ -35,13 +41,18 @@ public class ActionReceiver extends BroadcastReceiver {
         // disable alarm
         Intent intentService = new Intent(context, AlarmService.class);
         intentService.putExtra(ALARM_ENTITY, alarmEntity);
-        intentService.putExtra(STOP_SERVICE, true);
+        intentService.putExtra(IS_PREVIEW, isPreview);
 
         context.stopService(intentService);
+        intentService.putExtra(STOP_SERVICE, true);
         if (!isPreview) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.w("MIO", "<<< Voy a detener el servicio >>>");
                 context.startForegroundService(intentService);
             } else {
+                if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                    Log.w("MIO", "<<< Voy a detener el servicio 2>>>");
                 context.startService(intentService);
             }
         }
@@ -115,9 +126,13 @@ public class ActionReceiver extends BroadcastReceiver {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(id -> {
                         // stop alarm service
-                        Log.w("MIO", "Alarm updated: " + id);
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.w("MIO", "Alarm updated: " + id);
                     },
-                    throwable -> Log.e("MIO", "Unable to get milestones: ", throwable));
+                    throwable -> {
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.e("MIO", "Unable to get milestones: ", throwable);
+                    });
         }
     }
 }

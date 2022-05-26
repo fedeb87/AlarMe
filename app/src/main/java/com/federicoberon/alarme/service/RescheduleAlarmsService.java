@@ -1,6 +1,9 @@
 package com.federicoberon.alarme.service;
 
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -25,6 +28,10 @@ import io.reactivex.schedulers.Schedulers;
 public class RescheduleAlarmsService extends LifecycleService {
 
     private static final String LOG_TAG = "RescheduleAlarmsService";
+
+    @Inject
+    SharedPreferences sharedPref;
+
     @Inject
     AlarmRepository alarmRepository;
 
@@ -53,7 +60,10 @@ public class RescheduleAlarmsService extends LifecycleService {
                                 }
                             }
                         },
-                        throwable -> Log.e(LOG_TAG, "Unable to get milestones: ", throwable)));
+                        throwable -> {
+                            if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                                Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                        }));
 
         return START_NOT_STICKY;
     }
