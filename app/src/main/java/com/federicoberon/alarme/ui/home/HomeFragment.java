@@ -51,7 +51,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class HomeFragment extends Fragment implements AlarmAdapter.EventListener {
 
-    private static final String LOG_TAG = "HomeFragment";
+    private static final String LOG_TAG = "<<< HomeFragment >>>";
 
     @Inject
     HomeViewModel homeViewModel;
@@ -219,7 +219,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(id -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.w("MIO", "Alarma actualizada con el id: " + alarmEntity.getId());
+                        Log.w(LOG_TAG, "Update alarm with id: " + alarmEntity.getId());
 
                 },
                 throwable -> {
@@ -271,11 +271,11 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(id -> {
                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                            Log.w("MIO", "Alarma borrada correctamente");
+                            Log.w(LOG_TAG, "Alarm deleted");
                     },
             throwable -> {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.e("MIO", "Unable to delete alarm from database ", throwable);
+                    Log.e(LOG_TAG, "Unable to delete alarm from database ", throwable);
             }));
     }
 
@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                             .subscribe(id -> adapter.removeAlarmFromList(position),
                             throwable -> {
                                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                    Log.e("MIO", "Unable to delete alarm from database ", throwable);
+                                    Log.e(LOG_TAG, "Unable to delete alarm from database ", throwable);
                             }));
 
                 })
@@ -396,7 +396,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                     AlarmManager.dismissAlarm(requireContext(), alarmsToActivate);
 
                 },
-                throwable -> Log.e("MIO", "Unable to dismiss alarms", throwable)));
+                throwable -> Log.e(LOG_TAG, "Unable to dismiss alarms", throwable)));
 
 
         //
@@ -405,11 +405,11 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> {
                     adapter.setAlarms(homeViewModel.getAlarms());
-                    Log.w("MIO", "Alarmas desactivados correctamente " + alarmsIdToActivate.size());
+                    Log.w(LOG_TAG, "Alarmas desactivados correctamente " + alarmsIdToActivate.size());
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e("MIO", "Unable to activate alarms", throwable);
+                        Log.e(LOG_TAG, "Unable to activate alarms", throwable);
                 }));
     }
 
@@ -434,7 +434,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e("MIO", "Unable to schedule alarms", throwable);
+                        Log.e(LOG_TAG, "Unable to schedule alarms", throwable);
                 }));
 
 
@@ -445,11 +445,11 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 .subscribe(() -> {
                     adapter.setAlarms(homeViewModel.getAlarms());
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.w("MIO", "Alarmas activadas correctamente " + alarmsIdToActivate.size());
+                        Log.w(LOG_TAG, "Alarmas activadas correctamente " + alarmsIdToActivate.size());
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e("MIO", "Unable to activate alarms", throwable);
+                        Log.e(LOG_TAG, "Unable to activate alarms", throwable);
                 }));
     }
 
@@ -500,18 +500,18 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                                             .subscribe(() -> {
                                                         // stop alarm service
                                                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                                            Log.w("MIO", "Alarma borrada correctamente");
+                                                            Log.w(LOG_TAG, "Alarma borrada correctamente");
                                                     },
                                                     throwable -> {
                                                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                                            Log.e("MIO", "Unable to delete alarm from database ", throwable);
+                                                            Log.e(LOG_TAG, "Unable to delete alarm from database ", throwable);
                                                     }));
 
                                     adapter.setAlarms(homeViewModel.getAlarms());
                             },
                             throwable -> {
                                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                    Log.e("MIO", "Unable to cancel alarm: ", throwable);
+                                    Log.e(LOG_TAG, "Unable to cancel alarm: ", throwable);
                             }));
 
                     homeViewModel.finishActionMode();

@@ -12,6 +12,8 @@ import com.federicoberon.alarme.di.component.DaggerApplicationComponent;
 import com.federicoberon.alarme.di.module.ApplicationModule;
 import com.federicoberon.alarme.di.module.AudioManagerModule;
 import com.federicoberon.alarme.di.module.DatabaseModule;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
 import com.federicoberon.alarme.api.WeatherService;
 import com.federicoberon.alarme.api.WeatherServiceTwo;
 import io.reactivex.Scheduler;
@@ -22,6 +24,9 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class AlarMeApplication extends Application {
     public static final String CHANNEL_ID = "ALARM_SERVICE_CHANNEL";
+
+    private HoroscopeService horoscopeService;
+    private HoroscopeServiceTwo horoscopeServiceTwo;
     private WeatherService weatherService;
     private WeatherServiceTwo weatherServiceTwo;
     private Scheduler defaultSubscribeScheduler;
@@ -88,6 +93,14 @@ public class AlarMeApplication extends Application {
         this.weatherServiceTwo = weatherService;
     }
 
+    public void setHoroscopeService(HoroscopeService horoscopeService) {
+        this.horoscopeService = horoscopeService;
+    }
+
+    public void setHoroscopeServiceTwo(HoroscopeServiceTwo horoscopeService) {
+        this.horoscopeServiceTwo = horoscopeService;
+    }
+
     public WeatherService getWeatherService() {
         if (this.weatherService == null) {
             this.weatherService = WeatherService.Factory.create();
@@ -100,5 +113,19 @@ public class AlarMeApplication extends Application {
             this.weatherServiceTwo = WeatherServiceTwo.Factory.create();
         }
         return weatherServiceTwo;
+    }
+
+    public HoroscopeService getHoroscopeService() {
+        if (this.horoscopeService == null) {
+            this.horoscopeService = HoroscopeService.Factory.create();
+        }
+        return horoscopeService;
+    }
+
+    public HoroscopeServiceTwo getHoroscopeServiceTwo() {
+        if (this.horoscopeServiceTwo == null) {
+            this.horoscopeServiceTwo = HoroscopeServiceTwo.Factory.create();
+        }
+        return horoscopeServiceTwo;
     }
 }

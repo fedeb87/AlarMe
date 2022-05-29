@@ -17,6 +17,7 @@ import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.service.RescheduleAlarmsService;
 import com.federicoberon.alarme.ui.about.AboutFragment;
 import com.federicoberon.alarme.ui.addalarm.AddAlarmFragment;
+import com.federicoberon.alarme.ui.addalarm.horoscope.HoroscopeDialogFragment;
 import com.federicoberon.alarme.ui.addalarm.postpone.PostponePickerFragment;
 import com.federicoberon.alarme.ui.addalarm.melody.RingtoneListFragment;
 import com.federicoberon.alarme.ui.addalarm.melody.RingtonePickerFragment;
@@ -51,6 +52,7 @@ public interface ApplicationComponent {
     void inject (PostponePickerFragment postponePickerFragment);
     void inject (RepeatPickerFragment repeatPickerFragment);
     void inject (AlarmService alarmService);
+    void inject (HoroscopeDialogFragment horoscopeDialogFragment);
 
     void inject(ActionReceiver actionReceiver);
 

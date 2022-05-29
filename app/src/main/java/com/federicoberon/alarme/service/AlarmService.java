@@ -49,7 +49,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class AlarmService extends Service {
 
-    private static final String LOG_TAG = "AlarmService";
+    private static final String LOG_TAG = "<<< AlarmService >>>";
     private Vibrator vibrator;
     private FusedLocationProviderClient fusedLocationClient;
     private double latitude;
