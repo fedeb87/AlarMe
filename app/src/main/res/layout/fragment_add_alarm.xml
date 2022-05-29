@@ -5,40 +5,25 @@
     tools:context=".ui.addalarm.AddAlarmFragment"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="viewModel" type="com.federicoberon.newapp.ui.addalarm.AddAlarmViewModel" />
-        <variable name="fragment" type="com.federicoberon.newapp.ui.addalarm.AddAlarmFragment" />
+        <variable name="viewModel" type="com.federicoberon.alarme.ui.addalarm.AddAlarmViewModel" />
+        <variable name="fragment" type="com.federicoberon.alarme.ui.addalarm.AddAlarmFragment" />
     </data>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.HomeFragment"
-        >
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/parentNestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="32dp"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingBottom="@dimen/activity_vertical_margin"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical">
@@ -85,7 +70,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(3)}"/>
 
                     <CheckBox
@@ -104,7 +89,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(4)}"/>
 
                     <CheckBox
@@ -123,7 +108,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(5)}"/>
 
                     <CheckBox
@@ -142,7 +127,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(6)}"/>
 
                     <CheckBox
@@ -161,7 +146,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(7)}"/>
 
                     <CheckBox
@@ -180,7 +165,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:minWidth="100dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:onClick="@{() -> viewModel.setDaysOfWeek(1)}"/>
 
                 </LinearLayout>
@@ -191,13 +176,14 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
                     <TextView
                         android:id="@+id/textViewWhen"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Mañana 18:05 hs."
+                        tools:text="Mañana 18:05 hs."
                         android:textColor="@color/white_transparent"
                         android:layout_weight="1"
                         android:layout_gravity="center_vertical"
@@ -210,16 +196,50 @@
                         android:layout_height="28dp"
                         android:background="@drawable/ic_calendar_black"
                         android:backgroundTint="@color/white_transparent"
-                        />
+                        tools:ignore="RtlHardcoded"
+                        android:contentDescription="@string/desc" />
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageTitleOn"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="4dp"
+                    android:onClick="@{() -> fragment.readTitleOff()}"
+                    android:background="@drawable/ic_volume"
+                    android:contentDescription="@string/desc"
+                    />
+
+                <ImageView
+                    android:id="@+id/imageTitleOff"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/ic_mute"
+                    android:onClick="@{() -> fragment.readTitleOn()}"
+                    android:backgroundTint="@color/white_transparent"
+                    android:visibility="gone"
+                    android:contentDescription="@string/desc" />
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="16dp"
                     android:textColorHint="@color/colorGray">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -234,6 +254,9 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+            </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -244,8 +267,9 @@
 
                     <LinearLayout
                         android:id="@+id/ringtoneLinearLayout"
-                        android:layout_width="256dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="vertical"
                         android:clickable="true"
                         android:onClick="@{() -> fragment.openRingtoneSelector()}"
@@ -255,7 +279,7 @@
                             android:id="@+id/textViewMelody"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sonido de la Alarma"
+                            android:text="@string/alarm_sound"
                             android:textSize="18sp" />
 
                         <TextView
@@ -272,15 +296,17 @@
                         android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@color/colorGray" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/ringtoneSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
                         android:onCheckedChanged="@{() -> fragment.offRingtone()}"
-                        />
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -302,8 +328,9 @@
 
                     <LinearLayout
                         android:id="@+id/vibrationLinearLayout"
-                        android:layout_width="256dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="vertical"
                         android:clickable="true"
                         android:onClick="@{() -> fragment.openVibrationSelector()}"
@@ -313,14 +340,14 @@
                             android:id="@+id/textViewVibration"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Vibracion"
+                            android:text="@string/vibration_text"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/vibrationValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Basic Call"
+                            tools:text="Basic Call"
                             android:textColor="@color/purple_200"
                             android:textStyle="bold" />
 
@@ -330,15 +357,17 @@
                         android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@color/colorGray" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/vibrationSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
                         android:onCheckedChanged="@{() -> fragment.offVibration()}"
-                        />
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -360,8 +389,9 @@
 
                     <LinearLayout
                         android:id="@+id/postponeLinearLayout"
-                        android:layout_width="256dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="vertical"
                         android:clickable="true"
                         android:onClick="@{() -> fragment.openPostponeSelector()}"
@@ -371,14 +401,14 @@
                             android:id="@+id/textViewPostpone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Posponer"
+                            android:text="@string/postpone_text"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/postponeValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5 minutos, 3 veces"
+                            tools:text="5 minutos, 3 veces"
                             android:textColor="@color/purple_200"
                             android:textStyle="bold" />
 
@@ -388,15 +418,17 @@
                         android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@color/colorGray" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/postponeSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
                         android:onCheckedChanged="@{() -> fragment.offPostpone()}"
-                        />
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -418,8 +450,9 @@
 
                     <LinearLayout
                         android:id="@+id/repeatLinearLayout"
-                        android:layout_width="256dp"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="vertical"
                         android:clickable="true"
                         android:onClick="@{() -> fragment.openRepeatSelector()}"
@@ -429,14 +462,14 @@
                             android:id="@+id/textViewRepeat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Repetir"
+                            android:text="@string/repeat_text"
                             android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/repeatValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cada 8 horas"
+                            tools:text="Cada 8 horas"
                             android:textColor="@color/purple_200"
                             android:textStyle="bold" />
 
@@ -446,15 +479,17 @@
                         android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:layout_marginTop="1dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@color/colorGray" />
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:id="@+id/repeatSwitch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
                         android:onCheckedChanged="@{() -> fragment.offRepeat()}"
-                        />
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -464,8 +499,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="16dp"
-                    android:background="@color/colorGray"
-                    android:visibility="gone" />
+                    android:background="@color/colorGray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -473,33 +507,99 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/discardLinearLayout"
-                        android:layout_width="256dp"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/phrasesLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
                         android:orientation="vertical"
                         android:clickable="true"
-                        android:onClick="@{() -> fragment.openDiscardSelector()}"
                         android:focusable="true">
 
                         <TextView
+                            android:id="@+id/textViewPhrases"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Descartar"
+                            android:text="@string/show_phrases_option"
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/discardValue"
+                            android:id="@+id/phrasesValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Botón"
                             android:textColor="@color/purple_200"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="Mostrar" />
 
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/phrasesSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
+                        android:onCheckedChanged="@{() -> fragment.offPhrases()}"
+                        tools:ignore="RtlSymmetry" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="16dp"
+                    android:background="@color/colorGray" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/weatherLinearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewWeather"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/show_weather_option"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/colorGray" />
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/weatherSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="20dp"
+                        android:layout_weight="5"
+                        android:onClick="@{() -> fragment.offWeather()}"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 
@@ -517,17 +617,14 @@
                     style="@style/TextAppearance.AppCompat.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="24dp"
                     android:background="@color/colorAccent"
                     android:text="@string/save_button"
-                    android:textColor="@android:color/primary_text_dark" />
+                    android:textColor="@android:color/primary_text_dark"
+                    />
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
 
-    </RelativeLayout>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

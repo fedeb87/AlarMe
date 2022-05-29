@@ -1,26 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
+    android:animateLayoutChanges="true"
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/activity_ring_clock"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/ic_alarm_black_24dp"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.92"
+        android:src="@drawable/background"
+        android:contentDescription="@string/desc" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:animateLayoutChanges="true"
+        android:layout_marginBottom="64dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:animateLayoutChanges="true"
+        >
+
+        <!-- Current clock -->
+        <TextClock
+            android:id="@+id/textClock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:format24Hour="HH:mm:ss"
+            android:format12Hour="HH:mm:ss"
+            android:textSize="56sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            tools:text="18:05:12"
+            />
+
+        <!-- Current phrase -->
+        <TextView
+            android:id="@+id/textPhrase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="24dp"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            tools:text="“I am convinced that at least half of what separates successful entrepreneurs from unsuccessful ones is sheer perseverance” - Steve Jobs"
+            />
+
+        <!-- Weather -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/weatherCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_margin_half"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@color/transparent2"
+            app:cardElevation="4dp"
+            android:visibility="gone">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginVertical="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:id="@+id/textViewCurrentWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textSize="18sp"
+                        tools:text="Soleado"
+                        />
+
+                    <ImageView
+                        android:id="@+id/imageViewIcon"
+                        android:layout_width="112dp"
+                        android:layout_height="112dp"
+                        android:src="@drawable/sun"
+                        android:contentDescription="@string/desc" />
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/textViewCurrentTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:textSize="52sp"
+                    android:layout_gravity="center"
+                    tools:text="28"
+                    />
+                <LinearLayout
+                    android:id="@+id/changeUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/textViewCurrentTempC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:layout_gravity="center"
+                    android:text="@string/c_temp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="32sp"
+                    android:layout_gravity="center"
+                    android:text="@string/pipe_text"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewCurrentTempF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textSize="32sp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white_transparent"
+                    android:text="@string/temp_f"
+                    />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginHorizontal="16dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/today"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center_vertical"/>
+
+                <ImageView
+                    android:id="@+id/imageViewDailyIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/sun"
+                    android:contentDescription="@string/desc" />
+
+                <TextView
+                    android:id="@+id/textViewDailyWeather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Soleado"
+                    android:maxWidth="120dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:id="@+id/textViewDailyTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    tools:text="16°/31°"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewRainingChance"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_height="match_parent"
+                tools:text="Probabilidad de lluvia 3%"
+                android:gravity="center_vertical" />
+
+        </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Horoscope -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/horoscopeCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/vertical_margin_half"
+            android:layout_marginTop="@dimen/vertical_margin"
+            android:layout_marginHorizontal="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@color/transparent2"
+            android:visibility="gone"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="12dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/signImage"
+                    android:layout_width="112dp"
+                    android:layout_height="112dp"
+                    tools:background="@drawable/taurus"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/desc" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/signTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="TAURUS"
+                        android:textSize="24sp"
+                        />
+
+                    <TextView
+                        android:id="@+id/signDesc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="You have the ability to understand others feelings and emotions. It makes you empathize with them and their situations. But today, it's best that you explain your views and opinions clearly so that you are not misunderstood.Women who dedicate their days taking care of their families need to take car." />
+                </LinearLayout>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         >
 
@@ -28,25 +283,39 @@
             android:id="@+id/activity_ring_dismiss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dismiss"
+            android:text="@string/discard"
             app:layout_constraintBottom_toTopOf="@+id/activity_ring_snooze"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"/>
 
         <Button
             android:id="@+id/activity_ring_snooze"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Snooze"
+            android:text="@string/snooze"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_weight="1" />
 
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        app:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorAccent"
+        android:visibility="gone"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/ic_volume"
+        android:contentDescription="@string/desc"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/bg_design"
+    android:background="@drawable/background_toolbar"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -14,11 +14,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:contentDescription="@string/description_subtitle"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:backgroundTint="@color/purple_700"
+        android:background="@drawable/rounded_view"
+        app:srcCompat="@drawable/ic_snooze" />
 
     <TextView
         android:id="@+id/textViewUserName"
@@ -26,13 +31,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/userName"
-        android:textColor="@color/black_effective"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black_effective"
-        android:text="@string/userEmail" />
 </LinearLayout>

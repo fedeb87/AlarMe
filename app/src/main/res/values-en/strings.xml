@@ -2,25 +2,644 @@
 <resources>
     <string name="about_menu">"About "</string>
     <string name="description_subtitle">DESCRIPTION</string>
-    <string name="event_detail_title">Event Titlte</string>
-    <string name="logout">Logout</string>
-    <string name="delete_milestone_title">Delete event?</string>
-    <string name="delete_milestone_msg">Are you sure you want to delete the event?</string>
-    <string name="ok_button">Ok</string>
+    <string name="ok_button">OK</string>
     <string name="cancel_button">Cancel</string>
     <string name="menu_home">Home</string>
-    <string name="menu_detail">Detail</string>
     <string name="menu_about">About</string>
-    <string name="hit_search">Search milestones…</string>
-    <string name="event_type">Event Type</string>
-    <string name="new_event_title">New Alarm</string>
     <string name="title_hint_milestone">Alarm Name</string>
-    <string name="event_type_title">Event Type</string>
-    <string name="message_hint_milestone">Event Description</string>
-    <string name="date_hint">Day *</string>
-    <string name="time_hint">Hour *</string>
-    <string name="edit_menu">Edit</string>
     <string name="delete_menu">Delete</string>
-    <string name="remember_alarm">Remember:</string>
-    <string name="about_title">FRAGMENT ABOUT</string>
+    <string name="sagittarius">Sagittarius</string>
+    <string name="capricorn">Capricorn</string>
+    <string name="aquarius">Aquarius</string>
+    <string name="pisces">Pisces</string>
+    <string name="taurus">Taurus</string>
+    <string name="gemini">Gemini</string>
+
+    <!-- phrases -->
+    <string name="phrase_enero_1">"“I am convinced that at least half of what separates successful entrepreneurs from unsuccessful ones is sheer perseverance” - Steve Jobs"</string>
+    <string name="phrase_enero_2">"“Wealth, after all, is a relative thing, since he who has little and wants less is richer than he who has more and wants even more.” - Charles Caleb Colton"</string>
+    <string name="phrase_enero_3">"“You can't save people, you can just love them”: Anaïs Nin"</string>
+    <string name="phrase_enero_4">"“The way to hit the nail once is to hit the horseshoe a hundred times”: Colonel Sanders"</string>
+    <string name="phrase_enero_5">"“He who loses money, loses a lot; the one who loses a friend; lose even more; he who loses faith loses everything”: Eleanor Roosevelt"</string>
+    <string name="phrase_enero_6">"“Keep a global vision while attending to the daily details”: Donald Trump</string>
+    <string name="phrase_enero_7">"“Do what you can, with what you have, where you are”: Theodore Roosevelt"</string>
+    <string name="phrase_enero_8">"“No matter how many times you fail, you only have to be right once. Then everyone will call you an overnight success and tell you how lucky you are” – Mark Cuban"</string>
+    <string name="phrase_enero_9">"“Never go the way you have set out, because it leads where others have already been” - Alexander Graham Bell"</string>
+    <string name="phrase_enero_10">"“If you don't like to take risks, you should run out of business”: Ray Kroc"</string>
+    <string name="phrase_enero_11">"“Success is 1%% inspiration and 99%% perspiration” - Thomas Edison"</string>
+    <string name="phrase_enero_12">"“Your work is going to fill a large part of your life, the only way to be truly satisfied is to do what you believe is great work and the only way to do it is to love what you do.”: Anonymous"</string>
+    <string name="phrase_enero_13">"“Always keep your eyes open, Always watching. Because anything you see can inspire you”: Grace Coddington"</string>
+    <string name="phrase_enero_14">"“If you haven't found it yet, keep looking. As with everything that has to do with the heart, you will know when you have found it” - Steve Jobs"</string>
+    <string name="phrase_enero_15">"“Opportunities don't happen, they are created”: Chris Grosser"</string>
+    <string name="phrase_enero_16">"“Only buy something you are happy with if the market closes in 10 years” – Warren Buffett</string>
+    <string name="phrase_enero_17">"“You cannot escape the responsibility of tomorrow by avoiding it today” - Abraham Lincoln</string>
+    <string name="phrase_enero_18">"“Money doesn't make you happy, but it calms your nerves”: Sean O'Casey"</string>
+    <string name="phrase_enero_19">"“I really am a practical dreamer; my dreams are not trifles in the air. What I want is to make my dreams come true”: Mahatma Gandi</string>
+    <string name="phrase_enero_20">"“There are many bad reasons to start a business. But there's only one good reason, and I think you know what it is: to change the world.” Phil Libin"</string>
+    <string name="phrase_enero_21">"“Always give more than what is expected of you”: Larry Page</string>
+    <string name="phrase_enero_22">"“Move fast and break objects. If you're not breaking things, you're not moving fast enough.” - Mark Zuckerberg"</string>
+    <string name="phrase_enero_23">"“The future belongs to those who believe in the beauty of their dreams”: Eleanor Roosevelt</string>
+    <string name="phrase_enero_24">"“Take your first step with faith, you don't have to see the whole ladder, just take your first step” - Martin Luther King"</string>
+    <string name="phrase_enero_25">"“Money is often very expensive”: Ralph Waldo Emerson"</string>
+    <string name="phrase_enero_26">"“An optimist sees an opportunity in every calamity, a pessimist sees a calamity in every opportunity” – Winston Churchill"</string>
+    <string name="phrase_enero_27">"“Our greatest glory does not consist in never having fallen, but in having risen after each fall”: Confucius"</string>
+    <string name="phrase_enero_28">"“The most important thing to do if you're in a hole is to stop digging” - Warren Buffett"</string>
+    <string name="phrase_enero_29">"“I hate how people think 'glass half empty' when in reality their glass is almost full. I am grateful when I have one more drop in the glass because I know exactly what to do with it” – Gary Vaynerchuk"</string>
+    <string name="phrase_enero_30">"“It is hard to fail, but it is even worse never to have tried to succeed.” - Theodore Roosevelt"</string>
+    <string name="phrase_febrero_1">"“People can be very smart or have skills that are applicable, but if they don't believe in it, then they're not going to work really hard” - Mark Zuckerberg"</string>
+    <string name="phrase_febrero_2">"“Our greatest weakness is to give up, the only way to succeed is to always try one more time” - Thomas Edison"</string>
+    <string name="phrase_febrero_3">"“I've found that the harder I work, the luckier I get” - Thomas Jefferson"</string>
+    <string name="phrase_febrero_4">"“Buy when everyone else is selling and save money when everyone else is buying. It is not a slogan. It is the essence of successful investments”: J. Paul Getty</string>
+    <string name="phrase_febrero_5">"“There is no substitute for hard work” – Thomas Edison</string>
+    <string name="phrase_febrero_6">"“Most people miss out on opportunities because they dress normal and look like work” – Thomas Edison</string>
+    <string name="phrase_febrero_7">"“I think it's easier to move forward on mega-ambitious dreams”: Larry Page"</string>
+    <string name="phrase_febrero_8">"“There is a rule for the businessman and it is: make products with the highest possible quality at the lowest cost and paying the highest possible wages”: Henry Ford"</string>
+    <string name="phrase_febrero_9">"“Sharing ideas without processing them can lead us into the delusion of thinking that we are actually doing something, when in fact we are not doing anything”: Charles T. Lee"</string>
+    <string name="phrase_febrero_10">"“The habit of saving is an education; encourages every virtue, teaches self-control, cultivates a sense of order, trains foresight, and broadens the mind”: TT Munger"</string>
+    <string name="phrase_febrero_11">"“Don't waste your time banging on a wall, hoping to transform it into a door”: Coco Chanel"</string>
+    <string name="phrase_febrero_12">"“How you deal with failure determines how you achieve success” – David Feherty</string>
+    <string name="phrase_febrero_13">"“Experience taught me that the best investments are the ones you don't make”: Donald Trump"</string>
+    <string name="phrase_febrero_14">"“Watch, listen and learn. You can't know everything. Anyone who thinks they know everything is destined for mediocrity”: Donald Trump"</string>
+    <string name="phrase_febrero_15">"“Try the impossible to improve your work”: Brian Tracy"</string>
+    <string name="phrase_febrero_16">"“If you can dream it you can do it, remember that all this began with a mouse”: Walt Disney"</string>
+    <string name="phrase_febrero_17">"“There are only two ways to live your life. One is to think that nothing is a miracle. The other is to think that everything is a miracle ”: Albert Einstein"</string>
+    <string name="phrase_febrero_18">"“If it scares you, it might be a good thing to try”: Seth Godin"</string>
+    <string name="phrase_febrero_19">"“I definitely wanted to earn my freedom. But the main motivation was not to make money, but to make an impact”: Sean Parker"</string>
+    <string name="phrase_febrero_20">"“Lack of money is the root of all evil” - Mark Twain"</string>
+    <string name="phrase_febrero_21">"“You can only live once. And I don't want to waste a minute of my life.” - Richard Branson"</string>
+    <string name="phrase_febrero_22">"“Man discovers himself when he measures himself against an obstacle”: Antoine de Saint Exupery</string>
+    <string name="phrase_febrero_23">"“Failure is only the opportunity to start over more intelligently” - Henry Ford"</string>
+    <string name="phrase_febrero_24">"“A business absolutely dedicated to service will have only one concern about profits: they will be too great” - Henry Ford"</string>
+    <string name="phrase_febrero_25">"“Some people don't like change, but you need to embrace it if the alternative is disaster”: Elon Musk"</string>
+    <string name="phrase_febrero_26">"“Do what you love and the money will follow”: Marsha Sinetar</string>
+    <string name="phrase_febrero_27">"“To succeed, we must first believe that we can”: Nikos Kazantzakis"</string>
+    <string name="phrase_febrero_28">"“Success is a lousy teacher. Seduce smart people into thinking they can't lose.” - Bill Gates"</string>
+    <string name="phrase_febrero_29">"“If you fall seven times, get up eight”: Nana Koribi Yaoki"</string>
+    <string name="phrase_marzo_1">"“When you have money, only you remember who you are. But when you don't have money, everyone forgets who you are. Such is life” – Bill Gates"</string>
+    <string name="phrase_marzo_2">"“The best way to predict the future is to invent it” - Alan Key"</string>
+    <string name="phrase_marzo_3">"“Whether you think you can, or you think you can't, you're right” - Henry Ford"</string>
+    <string name="phrase_marzo_4">"“Success is connected to action. Successful people keep moving. They make mistakes but they never give up” – Conrad Hilton</string>
+    <string name="phrase_marzo_5">"“If we had to talk more than listen, we would have two mouths and only one ear” - Mark Twain"</string>
+    <string name="phrase_marzo_6">"“The biggest risk is not taking any. In a world that is changing so fast, the only strategy that is guaranteed to fail is not taking risks.” – Mark Zuckerberg"</string>
+    <string name="phrase_marzo_7">"“To do or not to do. There is no use trying, only doing”: Yoda"</string>
+    <string name="phrase_marzo_8">"“Money can't buy friends, but you can buy a new kind of enemy”: Spike Milligan"</string>
+    <string name="phrase_marzo_9">"“You will be successful because most people are lazy”: Shahir Zag"</string>
+    <string name="phrase_marzo_10">"“Do something that scares you every day”: Anonymous"</string>
+    <string name="phrase_marzo_11">"“Don't try to be original, just try to be good”: Paul Rand"</string>
+    <string name="phrase_marzo_12">"“You are a successful person when you have some of the things money can buy and all the things money can't buy” - Zig Ziglar"</string>
+    <string name="phrase_marzo_13">"“There are only two days in the year when nothing can be done. One is called yesterday and the other one tomorrow. Therefore, today is the ideal day to love, grow, do, and mainly live”: Dalai Laima"</string>
+    <string name="phrase_marzo_14">"“Fear exists nowhere else except in the mind” – Dale Carnegie</string>
+    <string name="phrase_marzo_15">"“A coward is incapable of showing love; doing so is reserved for the brave” – Mahatma Gandi</string>
+    <string name="phrase_marzo_16">"“There are men that fight one day and are good. There are others that fight for a year and are better. Some fight for many years and are very good. But there are those who struggle all their lives. Those are the essentials”: Bertolt Brecht"</string>
+    <string name="phrase_marzo_17">"“Money can't buy life”: Bob Marley"</string>
+    <string name="phrase_marzo_18">"“Money is a tool. It will take you where you want, but it will not replace you as a driver”: Ayn Rand"</string>
+    <string name="phrase_marzo_19">"“Time, perseverance, and ten years of trying will eventually make you look like an overnight success.” - Biz Stone"</string>
+    <string name="phrase_marzo_20">"“Optimism is the quality most associated with success and happiness” – Brian Tracy</string>
+    <string name="phrase_marzo_21">"“It took me 20 years to be successful overnight”: Woody Allen"</string>
+    <string name="phrase_marzo_22">"“Risking more than others think is safe. Dreaming more than others think is practical” – Howard Schultz</string>
+    <string name="phrase_marzo_23">"“Making money in itself is not difficult. The difficult thing is to earn it by doing something worth dedicating your life to”: Carlos Ruiz Zafón</string>
+    <string name="phrase_marzo_24">"“Don't worry about financing if you don't need it. Today it is cheaper than ever to start a business”: Noah Everett</string>
+    <string name="phrase_marzo_25">"“In the ideas is where our strength lies and all the better if we hold them with obstinacy”: Enzo Ferrari</string>
+    <string name="phrase_marzo_26">"“Keep in mind that your purpose and your plan to achieve it can be modified from time to time… the important thing is that you understand the meaning of always working with an objective in mind and with a well-structured plan”: Napoleon Hill</string>
+    <string name="phrase_marzo_27">"“If you double the number of experiments you do per year, you will double your ingenuity”: Jeff Bezos"</string>
+    <string name="phrase_marzo_28">"“Stop chasing money and start chasing passion”: Tony Hsieh"</string>
+    <string name="phrase_marzo_29">"“Wealth does not consist in having great possessions, but in having few needs”: Epithet"</string>
+    <string name="phrase_marzo_30">"“Sometimes you win, sometimes you learn” - John Maxwell"</string>
+    <string name="phrase_marzo_31">"“You are only as good as the people you hire”: Ray Kroc</string>
+    <string name="phrase_abril_1">"“If you double the number of experiments you do per year, you will double your ingenuity”: Jeff Bezos"</string>
+    <string name="phrase_abril_2">"“Stop chasing money and start chasing passion”: Tony Hsieh"</string>
+    <string name="phrase_abril_3">"“Wealth does not consist in having great possessions, but in having few needs”: Epithet"</string>
+    <string name="phrase_abril_4">"“Sometimes you win, sometimes you learn” - John Maxwell"</string>
+    <string name="phrase_abril_5">"“You are only as good as the people you hire”: Ray Kroc</string>
+    <string name="phrase_abril_6">"“Intelligence is a gift, kindness is a choice”: Jeff Bezos"</string>
+    <string name="phrase_abril_7">"“Simplicity and common sense should be the basis of strategic planning and direction”: Ingvar Kamprad</string>
+    <string name="phrase_abril_8">"“Success is learning to go from failure to failure without despairing” - Winston Churchill"</string>
+    <string name="phrase_abril_9">"“Price is what you pay, value is what you get” - Warren Buffett"</string>
+    <string name="phrase_abril_10">"“Never spend your money before you have it”: Thomas Jefferson"</string>
+    <string name="phrase_abril_11">"“I owe my success to listening respectfully to the best advice, and then disappearing and doing the exact opposite”: GK Chesterton"</string>
+    <string name="phrase_abril_12">"“A business that makes nothing but money is a poor business” - Henry Ford"</string>
+    <string name="phrase_abril_13">"“When you innovate, you have to be prepared for people to tell you that you are crazy”: Larry Ellison"</string>
+    <string name="phrase_abril_14">"“Those who say something cannot be done are often interrupted by others who are doing it”: Joel A. Barker</string>
+    <string name="phrase_abril_15">"“Those who quit are more numerous than those who fail” - Henry Ford"</string>
+    <string name="phrase_abril_16">"“While money cannot buy happiness, it allows you to choose your own form of misery” - Groucho Marx"</string>
+    <string name="phrase_abril_17">"“Character cannot be developed in ease and quiet. Only through the trial-and-error experience of suffering can the soul be strengthened, ambition be inspired, and success ultimately achieved”: Helen Keller"</string>
+    <string name="phrase_abril_18">"“Life is dangerous, not because of those who do evil, but because of those who sit and watch what happens” - Albert Einstein"</string>
+    <string name="phrase_abril_19">"“People are not remembered by the number of times they fail, but by the number of times they succeed” - Thomas Alva Edison"</string>
+    <string name="phrase_abril_20">"“Each person forges their own destiny”: Carlos Slim</string>
+    <string name="phrase_abril_21">"“You can say anything to people, but the way you say it determines how they react” – John Rampton"</string>
+    <string name="phrase_abril_22">"“I think it's possible for normal people to choose to be extraordinary”: Elon Musk"</string>
+    <string name="phrase_abril_23">"“Success is how high you bounce after you hit rock bottom” – George Patton</string>
+    <string name="phrase_abril_24">"“Competition makes you better, always, always makes you better, even if the competitor wins”: Carlos Slim"</string>
+    <string name="phrase_abril_25">"“Numbing the pain for a while will make you feel it more intensely later.” - Albus Dumbledore"</string>
+    <string name="phrase_abril_26">"“All progress takes place outside the comfort zone” – Michael John Bobak</string>
+    <string name="phrase_abril_27">"“It is better to do the most insignificant thing in the world, than spend half an hour doing nothing” - Goethe"</string>
+    <string name="phrase_abril_28">"“Never lower your head, always look up, win or lose”: Enzo Ferrari"</string>
+    <string name="phrase_abril_29">"“He who thinks he knows everything is closing doors”: Donald Trump"</string>
+    <string name="phrase_abril_30">"“I have not failed. I have found 10,000 ways that don't work.” - Thomas Edison"</string>
+    <string name="phrase_abril_31">"“Outstanding leaders go out of their way to build self-esteem in their staff. If people believe in themselves, it's amazing what they can achieve.” - Sam Walton"</string>
+    <string name="phrase_mayo_1">"“If you can't fly, run, if you can't run, walk, if you can't walk, crawl. No matter what you do, keep moving forward” – Martin Luther King Jr."</string>
+    <string name="phrase_mayo_2">"“Rule number 1: never lose money. Rule number 2: never forget rule number 1” – Warren Buffett</string>
+    <string name="phrase_mayo_3">"“It is not the man who has little, but the one who wants more who is poor”: Seneca"</string>
+    <string name="phrase_mayo_4">"“What really shapes our lives is the meaning we give to things” - Tony Robbins"</string>
+    <string name="phrase_mayo_5">"“Persistence is very important. You should not resign unless you are forced to resign” – Elon Musk</string>
+    <string name="phrase_mayo_6">"“Friends and good manners will take you where money can't” - Margaret Walker"</string>
+    <string name="phrase_mayo_7">"“If you only work on things that you like and are passionate about, you shouldn't have a master plan to see how everything turns out”: Mark Zuckerberg"</string>
+    <string name="phrase_mayo_8">"“Don't think that money does everything or you will end up doing everything for money”: Voltaire"</string>
+    <string name="phrase_mayo_9">"“When a dream appears, grab it!”: Larry Page"</string>
+    <string name="phrase_mayo_10">"“Failure is a great opportunity to start again more intelligently” - Henry Ford"</string>
+    <string name="phrase_mayo_11">"“To invent, you need a good imagination and a pile of garbage” – Thomas Edison"</string>
+    <string name="phrase_mayo_12">"“Money and success don't change people; they simply amplify what is already there” – Will Smith</string>
+    <string name="phrase_mayo_13">"“There is only one class in the community that thinks more about money than the rich, and that is the poor”: Oscar Wilde"</string>
+    <string name="phrase_mayo_14">"“Twenty years from now you will be more disappointed by the things you didn't do than the ones you did do. So cast off your moorings, sail away from safe harbors, catch the favorable winds in your sails. Explore. Dream”: Mark Twain"</string>
+    <string name="phrase_mayo_15">"“Nothing is particularly difficult if you break it down into small jobs”: Henry Ford Quotes"</string>
+    <string name="phrase_mayo_16">"“A little effort is the best substitute for excuses”: Donald Trump"</string>
+    <string name="phrase_mayo_17">"“You can never cross the ocean until you have the courage to lose sight of the shore”: Christopher Columbus</string>
+    <string name="phrase_mayo_18">"“Formal education will give you a living; self-education will make you a fortune” – Jim Rohn</string>
+    <string name="phrase_mayo_19">"“It takes 20 years to create a reputation and five minutes to ruin it. If you think that way, you will do things differently.” – Warren Buffet"</string>
+    <string name="phrase_mayo_20">"“Money is a terrible master but an excellent servant”: PT Barnum"</string>
+    <string name="phrase_mayo_21">"“Somebody sits today in the shade of a tree they planted long ago” – Warren Buffett</string>
+    <string name="phrase_mayo_22">"“Our greatest weakness lies in giving up. The surest way to succeed is always to try one more time.” - Thomas Edison"</string>
+    <string name="phrase_mayo_23">"“Money may not buy happiness, but I'd rather cry in a jaguar than on a bus”: Françoise Sagan"</string>
+    <string name="phrase_mayo_24">"“Celebrate your success. Find some humor in your failures” – Sam Walton</string>
+    <string name="phrase_mayo_25">"“A person should set his goals as soon as possible and devote all his energy and talent to them”: Walt Disney</string>
+    <string name="phrase_mayo_26">"“Don't let the fear of losing outweigh the thrill of winning”: Robert Kiyosaki"</string>
+    <string name="phrase_mayo_27">"“Money can't buy happiness, but it sure will buy you a better kind of memory” – Ronald Reagan"</string>
+    <string name="phrase_mayo_28">"“Money doesn't buy happiness, but it relieves stress”: Besa Kosova"</string>
+    <string name="phrase_mayo_29">"“Choose a job you like, and you will never have to work a single day in your life.” - Confucius"</string>
+    <string name="phrase_mayo_30">"“I never try to make money in the stock market. I buy on the assumption that they could close the next day and reopen in 10 years.” – Warren Buffett</string>
+    <string name="phrase_mayo_31">"“Only those who are asleep do not make mistakes”: Ingvar Kamprad"</string>
+    <string name="phrase_junio_1">"“Not everything that can be counted counts and not everything that counts can be counted” - Albert Einstein"</string>
+    <string name="phrase_junio_2">"“The obstinate will to pursue one's own ambition is truly a force that can overcome obstacles”: Enzo Ferrari</string>
+    <string name="phrase_junio_3">"“I have never dreamed of success. I have always worked to achieve it”: Estée Lauder</string>
+    <string name="phrase_junio_4">"“Time is your most important resource. You can do so much in ten minutes. Ten minutes, once past, are gone forever. Ten minutes is not just one sixth of an hour. Divide your life into units of ten minutes and waste as few as possible on meaningless activities”: Ingvar Kamprad"</string>
+    <string name="phrase_junio_5">"“If you really want to do something, you find a way. If not, you will find an excuse”: Jim Rohn"</string>
+    <string name="phrase_junio_6">"“You don't need to have a company of 100 people to develop that idea”: Larry Page</string>
+    <string name="phrase_junio_7">"“Whenever they ask you if you can do a job, answer yes and immediately start learning how to do it”: Franklin D. Roosevelt"</string>
+    <string name="phrase_junio_8">"“We decided to go ahead, despite the risks and going against reason, because we believe that the path that others have chosen is the right one and the best thing to do”: Howard Schultz"</string>
+    <string name="phrase_junio_9">"“My biggest motivation? Keep challenging myself. I see life as a long university education that I never had – every day I am learning something new”: Richard Branson</string>
+    <string name="phrase_junio_10">"“We fall to succeed”: Mary Kay Ash</string>
+    <string name="phrase_junio_11">"“No man should receive a dollar unless that dollar is justly earned.” - Theodore Roosevelt"</string>
+    <string name="phrase_junio_12">"“The Internet should be a means of communication between peoples that contributes to world peace and that the main objective of high technology is to improve people's standard of living”: Larry Ellison"</string>
+    <string name="phrase_junio_13">"“Do not try to become a man of success but a man of values”: Albert Einstein"</string>
+    <string name="phrase_junio_14">"“The first step is to establish that something is possible; then the probability will happen”: Elon Musk</string>
+    <string name="phrase_junio_15">"“You can be young without money, but you can't be old without it”: Tennessee Williams"</string>
+    <string name="phrase_junio_16">"“Too many people spend the money they earned to buy things they don't want, to impress people they don't like” - Will Rogers"</string>
+    <string name="phrase_junio_17">"“There is a difference between being poor and being broke. One can be temporarily broke, one is poor for life”: Robert Kiyosaki"</string>
+    <string name="phrase_junio_18">"“When you are 80 years old, and in a quiet moment of reflection, narrating only for yourself the most personal version of your life story, the story that will be most concise and meaningful will be the series of choices you have made. In the end, we are our choices” – Jeff Bezos"</string>
+    <string name="phrase_junio_19">"“Never give up on a dream for as long as it may take. In the same way, time will pass ”: Earl Nightingale"</string>
+    <string name="phrase_junio_20">"“In investing, what is comfortable is rarely profitable” – Robert Arnott"</string>
+    <string name="phrase_junio_21">"“When you stop dreaming you stop living” - Malcolm Forbes"</string>
+    <string name="phrase_junio_22">"“You can be disappointed if you fail, but you're done if you don't try” - Beverly Sills"</string>
+    <string name="phrase_junio_23">"“Failure is not losing, it is not having tried”: Xavier Gabriel"</string>
+    <string name="phrase_junio_24">"“A champion is afraid of losing. Others are afraid of winning”: Billie Jean King</string>
+    <string name="phrase_junio_25">"“A person who never made a mistake, never tried something new”: Albert Einstein"</string>
+    <string name="phrase_junio_26">"“The way bosses treat employees is exactly how employees will treat customers” – Sam Walton</string>
+    <string name="phrase_junio_27">"“It's okay to have money and the things that money can buy, but it's also okay to check from time to time that you haven't lost the things that money can't buy” - George Lorimer"</string>
+    <string name="phrase_junio_28">"“If you are not embarrassed by the first version of your product, you launched it too late”: Reid Hoffman"</string>
+    <string name="phrase_junio_29">"“The comfort zone is a wonderful place, but nothing grows there”: Anonymous"</string>
+    <string name="phrase_junio_30">"“You will become as small as the desire that controls you, and as large as your dominant aspiration.” - James Allen"</string>
+    <string name="phrase_junio_31">"“Mickey Mouse appeared out of my mind in a sketchbook, on a train from Manhattan to Hollywood, at a time when my brother Roy and I's company was at an all time low and disaster seemed just around the corner. corner”: Walt Disney"</string>
+    <string name="phrase_julio_1">"“I'm not afraid of dying, I'm afraid of not trying”: Jay Z"</string>
+    <string name="phrase_julio_2">"“You must gain control over your money or the lack of it will control you” – Dave Ramsey</string>
+    <string name="phrase_julio_3">"“It doesn't matter how many people you offend, as long as your message reaches your consumers. I say to those who do not want to offend anyone: You are going to have a very, very difficult time trying to get meaningful publicity”: Phil Knight"</string>
+    <string name="phrase_julio_4">"“There is a powerful engine within every human being that, once unleashed, can make any vision, dream, or wish come true” – Anthony Robbins"</string>
+    <string name="phrase_julio_5">"“No tomorrow. Not the following week. But today. The true entrepreneur acts instead of dreaming” – Nolan Bushnell"</string>
+    <string name="phrase_julio_6">"“Self-confidence is the first secret of success” - Ralph Waldo Emerson</string>
+    <string name="phrase_julio_7">"“Remembering that I will be dead soon is the most important tool I have found to help me make the big decisions in life.”: Anonymous</string>
+    <string name="phrase_julio_8">"“Remembering that one is going to die is the best way I know to avoid the trap of thinking there is something to lose. You are already defenseless. There is no reason not to follow the advice of the heart” - Steve Jobs</string>
+    <string name="phrase_julio_9">"“You must do things that are really important, but you must also have fun, because otherwise you will not succeed”: Larry Page"</string>
+    <string name="phrase_julio_10">"“I will tell you the secret to getting rich on Wall Street. Be greedy when others are fearful and be fearful when others are greedy” – Warren Buffett</string>
+    <string name="phrase_julio_11">"“When I was young, I thought that money was the most important thing in life. Now that I'm older, I know it is.” - Oscar Wilde"</string>
+    <string name="phrase_julio_12">"“All your dreams can come true if you have the courage to pursue them.” - Walt Disney"</string>
+    <string name="phrase_julio_13">"“Happiness is not the mere possession of money; lies in the joy of achievement, in the thrill of creative effort”: Franklin D. Roosevelt"</string>
+    <string name="phrase_julio_14">"“Entrepreneurship is neither science nor art, it is a practice”: Peter Drucker"</string>
+    <string name="phrase_julio_15">"“The grass is greener where you water it” - Neil Barringham"</string>
+    <string name="phrase_julio_16">"“Think big and don't listen to those who tell you that you can't do it. Life is too short to think small” – Tim Ferris</string>
+    <string name="phrase_julio_17">"“Constant growth is the best survival mechanism”: Amancio Ortega</string>
+    <string name="phrase_julio_18">"“You will never be a loser until you stop trying” - Mike Ditka"</string>
+    <string name="phrase_julio_19">"“Great ideas originate in the muscles”: Thomas Edison"</string>
+    <string name="phrase_julio_20">"“Building a great mission and a business go hand in hand. It is true that the first thing that excites me about what we are doing is the mission, but I also think, from the beginning, that we have had a healthy understanding that we have to do both ”: Mark Zuckerberg"</string>
+    <string name="phrase_julio_21">"“Time is money”: Benjamin Franklin"</string>
+    <string name="phrase_julio_22">"“If you only work for money, you will never get it, but if you love what you do and always put the customer first, success will be yours”: Ray Kroc"</string>
+    <string name="phrase_julio_23">"“The quality of a leader is reflected in the standards he sets for himself”: Ray Kroc</string>
+    <string name="phrase_julio_24">"“Risk comes from not knowing what you are doing” – Warren Buffett</string>
+    <string name="phrase_julio_25">"“If you are looking for different results, do not always do the same” - Albert Einstein"</string>
+    <string name="phrase_julio_26">"“The journey of a thousand miles begins with one step”: Lao-tzu"</string>
+    <string name="phrase_julio_27">"“The only limit to our achievements tomorrow is our doubts today”: Franklin D. Roosevelt"</string>
+    <string name="phrase_julio_28">"“If you want to change the world, change yourself” - Mahatma Gandhi"</string>
+    <string name="phrase_julio_29">"“Only those who dare to have great failures end up achieving great successes”: Robert F. Kennedy</string>
+    <string name="phrase_julio_30">"“If you want to live a happy life, tie it to a goal, not to a person or object” - Albert Einstein"</string>
+    <string name="phrase_julio_31">"“Please think about your legacy, because you are writing it every day”: Gary Vaynerchuck"</string>
+    <string name="phrase_agosto_1">"“Take your dreams seriously”: Lao-tzu</string>
+    <string name="phrase_agosto_2">"“The main objective of a company is to make money. The primary function of government is to take a large part of that money and give it to others ”: Larry Ellison"</string>
+    <string name="phrase_agosto_3">"“It's not how much money you make, but how much money you save, how much money works for you and how many generations you'll have” - Robert Kiyosaki"</string>
+    <string name="phrase_agosto_4">"“Do it with passion, or don't do it”: Rosa Nouchette Carey"</string>
+    <string name="phrase_agosto_5">"“The real measure of your wealth is how much you are worth if you lose all your money”: Anonymous</string>
+    <string name="phrase_agosto_6">"“Anyone who has done anything important in life was disciplined”: Andrew Hendrixson"</string>
+    <string name="phrase_agosto_7">"“Life is what happens while we're busy making plans.” - John Lennon"</string>
+    <string name="phrase_agosto_8">"“We have to have a goal, a purpose in our lives. If you don't know where you're aiming, you don't have a goal”: Mary Kay Ash"</string>
+    <string name="phrase_agosto_9">"“Some people dream of success, while others wake up and work for it”: Anonymous"</string>
+    <string name="phrase_agosto_10">"“The people who are crazy enough to think they can change the world... are the ones who change it”: Steve Jobs"</string>
+    <string name="phrase_agosto_11">"“The tragedy in life is not achieving your goals. The tragedy in life is not having goals to achieve”: Benjamin E. Mays</string>
+    <string name="phrase_agosto_12">"“Wealth flows from energy and ideas”: William Feather"</string>
+    <string name="phrase_agosto_13">"“The greatest failure is never to have tried”: Chinese proverb"</string>
+    <string name="phrase_agosto_14">"“An investment in knowledge pays the best interest” - Benjamin Franklin</string>
+    <string name="phrase_agosto_15">"“Positive thinking will let you do everything better than negative”: Zig Ziglar</string>
+    <string name="phrase_agosto_16">"“If you're going to think anyway, think big”: Donald Trump"</string>
+    <string name="phrase_agosto_17">"“An intelligent person should have money in his head, not in his heart”: Jonathan Swift"</string>
+    <string name="phrase_agosto_18">"“In moments of crisis, only imagination is more important than knowledge”: Robert Kiyosaki"</string>
+    <string name="phrase_agosto_19">"“It is not what you have, but how you use what you have that makes the difference”: Zig Ziglar"</string>
+    <string name="phrase_agosto_20">"“Be a benchmark of quality. Some people are not used to an environment where excellence is accepted” - Steve Jobs</string>
+    <string name="phrase_agosto_21">"“Almost everything you do will be insignificant, but it is very important that you do it” – Mahatma Gandhi"</string>
+    <string name="phrase_agosto_22">"“Never consider study as an obligation, but as an opportunity to penetrate the beautiful and wonderful world of knowledge”: Albert Einstein"</string>
+    <string name="phrase_agosto_23">"“Your time is limited, so don't waste it living someone else's life.” - Steve Jobs"</string>
+    <string name="phrase_agosto_24">"“A good idea is 10%% implementation and work, the other 90%% is luck”: Guy Kawasaki"</string>
+    <string name="phrase_agosto_25">"“It's okay to celebrate success, but it's more important to heed the lessons of failure.” - Bill Gates"</string>
+    <string name="phrase_agosto_26">"“My goal was never just to create a company. A lot of people misunderstand that, as if I don't care about profit or profit or any of those things. But not being just another company means for me to build something that really generates a great change ”: Mark Zuckerberg"</string>
+    <string name="phrase_agosto_27">"“It doesn't matter how slowly you go as long as you don't stop” - Confucius"</string>
+    <string name="phrase_agosto_28">"“Success is not achieved only with special qualities. It is above all a work of perseverance, method and organization”: Víctor Hugo"</string>
+    <string name="phrase_agosto_29">"“Don't be ashamed of your failures, learn from them and start over” - Richard Branson"</string>
+    <string name="phrase_agosto_30">"“There is only one boss. The client. And he can fire anyone in the company, from the president to the last employee, simply by spending his money elsewhere” – Sam Walton"</string>
+    <string name="phrase_agosto_31">"“If we were motivated by money, we would have sold Google and we would be on the beach”: Larry Page"</string>
+    <string name="phrase_agosto_32">"“Dream big. Start small. But above all, it begins”: Simon Sinek"</string>
+    <string name="phrase_septiembre_1">"“I have lost more than nine thousand opportunities in my career. I've lost almost 300 games. I've been trusted 26 times with the winning shot and I've missed. I have failed over and over again in my life and that is why I have succeeded” – Michael Jordan</string>
+    <string name="phrase_septiembre_2">"“Do not be afraid to give up the good, to pursue the great”: John D. Rockefeller"</string>
+    <string name="phrase_septiembre_3">"“If you are afraid of failing, you will surely fail”: Kobe Bryant"</string>
+    <string name="phrase_septiembre_4">"“Remember, today is the tomorrow you were worrying about yesterday” – Dale Carnegie"</string>
+    <string name="phrase_septiembre_5">"“Thinking is the hardest work there is. Perhaps that is the reason why there are so few people who practice it ”: Henry Ford"</string>
+    <string name="phrase_septiembre_6">"“Why settle for dragging our feet when we yearn to fly?”: Helen Keller</string>
+    <string name="phrase_septiembre_7">"“No pessimist has ever discovered the secret of the stars, or sailed to an undiscovered land, or opened new hope in the human heart”: Helen Keller"</string>
+    <string name="phrase_septiembre_8">"“You can have anything in this world you want, if you want it enough to pay its price.” - Mary Kay Ash"</string>
+    <string name="phrase_septiembre_9">"“Many people do not take care of their money until they almost spend it, and others do the same with their time.” - Johann Wolfgang von Goethe"</string>
+    <string name="phrase_septiembre_10">"“Success is not the key to happiness. Happiness is the key to success. If you love what you are doing you will be successful”: Albert Schweitzer</string>
+    <string name="phrase_septiembre_11">"“You can't live the same year 75 times and then call it life”: Robin Sharma</string>
+    <string name="phrase_septiembre_12">"“You have to know what is going to happen if you want to stay one step ahead”: Phil Knight</string>
+    <string name="phrase_septiembre_13">"“Don't limit yourself. Many people limit themselves to what they think they can do. You can go as far as your mind allows you. You can get what you believe in, remember that” – Mary Kay Ash"</string>
+    <string name="phrase_septiembre_14">"“Experience has taught me a few things. One is to listen to my intuition, no matter how things sound on paper. The second is that you are usually better at doing what you know. And the third is that your best investment may be the one you don't make ”: Donald Trump"</string>
+    <string name="phrase_septiembre_15">"“What makes you grow is the defeat, the mistake”: Pep Guardiola"</string>
+    <string name="phrase_septiembre_16">"“Until you value yourself you will not value your time. And until you value your time you will not do anything with it”: M.Scott Peck</string>
+    <string name="phrase_septiembre_17">"“There is nothing wrong with being small. You can do great things with a team like that” – Jason Fried</string>
+    <string name="phrase_septiembre_18">"“I don't have any great ideas. Sometimes I have little ideas that seem to work” – Matt Mullenweg</string>
+    <string name="phrase_septiembre_19">"“Every time you define what you want to believe, you are the first to hear it. It is a message to yourself and others about what you think is possible. Don't put a ceiling on yourself”: Oprah Winfrey"</string>
+    <string name="phrase_septiembre_20">"“Fail often so you can succeed soon” – Tom Kelley</string>
+    <string name="phrase_septiembre_21">"“My favorite things in life don't cost money. It is clear that the most precious resource we have is time” - Steve Jobs</string>
+    <string name="phrase_septiembre_22">"“Feeling anger is like taking poison and waiting for the other person to die”: Anonymous</string>
+    <string name="phrase_septiembre_23">"“Money is not the only answer, but it makes a difference”: Barack Obama"</string>
+    <string name="phrase_septiembre_24">"“It is better to fail by being original than to succeed by imitating” - Herman Melville</string>
+    <string name="phrase_septiembre_25">"“My ambition has always been to make dreams come true”: Bill Gates</string>
+    <string name="phrase_septiembre_26">"“The man who does more than he is paid will soon earn more than he does” - Napoleon Hill"</string>
+    <string name="phrase_septiembre_27">"“If you can dream it, you can achieve it”: Zig Ziglar"</string>
+    <string name="phrase_septiembre_28">"“Champions keep playing until they get it right”: Billie Jean King"</string>
+    <string name="phrase_septiembre_29">"“For anything to happen, something must first be done” - Albert Einstein"</string>
+    <string name="phrase_septiembre_30">"“I can't give you a surefire formula for success, but I can give you a surefire formula for failure: Try to please everyone, all the time.” - Herbert Bayard Swope"</string>
+    <string name="phrase_septiembre_31">"“Rich is not he who has wealth, but he who enjoys it” - Benjamin Franklin"</string>
+    <string name="phrase_octubre_1">"“It is possible to win more friends in two months by taking an interest in others than in two years by trying to make others take an interest in us” - Dale Carnegie</string>
+    <string name="phrase_octubre_2">"“Instead of thinking about when your next vacation will be, you should build a life that you don't want to escape from.” - Seth Godin"</string>
+    <string name="phrase_octubre_3">"“When there is a crisis, it is when some are interested in leaving and we are interested in entering”: Carlos Slim"</string>
+    <string name="phrase_octubre_4">"“If you are not willing to risk the unusual, you will have to get used to the ordinary”: Jim Rohn"</string>
+    <string name="phrase_octubre_5">"“Wealth is the ability to fully experience life” – Henry David Thoreau</string>
+    <string name="phrase_octubre_6">"“Stop waiting for it to be Friday, for it to be summer, or for someone to love you for life. Happiness is achieved when you stop waiting and make the most of the present”: T. Harv Eker"</string>
+    <string name="phrase_octubre_7">"“I always tried to turn every disaster into an opportunity”: John D. Rockefeller Jr."</string>
+    <string name="phrase_octubre_8">"“Success is not the result of spontaneous combustion. You have to turn on first”: Fred Shero</string>
+    <string name="phrase_octubre_9">"“A successful man is one who can build firm foundations with the bricks thrown at him by others”: David Brinkley</string>
+    <string name="phrase_octubre_10">"“There are two types of people who will tell you that you can't make a difference in this world: those who are afraid to try and those who are afraid that you will be the one who succeeds” - Ray Goforth"</string>
+    <string name="phrase_octubre_11">"“If you want something to be done, appoint someone in charge. If you want something to take forever, appoint a commission”: Napoleon"</string>
+    <string name="phrase_octubre_12">"“I almost didn't start Google because I was worried about risk and about leaving my Ph.D. program”: Larry Page</string>
+    <string name="phrase_octubre_13">"“Creativity is intelligence having fun” - Albert Einstein</string>
+    <string name="phrase_octubre_14">"“If money is your hope for independence, you will never have it. The only real security a man will have in this world is a store of knowledge, experience, and skill.” - Henry Ford"</string>
+    <string name="phrase_octubre_15">"“There are people who have money and there are people who are rich”: Coco Chanel"</string>
+    <string name="phrase_octubre_16">"“There are two types of companies: those that work to try to charge more, and those that work to charge less. We will be of the second class ”: Jeff Bezos"</string>
+    <string name="phrase_octubre_17">"“You are responsible for the thoughts that you harbor in your mind at any given time. You have the ability to think what you want. So even all of your negative and self-destructive attitudes and behaviors have originated in the way you have chosen to think.” – Wayne Dyer</string>
+    <string name="phrase_octubre_18">"“Change is not only necessary in life, it is life itself”: Alvin Toffler"</string>
+    <string name="phrase_octubre_19">"“Anything you want, you can get if you go for it” – Wayne Dyer"</string>
+    <string name="phrase_octubre_20">"“A leader is a negotiator of hopes”: Napoleon</string>
+    <string name="phrase_octubre_21">"“Don't sleep to rest, sleep to dream. Because dreams are meant to come true”: Walt Disney"</string>
+    <string name="phrase_octubre_22">"“The best time to plant a tree was 20 years ago. The second best time is now”: Chinese Proverb</string>
+    <string name="phrase_octubre_23">"“A business is simply an idea to improve other people's lives”: Richard Branson"</string>
+    <string name="phrase_octubre_24">"“It is not the employer who pays the salary. Employers only handle the money. It is the customer who pays the wages” – Henry Ford</string>
+    <string name="phrase_octubre_25">"“Stay away from those people who try to belittle your ambitions. Little people always do it, but the truly great make you feel like you can be great too.” – Mark Twain"</string>
+    <string name="phrase_octubre_26">"“Be the change you want to see in the world” – Mahatma Gandhi</string>
+    <string name="phrase_octubre_27">"“If you don't value your time, neither will others. Stop giving away your time and talent. Value what you know and start getting paid for it”: Kim Garst"</string>
+    <string name="phrase_octubre_28">"“In the modern world of business, it is useless to be a creative and original thinker unless you also sell what you create” – David Ogilvy"</string>
+    <string name="phrase_octubre_29">"“I destroy my enemies when I make them my friends”: Abraham Lincoln"</string>
+    <string name="phrase_octubre_30">"“The circulation of trust is better than the circulation of money”: James Madison"</string>
+    <string name="phrase_octubre_31">"“I have been blessed to find people smarter than me; they help me execute the vision that I have”: Russell Simmons</string>
+    <string name="phrase_noviembre_1">"“It wasn't raining when Noah built his ark”: Howard Ruff"</string>
+    <string name="phrase_noviembre_2">"“You can only fully realize yourself in something you love. That your goal is not to make money. Instead, pursue things you love to do and do them so well that people can't take their eyes off you.” - Maya Angelou"</string>
+    <string name="phrase_noviembre_3">"“In battles you realize that plans are useless, but making plans is essential”: Dwight E. Eisenhower"</string>
+    <string name="phrase_noviembre_4">"“No man will be the best if he does not have fire in his blood”: Enzo Ferrari</string>
+    <string name="phrase_noviembre_5">"“One of the biggest mistakes people make is trying to force their interest. You don't choose your passions; your passions choose you” – Jeff Bezos</string>
+    <string name="phrase_noviembre_6">"“No, I am not rich. I am a poor man with money, which is not the same”: Gabriel García Márquez"</string>
+    <string name="phrase_noviembre_7">"“If you live to have it all, what you have is never enough”: Vicki Robin"</string>
+    <string name="phrase_noviembre_8">"“If you don't dream, you won't achieve anything”: Richard Branson"</string>
+    <string name="phrase_noviembre_9">"“It's easy to be principled when you're rich. The most important thing is to have principles when you are poor”: Ray Kroc</string>
+    <string name="phrase_noviembre_10">"“If you're in business, you need to understand the environment. You need to have a vision of the future and you need to know the past”: Carlos Slim"</string>
+    <string name="phrase_noviembre_11">"“Demand a lot of yourself and expect little from others, so you will save yourself trouble”: Confucius"</string>
+    <string name="phrase_noviembre_12">"“Anyone who is not making mistakes is not trying hard enough”: Wess Roberts"</string>
+    <string name="phrase_noviembre_13">"“Don't apologize for having high standards. People who really want to be in your life will reach this level”: Ziad K. Abdelnour</string>
+    <string name="phrase_noviembre_14">"“It is difficult to defeat a person who never gives up”: Babe Ruth</string>
+    <string name="phrase_noviembre_15">"“You know you're on the road to success if you're willing to do your job even if you don't get paid.” - Oprah Winfrey"</string>
+    <string name="phrase_noviembre_16">"“80%% of success is simply based on insisting” - Woody Allen"</string>
+    <string name="phrase_noviembre_17">"“The value of life can be measured by the times your soul has been very agitated”: Soichiro Honda</string>
+    <string name="phrase_noviembre_18">"“It is not enough to make good products. You have to make people aware of what you are doing”: Phil Knight</string>
+    <string name="phrase_noviembre_19">"“Money is usually attracted, not chased”: Jim Rohn"</string>
+    <string name="phrase_noviembre_20">"“Only he who gets up and looks for the circumstances and creates them if he does not find them, succeeds in the world”: George Bernard Shaw"</string>
+    <string name="phrase_noviembre_21">"“The brave may not live forever, but the cautious do not live at all” – Richard Branson"</string>
+    <string name="phrase_noviembre_22">"“I only work with the best, it's not about the best resumes but about the right attitude”: Donald Trump"</string>
+    <string name="phrase_noviembre_23">"“High expectations are the key to everything”: Sam Walton"</string>
+    <string name="phrase_noviembre_24">"“When everything seems to be going against you, remember that the plane takes off against the wind”: Henry Ford"</string>
+    <string name="phrase_noviembre_25">"“He who has a lot is not rich, but he who gives a lot”: Erich Fromm"</string>
+    <string name="phrase_noviembre_26">"“There are no secrets to success. This is achieved by preparing, working hard, and learning from failure” – Colin Powell"</string>
+    <string name="phrase_noviembre_27">"“If the plan doesn't work, change it, but never change your goal”: Anonymous"</string>
+    <string name="phrase_noviembre_28">"“The impossible is the ghost of the timid and the refuge of the cowardly”: Napoleon"</string>
+    <string name="phrase_noviembre_29">"“Ideas are easy, implementing them is difficult”: Guy Kawasaki"</string>
+    <string name="phrase_noviembre_30">"“Pay attention to negative feedback and ask for it, particularly from friends. Hardly anyone does that and it's very helpful ”: Elon Musk"</string>
+    <string name="phrase_noviembre_31">"“Failure defeats losers and inspires winners” – Robert Kiyosaki</string>
+    <string name="phrase_diciembre_1">"“The media wants overnight successes. ignore them. It also ignores investors who want proven tactics and instant, predictable results. Listen instead to your customers, to your own vision and do something that lasts a long time”: Seth Godin"</string>
+    <string name="phrase_diciembre_2">"“An entrepreneur sees opportunities where others only see problems”: Michael Gerber</string>
+    <string name="phrase_diciembre_3">"“It is necessary to anticipate a certain degree of failure”: Jeff Bezos</string>
+    <string name="phrase_diciembre_4">"“Life is not fair, get used to it”: Bill Gates"</string>
+    <string name="phrase_diciembre_5">"“Money is something I vaguely understand and think about it only when I don't have it to finance my projects”: Walt Disney</string>
+    <string name="phrase_diciembre_6">"“There are many hands and hearts that contribute to the success of a person”: Henry Ford</string>
+    <string name="phrase_diciembre_7">"“Respect the rules of the game, but be fierce”: Phil Knight"</string>
+    <string name="phrase_diciembre_8">"“The only place where success comes before work is in the dictionary”: Vidal Sassoon</string>
+    <string name="phrase_diciembre_9">"“The way to start is to stop talking and start doing” - Walt Disney"</string>
+    <string name="phrase_diciembre_10">"“The path to success and the path to failure are very similar. Only the end differentiates them ”: Colin Davis</string>
+    <string name="phrase_diciembre_11">"“The secret of happiness is not always doing what you want, but always wanting what you do” - Tolstoy"</string>
+    <string name="phrase_diciembre_12">"“The worst pollution problem we face today is negativity.” - Mary Kay Ash"</string>
+    <string name="phrase_diciembre_13">"“There is no path to happiness. Happiness is the way” – Thich Nhat Hanh</string>
+    <string name="phrase_diciembre_14">"“Imagination is the beginning of creation. We imagine what we want, we create a deep desire for what we imagine, and finally, we create what we have desired” - George Bernard Shaw"</string>
+    <string name="phrase_diciembre_15">"“If you move confidently in the direction of your dreams and desires to lead the life you have imagined, you will meet with unexpected success”: Henry David Thoreau"</string>
+    <string name="phrase_diciembre_16">"“We do not dare many things because they are difficult, but they are difficult because we do not dare to do them”: Lucio Anneo Seneca"</string>
+    <string name="phrase_diciembre_17">"“Anything that can do or dream, begin it. Boldness contains in itself genius, power, and magic” – Goethe"</string>
+    <string name="phrase_diciembre_18">"“Every time you borrow money, you are stealing money from your future”: Nathan W. Morris"</string>
+    <string name="phrase_diciembre_19">"“Success usually comes to those too busy to seek it.” - Henry David Thoreau"</string>
+    <string name="phrase_diciembre_20">"“I have never considered myself an engineer or inventor, I only consider myself a promoter and agitator of ideas”: Enzo Ferrari"</string>
+    <string name="phrase_diciembre_21">"“The successful warrior is a common man, with a focus similar to that of a laser”: Bruce Lee"</string>
+    <string name="phrase_diciembre_22">"“The price of success is hard work and the determination that, no matter if you won or lost, you gave your best to the project”: Vince Lombardi"</string>
+    <string name="phrase_diciembre_23">"“It's not about ideas. But about making these come true”: Scott Belsky</string>
+    <string name="phrase_diciembre_24">"“The funny thing about the game of life is that when we refuse to settle for second place and decide to go after the best of the best, we usually get it” – Somerset Maugham"</string>
+    <string name="phrase_diciembre_25">"“The secret to hiring the best is this: look for people who want to change the world”: Marc Benioff</string>
+    <string name="phrase_diciembre_26">"“Your unhappiest customers are your greatest source of learning” - Bill Gates"</string>
+    <string name="phrase_diciembre_27">"“Pleasure at work leads to the perfection of the work”: Aristotle</string>
+    <string name="phrase_diciembre_28">"“Many of our dreams seem impossible at first, then they may seem improbable, and then, when we make a firm commitment, they become inevitable” – Christopher Reeve"</string>
+    <string name="phrase_diciembre_29">"“If you don't know what to do with your life, do something to save lives. The world is full of people in need, be part of their life and fill that need”: Sanjeev Saxena"</string>
+    <string name="phrase_diciembre_30">"“Grow up with discipline. Balance your intuition rigorously. Innovate around the core. Don't accept the status quo. Find new ways of seeing. Never wait for the silver bullet. Get your hands dirty. Listen with empathy and communicate with transparency”: Howard Schultz</string>
+    <string name="hour_speach">It\'s %d:%d</string>
+    <string name="temp_speach">The temperature is %,.1f degrees Celsius. Equivalent to %,.1f degrees Fahrenheit</string>
+    <string name="thursday">T</string>
+    <string name="terms_of_services_string">I have read and accept the</string>
+    <string name="terms_of_services">Terms and Conditions</string>
+    <string name="snooze">Postpone</string>
+    <string name="snack_bar_undo">Dismiss</string>
+    <string name="snack_bar_text">Undo delete</string>
+    <string name="show_weather_option">Show daily weather</string>
+    <string name="selected_vibration">Vibration</string>
+    <string name="selected_postpone">Postpone</string>
+    <string name="selected_repeat">Repeat</string>
+    <string name="selected_melody">Selected melody</string>
+    <string name="select_all_menu">All</string>
+    <string name="save_button">SAVE</string>
+    <string name="policy_string">I have read and accept the</string>
+    <string name="preview_card_menu">Preview</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="today">Today</string>
+    <string name="wednesday">W</string>
+    <string name="rain_chance">Chance of rain %s %%</string>
+    <string name="go_Settings">Go Settings</string>
+    <string name="monday">M</string>
+    <string name="tuesday">T</string>
+    <string name="friday">F</string>
+    <string name="saturday">S</string>
+    <string name="sunday">S</string>
+    <string name="discard">Dismiss</string>
+    <string name="next_alarm_string">Next alarm</string>
+    <string name="no_alarm">No active alarms</string>
+    <string name="on_string">On</string>
+    <string name="off_string">Off</string>
+    <string name="melody">Melody</string>
+    <string name="minutes_string">%d minutes</string>
+    <string name="hours_string">%d hours</string>
+    <string name="hours_string_single">%d hour</string>
+    <string name="no_repeat_string">No repeat</string>
+    <string name="no_postpone_string">No postpone</string>
+    <string name="no_vibrate_string">No vibration</string>
+    <string name="no_melody_string">No melody</string>
+    <string name="no_alarm_entity">An unexpected error occurred while playing the alarm. Please contact support.</string>
+    <string name="delete_alarms_title">Delete alarms?</string>
+    <string name="delete_alarms_msg">Are you sure you want to delete the selected alarms?</string>
+    <string name="delete_alarm_title">Delete alarm?</string>
+    <string name="ring_permission_title">Run in sleep mode</string>
+    <string name="ring_permission_msg">You need to grant permissions to the app to allow it to work when the device screen is locked.</string>
+    <string name="delete_alarm_msg">Are you sure you want to delete the alarm?</string>
+    <string name="alarms_every">Every %s at %s</string>
+    <string name="alarms_everyDay">Everyday at %s</string>
+    <string name="alarm_today">Today %s %d de %s - %s</string>
+    <string name="alarm_tomorrow">Tomorrow %s %d de %s - %s</string>
+    <string name="duplicate_card_menu">Duplicate</string>
+    <string name="delete_card_menu">Delete</string>
+    <string name="brew_personal_desc">I am excited about mobile technologies. Creator of ideas, curious and nature lover.</string>
+    <string name="choose_a_file">Choose a melody</string>
+    <string name="no_sound">Melody not found</string>
+    <string name="terms_of_services_body">"These terms and conditions of use (“Terms”) apply to the mobile application called EscuelaApp (“Application”) and any documentation that we make available to you in connection with the Application (“Documents”).
+
+
+RELEVANT INFORMATION
+
+It is a necessary requirement for the use of the services offered on this site, that you read and accept the following Terms and Conditions that are written below. The use of our services will imply that you have read and accepted the Terms and Conditions of Use in this document. To acquire a product or use a service, registration by the user will be necessary, with the entry of reliable personal data and definition of a password, or accessing with an existing gmail account.
+
+The user can choose and change the password for his account administration access at any time, in case he has registered. We do not assume responsibility in case you give said key to third parties.
+
+
+1. Recognition
+1.1 These Terms apply to the Application, the Documents and any Services (including updates or supplements to the Application, unless they include separate terms, in which case those terms will apply to such updates or supplements).
+
+1.2 We may make commercially reasonable changes to these Terms (in whole or in part) at any time. We will notify you of such changes by any reasonable means, including by making the revised Terms available through the Application. You can determine when these Terms were last revised by looking at the “Last Updated” legend at the top of these Terms. Your access or use of the Application after such revised Terms become available will signify your acceptance of such revised Terms and your agreement to be bound by them. In any event, revisions to these Terms will not apply to any dispute between you and us that arose before the date we made available revised Terms containing such revisions.
+
+1.3 From time to time, updates to the Application may be made available through the Play Store. Depending on the update, you may not be able to use the Application or any Services until you have installed the latest version of the Application. Your access to or use of the Updated Application will signify your acceptance of the revised Terms relating to the Updated Application notified to you in accordance with Section 1.2 above.
+
+1.6 Your submission of information through or in connection with the Application or any Service is governed by our privacy policy. The terms of our privacy policy as updated from time to time are available here (“Privacy Policy”).
+
+1.7 By using the Application and any Service, you consent to our collection and use of technical information about a Device (and any related software, hardware and peripherals for Internet-based or wireless services) to improve our products and provide services to you.
+
+
+2. License
+2.1 In consideration of your agreement to comply with these Terms, we grant you a non-transferable, non-sublicensable, non-exclusive, revocable license to use the Application and the Services on the Devices, subject to these Terms (including, without limitation, Sections 2.2, 3 and 4 below), the Privacy Policy and the Play Store Rules. Except as expressly provided in these Terms, we reserve all other rights in the Application and the Services.
+
+2.2 You may download a copy of the Application on a Device and view, use and display the Application on the Device only for your personal purposes or for the purposes of the entity on whose behalf you entered these Terms, subject to these Terms ( including, without limitation , Sections 1.2, 3 and 4 below), the Privacy Policy and the Play Store Rules.
+
+
+3. License Restrictions
+3.1 Except as expressly set forth in these Terms or permitted by applicable law, you agree:
+
+(a) to use the Application and the Services in connection with the organization and administration of your classes and students solely, and for no other purpose;
+
+(b) not to copy the Application or Documents, except where such copying is incidental to normal use of the Application for its intended purposes, or as necessary for backup or operational security purposes;
+
+(c) not to rent, lease, sublicense, lend, distribute, time share, translate, merge, adapt, vary or modify the Application or the Documents;
+
+(d) that you have all necessary rights in relation to any information, content or materials such as text, graphics, images, photographs or other materials that you submit, post or transmit using the Application or any Service (“Information”) and that all such information complies with all applicable laws and regulations;
+
+(e) that all Information is true, accurate and complete and that you will maintain and update such Information as necessary to ensure that such Information remains true, accurate and complete;
+
+(f) that you are responsible for obtaining and have obtained any and all necessary authorizations, consents and permissions from all students and/or their parents or guardians (as applicable) and any other third parties to the extent that you submit, publish, transmit or process your personal data using the Application;
+
+(g) not to make alterations or modifications to all or part of the Application, or allow the Application or any part of it to be combined or incorporated with any other program;
+
+(h) not to disassemble, decompile, reverse engineer, or create derivative works based on all or any part of the Application, or attempt to do so, except to the extent such activities are permitted by applicable law;
+
+(i) keep all copies of the Application secure and maintain accurate and up-to-date records of the number and location of all copies of the Application;
+
+(j) not to remove any copyright, trademark, or other proprietary rights notices from the Application or the Documents, and to include our copyright notice on any copies you make of the Application in any media;
+
+(k) not to sell, resell, link to, exploit, provide or make available the Application in whole or in part (including object and source code), in any way to any person without our prior written consent; Y
+
+(l) to comply with all technology or export control laws and regulations that apply to the technology used or supported by the
+
+
+4. RESTRICTIONS ON ACCEPTABLE USE
+4.1 You agree:
+
+(a) not use the Application or any Device in connection with the Application unlawfully, for any unlawful purpose or in any manner inconsistent with these Terms, or act fraudulently or maliciously, for example, by hacking or inserting code, including viruses or harmful data, in the Application, any Service or any operating system;
+
+(b) not use the Application to record, publish or transmit any Information that is protected by copyright, trademark, confidentiality or any other proprietary right without the consent of the owner;
+
+(c) not to use the Application to register, publish or transmit any Information that is defamatory, threatening, abusive, offensive, obscene, indecent, pornographic, that promotes discrimination based on race, sex, religion, nationality, disability, sexual orientation or age or is otherwise objectionable;
+
+(d) not use the Application in a manner that could damage, disable, overburden, impair or compromise our systems or security or interfere with other users, or restrict or inhibit other users from using the Application (including by hacking or defacing the Application );
+
+(e) not create a database by downloading and storing any content available through the Application, the Documents or any Service; and
+
+(f) not collect or harvest any information or data from any Service or our systems or attempt to decipher any transmission to or from the servers running any Service, including, without limitation, through the use of robots, spiders, search/retrieval applications sites or other manual or automatic device to retrieve, index, "scrape", "data mine" or in any way collect the content of the Application or Document or reproduce or circumvent the navigation structure or presentation of the Application without our prior consent by written.
+
+
+5. Usernames and Passwords
+5.1 You may not use (and we may refuse to give you) any username or email address.
+address that belongs to or is already being used by someone else; which can be construed as impersonating another person; that violates the intellectual property or other rights of another person; that is offensive or that we reject for any other valid reason in our discretion.
+You are responsible for maintaining the confidentiality of any passwords you use to access the Application and you agree not to transfer such passwords or usernames or lend or transfer your use of or access to the Application to any third party. You agree to notify us of any unauthorized use of your passwords or usernames or any other breach of security related to your account of which you become aware. You are entirely responsible for all use of the Application and any Services that occur in connection with your username, except to the extent that any unauthorized use is not caused by your breach of your obligations under these Terms.
+
+5.2 In addition, you must ensure that your Device is protected by an appropriate PIN number or password so that, in the event of loss or theft, your access credentials are not compromised.
+
+
+6. Intellectual Property Rights
+6.1 You acknowledge that all intellectual property rights in the Application and/or the Documents anywhere in the world belong to us, that the rights in the Application and the Documents are licensed to you (not sold) and that you are not You have no rights to the Application or the Documents, other than the right to use each of them in accordance with these Terms.
+
+6.2 All trade names, trademarks and service marks in the Application and the Documents are the property of us or our licensors. You may not use our trade names, trademarks, or service marks in connection with any product or service that is not ours, or in any manner that is likely to cause confusion. Nothing contained in this document or in the Application or Documents should be construed as granting any license or right to use trade names, trademarks or service marks without the express prior written consent of the owner.
+
+6.3 You acknowledge that you have no right to access the Application in source code form.
+
+
+7. AVAILABILITY
+7.1 We reserve the right, temporarily or permanently, in whole or in part, to modify, suspend or discontinue the Application without notice for valid business reasons without liability to you.
+
+7.2 You further acknowledge that the Application is provided over the Internet and mobile networks, therefore the quality and availability of the Application may be affected by factors beyond our reasonable control. Consequently, we cannot accept any responsibility for any connectivity issues you may experience while using the app. You further acknowledge and agree that you (and not us) are responsible for obtaining and maintaining all telecommunications, broadband, and hardware, equipment, and services necessary to access and use the Application or any Service, and for paying any data charges that You may be charged by Your network provider in connection with your use of the Application.
+
+7.3 We try to ensure that the information provided on or in connection with the Application is complete, accurate and up-to-date. Despite our efforts, such information may occasionally be inaccurate, incomplete or out of date. Accordingly, we do not guarantee the completeness, accuracy, or timeliness of any such information, including all descriptions, images, references, features, content, specifications, products, and prices of products and services described or depicted in the Application. Such information is also subject to change at any time without notice. The inclusion of any products or services on this Application at a particular time does not imply or guarantee that these products or services will be available at any time.
+
+
+8. LIMITATION OF LIABILITY
+8.1 You acknowledge that the Application has not been developed to meet your individual requirements and that it is therefore your responsibility to ensure that the facilities and functions of the Application meet your requirements.
+
+8.2 To the extent permitted by applicable law, you acknowledge that we have no liability to you for any loss of profits, loss of business, loss of revenue, loss of data, business interruption or loss of business opportunity arising from your use of the App. You further acknowledge that we will not be liable to you for any indirect or consequential loss or any exemplary, special or punitive damages.
+
+
+9. COMPENSATION
+You agree to compensate us for any and all claims, actions, demands, losses, liabilities, damages, costs and expenses (including legal and other costs, such as attorneys' fees) reasonably incurred by us arising out of your use of the Application or any Service that breaches these Terms. We reserve the right to assume the exclusive defense and control of any claim brought by a third party relating to your use of the Application and/or the Services and you agree to assist and cooperate with us in connection with any such claim.
+
+
+10. EVENTS OUTSIDE OUR CONTROL
+We will not be liable for any failure to perform, or delay in performance of, any of our obligations under these Terms that is caused by any act or event beyond our reasonable control, including any failure of public or private telecommunications networks.
+
+
+11. CLAIMS OF COPYRIGHT INFRINGEMENT
+The Digital Millennium Copyright Act of 1998 (the "DMCA") provides remedies for copyright owners who believe that material appearing on the Internet infringes their rights under Argentine copyright law. If you believe in good faith that materials available or accessible through the Application infringe your copyright, you (or your agent) may send us a notice requesting that we remove or block the materials or disable access to them. If you believe in good faith that someone has mistakenly filed a copyright infringement notification against you, the DMCA allows you to send us a counter notification. Notices and counter-notifications must comply with the then-current legal requirements imposed by the DMCA.
+
+
+12. LAW AND JURISDICTION
+To the extent permitted by applicable law, these Terms, their subject matter and formation, are governed by Argentine law and you consent to the non-exclusive jurisdiction of the Argentine courts. We reserve the right to bring legal action against you for breach of these Terms in your country of residence or other relevant country."</string>
+    <string name="privacy_policy_body">"This Privacy Policy describes how we manage and protect your personal data and the choices available to you. Additional information about our personal data practices may be provided in product settings, contractual terms, or notices provided before or at the time of data collection.
+
+This Privacy Policy is intended for you if you are a user of our products and services.
+
+1. Personal data collected
+
+Personal Data means any information relating to an identified or identifiable natural person (“Personal Data”).
+
+We may collect data or ask you to provide certain data when you visit our websites and use our products and services. The sources through which we collect Personal Data include:
+
+Data collected directly through you or your device relating to an identified or identifiable individual ("Data Subject"), may include direct identifiers such as name, postal and email address, telephone number, and online or indirect identifiers such as account login, login password, marketing preferences, social media account or IP address; If we link other data to your Personal Data, we will treat the linked data as Personal Data;
+The Application may collect personal information in order to provide a pleasant user experience. Such as:
+
+
+2. Use of the information collected
+How May We Collect Personal Information?
+We may collect the following personal information about you:
+
+Personal information that you provide to us when you download the Application, post material or request additional services; and Personal Information you provide to us when you report a problem with the Application or otherwise communicate with us.
+
+Other Information We May Collect
+“Other Information” is any information we collect in connection with your use of the Application and Services that does not identify you as an individual, as noted below.
+
+* Device Information: We may collect information about a Device or any computer you use to download or transmit a copy of the Application to your Device, including, where available, unique device or computer identifiers, operating system, type browser and mobile network information. as well as the phone number of the Device. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+* Log Information: We may automatically collect and store certain information about your use of the Application and any Services in server logs, including, but not limited to, Internet protocol addresses, Internet service provider, clickstream data , browser type and language, visited and exit pages, and date or time stamps. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+* Unique Application Numbers: When you install or uninstall an Application or a Service that contains a unique application number or when the Application or Service checks for automatic updates, that number and information about your installation, for example, the type of operating system , they can be sent. for us. We may use this information to ensure that the Services and the Application function properly and for the business purposes detailed below.
+
+
+3. Exceptions when disclosing your personal information
+We may disclose your personal information and other information to third parties:
+– in the event that we sell or buy any business or assets, in which case we may disclose your Personal Information to the prospective seller or buyer of such business or assets;
+– if all or part of our business, assets or shares are acquired by a third party (including in connection with any bankruptcy or similar proceedings), in which case personal information will be one of the transferred assets.
+– if we are under a duty to disclose or share your personal information in order to comply with any legal or regulatory obligation or request;
+– to protect our rights, property, privacy, or safety or that of our customers, you, or others. This may include exchanging information with other companies and organizations to
+fraud protection and credit risk reduction purposes.
+– to enforce the terms of this Privacy Policy or the Terms of Use;
+– to allow us to pursue available remedies or limit the damages we may suffer; I
+– where you have given us your consent to do so.
+
+4. Access To Your Information
+Under applicable law, you may have the right to access the personal information we hold. To the extent permitted by applicable law, we may charge you a reasonable fee to cover our costs in providing you with details of your Personal Information, subject to limits imposed by applicable law.
+If you wish to review, correct, update, suppress, delete or limit our use of your Personal Data previously provided for your use, please contact us in accordance with the Contact Us” section below, making clear your name and contact details. and the nature of your request. We will attempt to comply with any request as soon as reasonably possible or unless we need to retain your information for legitimate business or legal purposes."
+
+
+5. How do we use your information?
+We use your Personal Data for the following purposes and for the following reasons:
+
+To perform our contract with you or enter into a contract with you at your request, in order to:
+
+* Process the purchase of our products or services through us, our partners or the online stores of our trusted third-party service providers;
+* Allow the download, activation and operation of the product or service;
+* Keeping our products or services up-to-date, secure, and error-free, including the implementation of new product features and versions;
+* Verify your identity and entitlement to paid products or services, when you contact us for support or access our services;
+* Process your purchase transactions;
+* Inform you about the status of your orders and licenses; and
+* Provide you with technical and customer support.
+
+
+6. Use Of Services By Minors
+The Application and the Services are intended for use by persons over the age of 13. For the avoidance of doubt, the Application and the Services are not directed to and should not be used by minors. In the United States, this means persons under the age of thirteen (13). In other jurisdictions different age restrictions may apply
+
+
+7. Privacy Policy Updates
+We may make changes to this Privacy Policy. Any changes we may make to our privacy policy in the future will be posted on this page and, where appropriate, notified to you by any reasonable means, including through the Application. Please take a look at the “LAST UPDATED” legend at the top of this page to see when this Privacy Policy was last revised. New terms may appear on the screen and you may be required to read and agree to them in order to continue using the Application and any Services. Any changes to this Privacy Policy will be effective when we post the revised Privacy Policy on the Application. Your use of the Application after these changes means that you accept the revised Privacy Policy.”
+
+
+8. Links to Third Parties
+
+This website may contain links to other sites or documents that may be of interest to you. Once you click on these links and leave our page, we no longer have control over the site to which you are redirected and therefore we are not responsible for the terms or privacy or the protection of your data on those other third party sites. These sites are subject to their own privacy policies, so it is recommended that you consult them to confirm that you agree with them."</string>
+
+    <string name="scheduled_alarm_msg">Alarm scheduled in %s</string>
+    <string name="years">%d years</string>
+    <string name="months">%d months</string>
+    <string name="days">%d days</string>
+    <string name="hours">%d hours</string>
+    <string name="minutes">%d minutes</string>
+    <string name="show_phrases_option">Show daily phrases</string>
+    <string name="no_phrases_string">Hide</string>
+    <string name="phrases_string">Show</string>
+    <string name="enable_location_snackbar">You need to enable location</string>
+    <string name="access_location_permission_snackbar">Allow AlarMe to access the location</string>
+    <string name="alarm_sound">Alarm Sound</string>
+    <string name="vibration_text">Vibration</string>
+    <string name="postpone_text">Postpone</string>
+    <string name="repeat_text">Repeat</string>
 </resources>

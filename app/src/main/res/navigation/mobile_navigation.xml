@@ -6,23 +6,36 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.federicoberon.newapp.ui.home.HomeFragment"
+        android:name="com.federicoberon.alarme.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_nav_home_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
+            app:destination="@id/addAlarmFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/previewAlarmActivity"
+            app:destination="@id/alarmActivity"
+            app:enterAnim="@anim/slide_in_vertical"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_vertical" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_about"
-        android:name="com.federicoberon.newapp.ui.about.AboutFragment"
+        android:name="com.federicoberon.alarme.ui.about.AboutFragment"
         android:label="@string/menu_about"
-        tools:layout="@layout/fragment_about" />
+        tools:layout="@layout/fragment_about" >
+        <action
+            android:id="@+id/action_nav_about_to_termsDialogFragment"
+            app:destination="@id/termsDialogFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/addAlarmFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.AddAlarmFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.AddAlarmFragment"
         android:label="fragment_add_alarm"
         tools:layout="@layout/fragment_add_alarm">
 
@@ -30,58 +43,91 @@
             android:name="milestone_id"
             app:argType="long"
             android:defaultValue="0L" />
+
+        <argument
+            android:name="duplicateIt"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
         <action
             android:id="@+id/action_addAlarmFragment_to_nav_home"
             app:destination="@id/nav_home" />
         <action
             android:id="@+id/action_select_ringtone"
-            app:destination="@id/ringtonePickerFragment" />
+            app:destination="@id/ringtonePickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_vibrator"
-            app:destination="@id/vibratorListFragment" />
+            app:destination="@id/vibratorListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_postpone"
-            app:destination="@id/postponePickerFragment" />
+            app:destination="@id/postponePickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
         <action
             android:id="@+id/action_select_repeat"
-            app:destination="@id/repeatPickerFragment" />
+            app:destination="@id/repeatPickerFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
 
     </fragment>
     <fragment
         android:id="@+id/ringtonePickerFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.melody.RingtonePickerFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.melody.RingtonePickerFragment"
         android:label="fragment_ringtone_picker"
         tools:layout="@layout/fragment_ringtone_picker" >
         <action
             android:id="@+id/action_ringtoneListFragment"
-            app:destination="@id/ringtoneListFragment" />
-        <action
-            android:id="@+id/action_back_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
+            app:destination="@id/ringtoneListFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out" />
     </fragment>
     <fragment
         android:id="@+id/ringtoneListFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.melody.RingtoneListFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.melody.RingtoneListFragment"
         android:label="fragment_ringtone_list"
         tools:layout="@layout/fragment_ringtone_list" >
-        <action
-            android:id="@+id/action_back_to_ringtonePickerFragment"
-            app:destination="@id/ringtonePickerFragment" />
     </fragment>
     <fragment
         android:id="@+id/vibratorListFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.vibration.VibratorListFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.vibration.VibratorListFragment"
         android:label="VibratorListFragment" >
-        <action
-            android:id="@+id/action_vibratorListFragment_to_addAlarmFragment"
-            app:destination="@id/addAlarmFragment" />
     </fragment>
     <fragment
         android:id="@+id/postponePickerFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.postpone.PostponePickerFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.postpone.PostponePickerFragment"
         android:label="PostponePickerFragment" />
     <fragment
         android:id="@+id/repeatPickerFragment"
-        android:name="com.federicoberon.newapp.ui.addalarm.repeat.RepeatPickerFragment"
+        android:name="com.federicoberon.alarme.ui.addalarm.repeat.RepeatPickerFragment"
         android:label="RepeatPickerFragment" />
+    <activity
+        android:id="@+id/alarmActivity"
+        android:name="com.federicoberon.alarme.ui.alarm.AlarmActivity"
+        android:label="AlarmActivity" >
+    </activity>
+    <dialog
+        android:id="@+id/termsDialogFragment"
+        android:name="com.federicoberon.alarme.ui.about.TermsDialogFragment"
+        android:label="TermsDialogFragment">
+
+        <argument
+            android:name="type_of_content"
+            app:argType="long"
+            android:defaultValue="0L" />
+
+    </dialog>
 </navigation>
