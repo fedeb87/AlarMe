@@ -124,8 +124,6 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
             finish();
         });
 
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             alarmViewModel.setLocale(getResources().getConfiguration().getLocales().get(0));
         else
@@ -137,10 +135,15 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
             if(intent.hasExtra(LONGITUDE) && intent.hasExtra(LATITUDE)){
                 lat = intent.getDoubleExtra(LATITUDE, 0.0);
                 lon = intent.getDoubleExtra(LONGITUDE, 0.0);
+                Toast.makeText(this, "1- First lat: " + lat, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "1- First lon: " + lon, Toast.LENGTH_SHORT).show();
             }else if(sharedPref.contains(LAT_KEY) && sharedPref.contains(LON_KEY)) {
                 lat = sharedPref.getFloat(LAT_KEY, 0.0f);
                 lon = sharedPref.getFloat(LON_KEY, 0.0f);
+                Toast.makeText(this, "2- Second lat: " + lat, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "2- Second lon: " + lon, Toast.LENGTH_SHORT).show();
             }else{
+                Toast.makeText(this, "3- Third NOT EXIST", Toast.LENGTH_SHORT).show();
                 textToSpeak();
                 binding.weatherCardView.setVisibility(View.GONE);
             }
@@ -359,6 +362,10 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
     public void onWeatherChangedTwo(WeatherResponseTwo weatherResponse) {
         // current data
         // (32 °F − 32) × 5/9 = 0 °C
+        if(weatherResponse==null){
+            binding.weatherCardView.setVisibility(View.GONE);
+            return;
+        }
         double tempC = (weatherResponse.current.temp-32)*5/9;
         alarmViewModel.setCurrentTempF(weatherResponse.current.temp);
         alarmViewModel.setCurrentTempC(tempC);

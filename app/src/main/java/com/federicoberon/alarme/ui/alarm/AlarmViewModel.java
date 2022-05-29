@@ -7,18 +7,22 @@ import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.api.WeatherService;
 import com.federicoberon.alarme.api.WeatherServiceTwo;
+import com.federicoberon.alarme.model.AlarmEntity;
+import com.federicoberon.alarme.repositories.AlarmRepository;
 
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class AlarmViewModel extends ViewModel {
     private final WeatherService weatherService;
     private final WeatherServiceTwo weatherServiceTwo;
+    private final AlarmRepository alarmRepository;
     public boolean isPreview;
     private String sign;
-
     public double latitude;
     public double longitude;
     private Double currentTempF;
@@ -31,9 +35,11 @@ public class AlarmViewModel extends ViewModel {
     private Locale locale;
 
     @Inject
-    public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo) {
+    public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo,
+                          AlarmRepository alarmRepository) {
         this.weatherService = weatherService;
         this.weatherServiceTwo = weatherServiceTwo;
+        this.alarmRepository = alarmRepository;
         this.isPreview = false;
         inCelsius = true;
         latitude = 0;
@@ -139,5 +145,9 @@ public class AlarmViewModel extends ViewModel {
 
     public double getMaxTempF() {
         return maxTempF;
+    }
+
+    public Flowable<AlarmEntity> getAlarmById(long id) {
+        return alarmRepository.getAlarmById(id);
     }
 }

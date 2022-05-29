@@ -1,5 +1,14 @@
 package com.federicoberon.alarme.service;
 
+import static com.federicoberon.alarme.AlarMeApplication.CHANNEL_ID;
+import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
+import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -11,27 +20,16 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Vibrator;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
-import static com.federicoberon.alarme.AlarMeApplication.CHANNEL_ID;
-import static com.federicoberon.alarme.MainActivity.ENABLE_LOGS;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ACTION_SNOOZE;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ENTITY;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
-import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.STOP_SERVICE;
-
-import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.AlarMeApplication;
+import com.federicoberon.alarme.R;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.model.AlarmEntity;
 import com.federicoberon.alarme.ui.alarm.AlarmActivity;
@@ -41,10 +39,8 @@ import com.federicoberon.alarme.utils.VibrationManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+
 import java.io.IOException;
 
 import javax.inject.Inject;
@@ -91,7 +87,7 @@ public class AlarmService extends Service {
         }else {
 
             if (intent.hasExtra(IS_PREVIEW)) {
-                comeFromPreview = intent.getBooleanExtra(IS_PREVIEW, false);;
+                comeFromPreview = intent.getBooleanExtra(IS_PREVIEW, false);
             }
 
             if (intent.hasExtra(ACTION_SNOOZE)) {
@@ -209,18 +205,15 @@ public class AlarmService extends Service {
                 fusedLocationClient.getLastLocation()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful() && task.getResult() != null) {
-                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                    Log.w(LOG_TAG, "<<< Already have a location >>>");
+                                if(sharedPref.getBoolean(ENABLE_LOGS, false)){
+                                    Log.w(LOG_TAG, "<<< Already have a location >>>");}
                                 Location location = task.getResult();
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
                                 displayAlarm(alarmEntity);
 
-                            } else {
-                                if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                    Log.w(LOG_TAG, "<<< Pido una nueva ubicacion >>>");
-                                requestNewLocation(alarmEntity);
-                            }
+                            }else
+                                displayAlarm(alarmEntity);
                         });
             }else
                 displayAlarm(alarmEntity);
@@ -245,33 +238,6 @@ public class AlarmService extends Service {
             network_enabled = false;
         }
         return gps_enabled || network_enabled;
-    }
-
-    @SuppressLint("MissingPermission")
-    private void requestNewLocation(AlarmEntity alarmEntity) {
-
-        LocationCallback locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                if (locationResult == null) {
-                    return;
-                }
-                latitude = locationResult.getLastLocation().getLatitude();
-                longitude = locationResult.getLastLocation().getLongitude();
-                fusedLocationClient.removeLocationUpdates(this);
-                displayAlarm(alarmEntity);
-            }
-        };
-
-        LocationRequest mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (checkLocationPermissions())
-            fusedLocationClient.requestLocationUpdates(mLocationRequest,
-                    locationCallback,
-                    Looper.getMainLooper());
     }
 
     private boolean checkLocationPermissions() {

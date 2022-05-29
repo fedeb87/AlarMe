@@ -118,9 +118,6 @@
         android:id="@+id/alarmActivity"
         android:name="com.federicoberon.alarme.ui.alarm.AlarmActivity"
         android:label="AlarmActivity" >
-        <argument
-            android:name="AlarmEntity"
-            app:argType="com.federicoberon.alarme.model.AlarmEntity" />
     </activity>
     <dialog
         android:id="@+id/termsDialogFragment"
