@@ -16,6 +16,7 @@ import com.federicoberon.alarme.utils.DateUtils;
 import com.federicoberon.alarme.utils.RepeatManager;
 import com.federicoberon.alarme.utils.StringHelper;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Flowable;
@@ -52,7 +53,7 @@ public class AddAlarmViewModel extends ViewModel {
     private boolean isPhrasesOn;
     private boolean readTitle;
 
-    //@Inject
+    @Inject
     public AddAlarmViewModel(AudioManager audioManager, AlarmRepository alarmRepository) {
         this.mAudioManager = audioManager;
         this.nextAlarm = new MutableLiveData<>();
@@ -79,7 +80,7 @@ public class AddAlarmViewModel extends ViewModel {
         this.readTitle = true;
     }
 
-    public void restart(){
+    public void restart() {
         this.nextAlarm = new MutableLiveData<>();
         this.daysOfWeek = new boolean[7];
         this.selectedPostpone = 5;
@@ -118,11 +119,10 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setDaysOfWeek(boolean[] array) {
-        this.daysOfWeek = new boolean[7];
         this.daysOfWeek = array;
     }
 
-    public Calendar getNextAlarmValue(){
+    public Calendar getNextAlarmValue() {
         return nextAlarm.getValue();
     }
 
@@ -131,13 +131,13 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setDaysOfWeek(int position) {
-        this.daysOfWeek[position-1] = !this.daysOfWeek[position-1];
+        this.daysOfWeek[position - 1] = !this.daysOfWeek[position - 1];
         if (containsTrue()) {
             this.scheduledDay = null;
 
-            // lunes es 2, domiungo sera 1
-            // y sabado sera 7
-            // position es el valor de DAY_OF_WEEK
+            // monday are 2, sunday are 1
+            // and saturday are 7
+            // position are the value for DAY_OF_WEEK
             int currentDayOfWeek = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
             int i = 0;
@@ -153,7 +153,7 @@ public class AddAlarmViewModel extends ViewModel {
                 }
                 i++;
             }
-        }else {
+        } else {
             if (nextAlarm.getValue() == null) setNextAlarm();
             Calendar calendar = nextAlarm.getValue();
             assert calendar != null;
@@ -164,7 +164,7 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public boolean containsTrue() {
-        for(boolean b : daysOfWeek) if(b) return true;
+        for (boolean b : daysOfWeek) if (b) return true;
         return false;
     }
 
@@ -191,11 +191,11 @@ public class AddAlarmViewModel extends ViewModel {
 
     public void setNextAlarm() {
         Calendar calendar = Calendar.getInstance();
-        mHour = mHour == -1? calendar.get(Calendar.HOUR_OF_DAY) : mHour;
-        mMinutes = mMinutes == -1? calendar.get(Calendar.MINUTE) : mMinutes;
-        mYear = mYear == -1? calendar.get(Calendar.YEAR) : mYear;
-        mMonth = mMonth == -1? calendar.get(Calendar.MONTH) : mMonth;
-        mDay = mDay == -1? calendar.get(Calendar.DAY_OF_MONTH) : mDay;
+        mHour = mHour == -1 ? calendar.get(Calendar.HOUR_OF_DAY) : mHour;
+        mMinutes = mMinutes == -1 ? calendar.get(Calendar.MINUTE) : mMinutes;
+        mYear = mYear == -1 ? calendar.get(Calendar.YEAR) : mYear;
+        mMonth = mMonth == -1 ? calendar.get(Calendar.MONTH) : mMonth;
+        mDay = mDay == -1 ? calendar.get(Calendar.DAY_OF_MONTH) : mDay;
 
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
@@ -227,7 +227,7 @@ public class AddAlarmViewModel extends ViewModel {
         calendar.set(Calendar.HOUR_OF_DAY, mHour);
         calendar.set(Calendar.MINUTE, mMinutes);
 
-        if(calendar.getTime().compareTo(Calendar.getInstance().getTime()) <= 0){
+        if (calendar.getTime().compareTo(Calendar.getInstance().getTime()) <= 0) {
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             mDay = calendar.get(Calendar.DAY_OF_MONTH);
             mMonth = calendar.get(Calendar.MONTH);
@@ -237,7 +237,7 @@ public class AddAlarmViewModel extends ViewModel {
         nextAlarm.setValue(calendar);
     }
 
-    public Date getDate(){
+    public Date getDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, mYear);
         calendar.set(Calendar.MONTH, mMonth);
@@ -269,15 +269,15 @@ public class AddAlarmViewModel extends ViewModel {
         this.oldAlarm = alarmToInsert;
     }
 
-    public AlarmEntity getInsertedAlarm(){
+    public AlarmEntity getInsertedAlarm() {
         return this.insertedAlarm;
     }
 
     public Maybe<Long> saveAlarm(String title) {
 
-        int hourInMinutes = mHour*60+mMinutes;
+        int hourInMinutes = mHour * 60 + mMinutes;
 
-        if (insertedAlarm==null || this.duplicate) // insert case
+        if (insertedAlarm == null || this.duplicate) // insert case
             insertedAlarm = new AlarmEntity(title, getDate(), mHour, mMinutes, hourInMinutes,
                     this.daysOfWeek, this.isMelodyOn, this.selectedMelody.getUri(),
                     this.selectedMelody.getTitle(), this.volume, this.isVibrationOn, this.selectedVibration,
@@ -298,10 +298,10 @@ public class AddAlarmViewModel extends ViewModel {
         return mAlarmRepository.getAlarmById(id);
     }
 
-    public void scheduledAlarm(Context context){
-        if(!StringHelper.containsTrue(daysOfWeek)){
+    public void scheduledAlarm(Context context) {
+        if (!StringHelper.containsTrue(daysOfWeek)) {
             //
-            if(insertedAlarm.getAlarmDate().compareTo(new Date())<0) {
+            if (insertedAlarm.getAlarmDate().compareTo(new Date()) < 0) {
                 int alarmDay = DateUtils.isTomorrow(insertedAlarm.getHour(), insertedAlarm.getMinute());
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(insertedAlarm.getAlarmDate());
@@ -330,7 +330,7 @@ public class AddAlarmViewModel extends ViewModel {
 
     public void setSelectedMelody(MelodyEntity melody) {
         // set the melody inside the AlarmEntity
-        if(this.insertedAlarm!=null) {
+        if (this.insertedAlarm != null) {
             AlarmEntity alarmEntity = getInsertedAlarm();
             alarmEntity.setMelodyUri(melody.getUri());
             alarmEntity.setMelodyName(melody.getTitle());
@@ -340,7 +340,7 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedVibration(String vibName) {
-        if (this.insertedAlarm!=null)
+        if (this.insertedAlarm != null)
             this.insertedAlarm.setVibrationPatter(vibName);
         this.selectedVibration = vibName;
     }
@@ -350,7 +350,7 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedPostpone(int i) {
-        if (this.insertedAlarm!=null)
+        if (this.insertedAlarm != null)
             this.insertedAlarm.setPostponeTime(i);
         this.selectedPostpone = i;
     }
@@ -360,7 +360,7 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public void setSelectedRepeat(int i) {
-        if (this.insertedAlarm!=null)
+        if (this.insertedAlarm != null)
             this.insertedAlarm.setRepeatTime(i);
         this.selectedRepeat = i;
     }
@@ -442,6 +442,6 @@ public class AddAlarmViewModel extends ViewModel {
     }
 
     public boolean isTimeChange() {
-        return mMinutes!=-1 && mHour!=-1;
+        return mMinutes != -1 && mHour != -1;
     }
 }

@@ -9,8 +9,6 @@ import retrofit2.http.Query;
 
 public interface WeatherService {
 
-    // todo medio cagada que las key esten aca, la app tendria que leerlas de algun lugar de internet por si necesito actualizarla
-
     @GET("v1/forecast.xml")
     Observable<WeatherResponse> getWeather(@Query("key") String key, @Query("q") double[] query, @Query("day") int day);
 

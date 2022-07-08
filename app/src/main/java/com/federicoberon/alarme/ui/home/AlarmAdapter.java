@@ -33,8 +33,8 @@ import java.util.List;
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>{
 
     private List<AlarmEntity> alarms;
-    private final View parentView;
-    private final EventListener listener;
+    private View parentView;
+    private EventListener listener;
     private AlarmEntity mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
     private ArrayList<AlarmEntity> selectedAlarmsList;
@@ -204,7 +204,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     @SuppressLint("NotifyDataSetChanged")
     public void setAlarms(List<AlarmEntity> allAlarms) {
-        this.alarms = Collections.emptyList();
         this.alarms = allAlarms;
         notifyDataSetChanged();
     }

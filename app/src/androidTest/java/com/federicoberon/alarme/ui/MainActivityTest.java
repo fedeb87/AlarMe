@@ -32,9 +32,6 @@ import java.util.Objects;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MainActivityTest {
 
-    // todo test long click pressed
-    // todo test swipe to dismiss
-
     @Rule
     public final ActivityScenarioRule<MainActivity> activityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
@@ -89,7 +86,4 @@ public class MainActivityTest {
         onView(withId(R.id.editTextAlarmName))
                 .check(matches(isDisplayed()));
     }
-
-    // todo test long click pressed
-    // todo test swipe to dismiss
 }

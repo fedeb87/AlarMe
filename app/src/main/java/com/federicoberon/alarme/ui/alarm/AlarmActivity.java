@@ -335,7 +335,7 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.e("error", "This Language is not supported");
+                    Log.e(LOG_TAG, "This Language is not supported");
             } else {
                 Calendar cal = Calendar.getInstance();
                 String hourText = String.format(getString(R.string.hour_speach), cal.get(Calendar.HOUR)
@@ -359,7 +359,7 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                 handler.removeCallbacks(delayedRunnable);
 
             if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                Log.e("error", "Failed to Initialize " + status);
+                Log.e(LOG_TAG, "Failed to Initialize " + status);
         }
     }
 

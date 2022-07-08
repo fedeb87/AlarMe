@@ -24,6 +24,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class AlarmViewModel extends ViewModel {
+    private static final String LOG_TAG = "<<<AlarmViewModel>>>";
     private final WeatherService weatherService;
     private final WeatherServiceTwo weatherServiceTwo;
     private final AlarmRepository alarmRepository;
@@ -93,7 +94,8 @@ public class AlarmViewModel extends ViewModel {
         this.longitude = lon;
         if (lat != 0.0 || lon != 0.0){
             try{
-                return weatherService.getWeather("576d14184a3e42cc8cd10015222203"
+                // TODO: 08/07/2022 replace with your own key
+                return weatherService.getWeather("<<your-key>>"
                         , new double[]{lat, lon}, 1);
             }catch (Exception e){
                 return Observable.empty();
@@ -106,7 +108,7 @@ public class AlarmViewModel extends ViewModel {
         try{
             return horoscopeService.getHoroscope(_sign, "today");
         }catch (Exception e){
-            Log.w("ERROR", e.getMessage());
+            Log.e(LOG_TAG, "Error retrieving horoscope", e);
             return Observable.empty();
         }
     }
@@ -115,7 +117,7 @@ public class AlarmViewModel extends ViewModel {
         try{
             return horoscopeServiceTwo.getHoroscope(_sign);
         }catch (Exception e){
-            Log.w("ERROR", "HUBO UN ERROR " + e.getMessage());
+            Log.e(LOG_TAG, "Error retrieving horoscope 2", e);
             return Observable.empty();
         }
 

@@ -32,7 +32,7 @@ public class AlarMeApplication extends Application {
     private Scheduler defaultSubscribeScheduler;
 
     // Reference to the application graph that is used across the whole app
-    public ApplicationComponent appComponent = initializeComponent();
+    public final ApplicationComponent appComponent = initializeComponent();
 
 
     @Override

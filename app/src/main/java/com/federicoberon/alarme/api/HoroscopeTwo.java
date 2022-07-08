@@ -3,8 +3,6 @@ package com.federicoberon.alarme.api;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.util.List;
-
 @Root(name = "item", strict = false)
 public class HoroscopeTwo {
         @Element(name = "title")

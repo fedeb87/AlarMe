@@ -71,7 +71,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
 
     public static final String KEY_ALARM_ID = "alarm_id";
     public static final String KEY_DUPLICATE_ALARM = "duplicate selected alarm";
-    private static final String LOG_TAG = "<<< AddAlarmFragment >>>";
+    private static final String LOG_TAG = "<<<AddAlarmFragment>>>";
 
     @Inject
     AddAlarmViewModel addAlarmViewModel;
@@ -331,7 +331,7 @@ public class AddAlarmFragment extends Fragment implements TimePicker.OnTimeChang
         }
 
         // change next alarm listener
-        addAlarmViewModel.getNextAlarm().observe(this, calendar ->{
+        addAlarmViewModel.getNextAlarm().observe(getViewLifecycleOwner(), calendar ->{
             String textToSet = StringHelper.getFormatedAlarmDate(
                     requireContext(), addAlarmViewModel.getNextAlarm().getValue(),
                     addAlarmViewModel.getDaysOfWeek());

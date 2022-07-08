@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                        Log.e(LOG_TAG, "Unable to get alarms: ", throwable);
                 }));
 
     }
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                        Log.e(LOG_TAG, "Unable to get alarms: ", throwable);
                 }));
     }
 
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                 },
                 throwable -> {
                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                        Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
+                        Log.e(LOG_TAG, "Unable to get alarms: ", throwable);
                 }));
 
     }
@@ -500,7 +500,7 @@ public class HomeFragment extends Fragment implements AlarmAdapter.EventListener
                                             .subscribe(() -> {
                                                         // stop alarm service
                                                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                                                            Log.w(LOG_TAG, "Alarma borrada correctamente");
+                                                            Log.w(LOG_TAG, "Alarm deleted");
                                                     },
                                                     throwable -> {
                                                         if(sharedPref.getBoolean(ENABLE_LOGS, false))

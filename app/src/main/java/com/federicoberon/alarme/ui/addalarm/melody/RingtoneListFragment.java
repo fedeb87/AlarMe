@@ -52,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RingtoneListFragment extends Fragment {
 
-    private static final String LOG_TAG = "<<< RingtoneListFragment >>>";
+    private static final String LOG_TAG = "<<<RingtoneListF>>>";
     private FragmentRingtoneListBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
