@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.federicoberon.alarme.AlarMeApplication;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
 import com.federicoberon.alarme.api.WeatherService;
 import com.federicoberon.alarme.api.WeatherServiceTwo;
 import com.federicoberon.alarme.di.ApplicationContext;
@@ -51,6 +53,18 @@ public class ApplicationModule {
     @Singleton
     public WeatherServiceTwo provideWeatherServiceTwo() {
         return mApplication.getWeatherServiceTwo();
+    }
+
+    @Provides
+    @Singleton
+    public HoroscopeService provideHoroscopeService() {
+        return mApplication.getHoroscopeService();
+    }
+
+    @Provides
+    @Singleton
+    public HoroscopeServiceTwo provideHoroscopeServiceTwo() {
+        return mApplication.getHoroscopeServiceTwo();
     }
 }
 

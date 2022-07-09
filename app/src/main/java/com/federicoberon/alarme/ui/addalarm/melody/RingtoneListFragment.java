@@ -52,7 +52,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RingtoneListFragment extends Fragment {
 
-    private static final String LOG_TAG = "RingtoneListFragment";
+    private static final String LOG_TAG = "<<<RingtoneListF>>>";
     private FragmentRingtoneListBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -117,7 +117,7 @@ public class RingtoneListFragment extends Fragment {
             },
             throwable -> {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.e("MIO", "Unable to get milestones: ", throwable);
+                    Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
             }));
 
 
@@ -158,7 +158,7 @@ public class RingtoneListFragment extends Fragment {
                     },
             throwable -> {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.e("MIO", "Unable to get milestones: ", throwable);
+                    Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
             }));
 
         });

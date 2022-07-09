@@ -8,6 +8,7 @@ import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.IS_PREVIEW;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LATITUDE;
 import static com.federicoberon.alarme.broadcastreceiver.AlarmBroadcastReceiver.LONGITUDE;
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +24,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -32,10 +32,13 @@ import com.federicoberon.alarme.AlarMeApplication;
 import com.federicoberon.alarme.broadcastreceiver.ActionReceiver;
 import com.federicoberon.alarme.databinding.FragmentAlarmBinding;
 import com.federicoberon.alarme.model.AlarmEntity;
+import com.federicoberon.alarme.api.Horoscope;
+import com.federicoberon.alarme.api.HoroscopeTwo;
 import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.service.AlarmService;
 import com.federicoberon.alarme.utils.AlarmManager;
+import com.federicoberon.alarme.utils.HoroscopeManager;
 import com.federicoberon.alarme.utils.CustomMediaPlayer;
 import com.federicoberon.alarme.utils.PhrasesManager;
 
@@ -49,7 +52,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
 public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
-    private static final String LOG_TAG = "AlarmActivity";
+    private static final String LOG_TAG = "<<< AlarmActivity >>>";
     private FragmentAlarmBinding binding;
     private AlarmEntity mAlarmEntity;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
@@ -92,8 +95,8 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
         if(intent.hasExtra(ALARM_ENTITY)) {
             mAlarmEntity = (AlarmEntity) intent.getSerializableExtra(ALARM_ENTITY);
         }else {
-            Toast.makeText(this, getString(R.string.no_alarm_entity),
-                    Toast.LENGTH_LONG).show();
+            if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                Log.w(LOG_TAG,getString(R.string.no_alarm_entity));
             finish();
         }
 
@@ -129,21 +132,24 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
         else
             alarmViewModel.setLocale(getResources().getConfiguration().locale);
 
+        if(mAlarmEntity.isHoroscopeOn()) {
+            mDisposable.add(alarmViewModel.loadHoroscope(HoroscopeManager.getNameURL(this, alarmViewModel.getSign()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                    .subscribe(this::onHoroscopeChanged, throwable -> onHoroscopeChanged(null)));
+        }else
+            binding.horoscopeCardView.setVisibility(View.GONE);
+
         double lat = 0;
         double lon = 0;
         if(mAlarmEntity.isWeatherOn()) {
             if(intent.hasExtra(LONGITUDE) && intent.hasExtra(LATITUDE)){
                 lat = intent.getDoubleExtra(LATITUDE, 0.0);
                 lon = intent.getDoubleExtra(LONGITUDE, 0.0);
-                Toast.makeText(this, "1- First lat: " + lat, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "1- First lon: " + lon, Toast.LENGTH_SHORT).show();
             }else if(sharedPref.contains(LAT_KEY) && sharedPref.contains(LON_KEY)) {
                 lat = sharedPref.getFloat(LAT_KEY, 0.0f);
                 lon = sharedPref.getFloat(LON_KEY, 0.0f);
-                Toast.makeText(this, "2- Second lat: " + lat, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "2- Second lon: " + lon, Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(this, "3- Third NOT EXIST", Toast.LENGTH_SHORT).show();
                 textToSpeak();
                 binding.weatherCardView.setVisibility(View.GONE);
             }
@@ -158,12 +164,7 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                             throwable -> {
                                 mDisposable.add(alarmViewModel.callWeatherAPITwo(finalLat, finalLon).observeOn(AndroidSchedulers.mainThread())
                                         .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
-                                        .subscribe(weatherResponse -> {
-                                                    if (weatherResponse != null)
-                                                        onWeatherChangedTwo(weatherResponse);
-                                                    else
-                                                        onWeatherChangedTwo(null);
-                                                },
+                                        .subscribe(this::onWeatherChangedTwo,
                                                 throwable2 -> {
                                                     if(sharedPref.getBoolean(ENABLE_LOGS, false))
                                                         Log.e(LOG_TAG, "Error loading weather ", throwable2);
@@ -251,6 +252,69 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
         binding = null;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void onHoroscopeChanged(Horoscope horoscope) {
+        if(horoscope!=null){
+            binding.horoscopeCardView.setVisibility(View.VISIBLE);
+            loadHoroscopeInfo(horoscope.getDescription());
+        }else{
+            mDisposable.add(alarmViewModel.loadHoroscopeTwo(HoroscopeManager.getNameURLTwo(this, alarmViewModel.getSign()))
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(((AlarMeApplication) getApplicationContext()).defaultSubscribeScheduler())
+                    .subscribe(this::onHoroscopeChangedTwo, throwable -> {
+
+                        if(sharedPref.getBoolean(ENABLE_LOGS, false))
+                            Log.e(LOG_TAG, "Second horoscope service error: ", throwable);
+
+                        onHoroscopeChangedTwo(null);
+                    }));
+
+        }
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void loadHoroscopeInfo(String description) {
+        binding.horoscopeCardView.setVisibility(View.VISIBLE);
+        binding.signImage.setBackground(
+                getDrawable(HoroscopeManager.getIconId(this, alarmViewModel.getSign())));
+
+        binding.signTitle.setText(HoroscopeManager.getName(
+                this, alarmViewModel.getSign()));
+
+        binding.signDesc.animate().alpha(0f).setDuration(0)
+            .setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (binding!=null) {
+                        binding.signDesc.setText(description);
+                        binding.signDesc.animate().alpha(1f).setDuration(600)
+                                .start();
+                    }
+                }
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+                }
+            }).start();
+    }
+
+    public void onHoroscopeChangedTwo(HoroscopeTwo horoscope) {
+        if(horoscope!=null){
+            binding.horoscopeCardView.setVisibility(View.VISIBLE);
+            loadHoroscopeInfo(horoscope.description);
+        }else{
+            binding.horoscopeCardView.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
@@ -271,7 +335,7 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.e("error", "This Language is not supported");
+                    Log.e(LOG_TAG, "This Language is not supported");
             } else {
                 Calendar cal = Calendar.getInstance();
                 String hourText = String.format(getString(R.string.hour_speach), cal.get(Calendar.HOUR)
@@ -295,7 +359,7 @@ public class AlarmActivity extends AppCompatActivity implements TextToSpeech.OnI
                 handler.removeCallbacks(delayedRunnable);
 
             if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                Log.e("error", "Failed to Initialize " + status);
+                Log.e(LOG_TAG, "Failed to Initialize " + status);
         }
     }
 

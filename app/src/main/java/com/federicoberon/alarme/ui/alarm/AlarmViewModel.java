@@ -2,7 +2,13 @@ package com.federicoberon.alarme.ui.alarm;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
+
 import androidx.lifecycle.ViewModel;
+
+import com.federicoberon.alarme.api.Horoscope;
+import com.federicoberon.alarme.api.HoroscopeService;
+import com.federicoberon.alarme.api.HoroscopeServiceTwo;
+import com.federicoberon.alarme.api.HoroscopeTwo;
 import com.federicoberon.alarme.api.WeatherResponse;
 import com.federicoberon.alarme.api.WeatherResponseTwo;
 import com.federicoberon.alarme.api.WeatherService;
@@ -18,9 +24,12 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 
 public class AlarmViewModel extends ViewModel {
+    private static final String LOG_TAG = "<<<AlarmViewModel>>>";
     private final WeatherService weatherService;
     private final WeatherServiceTwo weatherServiceTwo;
     private final AlarmRepository alarmRepository;
+    private final HoroscopeService horoscopeService;
+    private final HoroscopeServiceTwo horoscopeServiceTwo;
     public boolean isPreview;
     private String sign;
     public double latitude;
@@ -36,10 +45,13 @@ public class AlarmViewModel extends ViewModel {
 
     @Inject
     public AlarmViewModel(WeatherService weatherService, WeatherServiceTwo weatherServiceTwo,
+                          HoroscopeService horoscopeService, HoroscopeServiceTwo horoscopeServiceTwo,
                           AlarmRepository alarmRepository) {
         this.weatherService = weatherService;
         this.weatherServiceTwo = weatherServiceTwo;
         this.alarmRepository = alarmRepository;
+        this.horoscopeService = horoscopeService;
+        this.horoscopeServiceTwo = horoscopeServiceTwo;
         this.isPreview = false;
         inCelsius = true;
         latitude = 0;
@@ -82,13 +94,33 @@ public class AlarmViewModel extends ViewModel {
         this.longitude = lon;
         if (lat != 0.0 || lon != 0.0){
             try{
-                return weatherService.getWeather("576d14184a3e42cc8cd10015222203"
+                // TODO: 08/07/2022 replace with your own key
+                return weatherService.getWeather("<<your-key>>"
                         , new double[]{lat, lon}, 1);
             }catch (Exception e){
                 return Observable.empty();
             }
         }
         return Observable.empty();
+    }
+
+    public Observable<Horoscope> loadHoroscope(String _sign) {
+        try{
+            return horoscopeService.getHoroscope(_sign, "today");
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error retrieving horoscope", e);
+            return Observable.empty();
+        }
+    }
+
+    public Observable<HoroscopeTwo> loadHoroscopeTwo(String _sign) {
+        try{
+            return horoscopeServiceTwo.getHoroscope(_sign);
+        }catch (Exception e){
+            Log.e(LOG_TAG, "Error retrieving horoscope 2", e);
+            return Observable.empty();
+        }
+
     }
 
     public void setCurrentTempF(Double currentTempF) {

@@ -33,8 +33,8 @@ import java.util.List;
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>{
 
     private List<AlarmEntity> alarms;
-    private final View parentView;
-    private final EventListener listener;
+    private View parentView;
+    private EventListener listener;
     private AlarmEntity mRecentlyDeletedItem;
     private int mRecentlyDeletedItemPosition;
     private ArrayList<AlarmEntity> selectedAlarmsList;
@@ -60,7 +60,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     public void setSelectedAlarmsList(ArrayList<AlarmEntity> selectedAlarmsList) {
-        this.selectedAlarmsList = new ArrayList<>();
         this.selectedAlarmsList = selectedAlarmsList;
     }
 
@@ -106,7 +105,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
                 alarmEntity.setAlarmDate(calendar.getTime());
 
-                // programarla
+                // schedule it
                 AlarmManager.schedule(view.getContext(), alarmEntity);
 
                 // change visible text for the card
@@ -115,14 +114,14 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
                 holder.mBinding.textCardDays.setText(textToSet);
 
             }else
-                // cancelarla
+                // cancel it
                 AlarmManager.dismissAlarm(view.getContext(), alarmEntity);
 
             // update database
             listener.onEvent(alarmEntity);
         });
 
-        // lo contiene y no tiene el fondo correcto
+
         if(selectedAlarmsList.contains(alarmEntity)) {
             // is selected
             // disable context menu for the item
@@ -185,7 +184,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
     }
 
     private void showUndoSnackbar() {
-        //Snackbar snackbar = Snackbar.make(parentView, R.string.snack_bar_text,
         Snackbar snackbar = Snackbar.make(((MainActivity)getContext()).getBinding().appBarMain.getRoot(), R.string.snack_bar_text,
                 Snackbar.LENGTH_LONG);
         snackbar.setAnchorView(parentView.findViewById(R.id.fab));
@@ -206,7 +204,6 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
 
     @SuppressLint("NotifyDataSetChanged")
     public void setAlarms(List<AlarmEntity> allAlarms) {
-        this.alarms = Collections.emptyList();
         this.alarms = allAlarms;
         notifyDataSetChanged();
     }
@@ -276,6 +273,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             this.position = position;
         }
 
+        @SuppressLint("NonConstantResourceId")
         @Override
         public boolean onMenuItemClick(MenuItem item) {
 

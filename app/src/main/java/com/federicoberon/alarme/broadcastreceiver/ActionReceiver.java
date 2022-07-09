@@ -23,7 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class ActionReceiver extends BroadcastReceiver {
-
+    private final String LOG_TAG = "<<< ActionReceiver >>>";
     private SharedPreferences sharedPref;
 
     @SuppressLint("CheckResult")
@@ -48,11 +48,11 @@ public class ActionReceiver extends BroadcastReceiver {
         if (!isPreview) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.w("MIO", "<<< Voy a detener el servicio >>>");
+                    Log.w(LOG_TAG, "<<< Stop the service >>>");
                 context.startForegroundService(intentService);
             } else {
                 if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                    Log.w("MIO", "<<< Voy a detener el servicio 2>>>");
+                    Log.w(LOG_TAG, "<<< Stop the service 2>>>");
                 context.startService(intentService);
             }
         }
@@ -127,11 +127,11 @@ public class ActionReceiver extends BroadcastReceiver {
                     .subscribe(id -> {
                         // stop alarm service
                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                            Log.w("MIO", "Alarm updated: " + id);
+                            Log.w(LOG_TAG, "Alarm updated: " + id);
                     },
                     throwable -> {
                         if(sharedPref.getBoolean(ENABLE_LOGS, false))
-                            Log.e("MIO", "Unable to get milestones: ", throwable);
+                            Log.e(LOG_TAG, "Unable to get milestones: ", throwable);
                     });
         }
     }

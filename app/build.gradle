@@ -10,10 +10,9 @@ android {
         applicationId "com.federicoberon.alarme"
         minSdk 21
         targetSdk 31
-        versionCode 6
-        versionName "1.4"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "com.federicoberon.alarme.MyCustomTestRunner"
-        //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     useLibrary 'android.test.mock'

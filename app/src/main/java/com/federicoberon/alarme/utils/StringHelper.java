@@ -30,16 +30,16 @@ public class StringHelper {
                 return String.format(context.getString(R.string.alarms_everyDay),
                         DateFormat.getTimeFormat(context).format(nextAlarm.getTime()));
 
-            String days = "";
+            StringBuilder days = new StringBuilder();
             int i=0;
             while(i<7){
                 if(daysOfWeek[i]){
-                    days += DateFormatSymbols.getInstance().getWeekdays()[i+1].substring(0,3);
-                    days+=". ";
+                    days.append(DateFormatSymbols.getInstance().getWeekdays()[i + 1].substring(0, 3));
+                    days.append(". ");
                 }
                 i++;
             }
-            return String.format(context.getString(R.string.alarms_every), days,
+            return String.format(context.getString(R.string.alarms_every), days.toString(),
                     DateFormat.getTimeFormat(context).format(nextAlarm.getTime()));
         }else if(isToday(nextAlarm)){
             return String.format(context.getString(R.string.alarm_today),
@@ -63,18 +63,12 @@ public class StringHelper {
     private static boolean isTomorrow(Calendar nextAlarm) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_YEAR, 1);
-        if(cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR)){
-            return true;
-        }
-        return false;
+        return cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR);
     }
 
     private static boolean isToday(Calendar nextAlarm) {
         Calendar cal = Calendar.getInstance();
-        if(cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR)){
-            return true;
-        }
-        return false;
+        return cal.get(Calendar.DAY_OF_YEAR) == nextAlarm.get(Calendar.DAY_OF_YEAR);
     }
 
 
