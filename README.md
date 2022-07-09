@@ -1,6 +1,6 @@
 [![GitHub release](https://img.shields.io/github/v/release/fedeb87/AlarMe.svg?label=release)](https://github.com/fedeb87/AlarMe/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/456966c5bd61499fa7fd69e1798a0452)](https://www.codacy.com/gh/fedeb87/AlarMe/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fedeb87/AlarMe&amp;utm_campaign=Badge_Grade) [![GitHub issues](https://img.shields.io/github/issues/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/issues) [![GitHub last commit](https://img.shields.io/github/last-commit/fedeb87/AlarMe?label=last-commit)](https://github.com/fedeb87/AlarMe/commits) [![GitHub license](https://img.shields.io/github/license/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/blob/master/LICENSE)
 
-# SimpleRemindMeApp
+# AlarMeApp
 
 AlarMe is an application that allows you to set alarms with several configurations and personalizations. It allows you to set the horoscope, the daily weather, a realtime speaker and much more.
 This app are using many tools and libraries designed to build robust and testable software all together. Also it follow the mvvm architecture, implement RXJava to do asynchronous work, and are fully tested.
