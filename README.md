@@ -1,4 +1,4 @@
-
+[![GitHub release](https://img.shields.io/github/v/release/fedeb87/AlarMe.svg?label=release)](https://github.com/fedeb87/AlarMe/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/456966c5bd61499fa7fd69e1798a0452)](https://www.codacy.com/gh/fedeb87/AlarMe/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fedeb87/AlarMe&amp;utm_campaign=Badge_Grade) [![GitHub issues](https://img.shields.io/github/issues/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/issues) [![GitHub last commit](https://img.shields.io/github/last-commit/fedeb87/AlarMe?label=last-commit)](https://github.com/fedeb87/AlarMe/commits) [![GitHub license](https://img.shields.io/github/license/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/blob/master/LICENSE)
 
 # SimpleRemindMeApp
 
@@ -19,7 +19,7 @@ This project requires the following
 ## Screenshots
 The screenshot below shows how the app looks like when it is done.
 
-![](https://imgur.com/efNJfuy)   ![Imgur](https://imgur.com/ylbZn98)   ![Imgur](https://imgur.com/bjWF954)   ![Imgur](https://imgur.com/MctQFIE)   ![Imgur](https://imgur.com/h1DA11X)
+![](https://i.imgur.com/efNJfuy.png =300x600)   ![Imgur](https://i.imgur.com/ylbZn98.png =300x600)   ![Imgur](https://i.imgur.com/bjWF954.png =300x600)   ![Imgur](https://i.imgur.com/MctQFIE.png =300x600)   ![Imgur](https://i.imgur.com/h1DA11X.png =300x600)
 
 ### Libraries
 
