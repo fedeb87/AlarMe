@@ -29,7 +29,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class VibratorListFragment extends Fragment {
 
-    private static final String LOG_TAG = "VibratorListFragment";
+    private static final String LOG_TAG = "<<< VibratorListFragment >>>";
     private FragmentVibratorListBinding binding;
     private final CompositeDisposable mDisposable = new CompositeDisposable();
     private VibListItemAdapter adapter;

@@ -1,10 +1,9 @@
-[![GitHub release](https://img.shields.io/github/v/release/fedeb87/SimpleRemindMe.svg?label=release)](https://github.com/fedeb87/SimpleRemindMe/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/84f9abc9cb294d38aabfcb33a2c90c47)](https://www.codacy.com/gh/fedeb87/SimpleRemindMe/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fedeb87/SimpleRemindMe&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/84f9abc9cb294d38aabfcb33a2c90c47)](https://www.codacy.com/gh/fedeb87/SimpleRemindMe/dashboard?utm_source=github.com&utm_medium=referral&utm_content=fedeb87/SimpleRemindMe&utm_campaign=Badge_Coverage) [![GitHub issues](https://img.shields.io/github/issues/fedeb87/SimpleRemindMe?label=issues)](https://github.com/fedeb87/SimpleRemindMe/issues) [![GitHub last commit](https://img.shields.io/github/last-commit/fedeb87/SimpleRemindMe?label=last-commit)](https://github.com/fedeb87/SimpleRemindMe/commits) [![GitHub license](https://img.shields.io/github/license/fedeb87/SimpleRemindMe?label=license)](https://github.com/fedeb87/SimpleRemindMe/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/v/release/fedeb87/AlarMe.svg?label=release)](https://github.com/fedeb87/AlarMe/releases) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/456966c5bd61499fa7fd69e1798a0452)](https://www.codacy.com/gh/fedeb87/AlarMe/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fedeb87/AlarMe&amp;utm_campaign=Badge_Grade) [![GitHub issues](https://img.shields.io/github/issues/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/issues) [![GitHub last commit](https://img.shields.io/github/last-commit/fedeb87/AlarMe?label=last-commit)](https://github.com/fedeb87/AlarMe/commits) [![GitHub license](https://img.shields.io/github/license/fedeb87/AlarMe)](https://github.com/fedeb87/AlarMe/blob/master/LICENSE)
 
-# SimpleRemindMeApp
+# AlarMeApp
 
-Simple application that allows you to save events or milestones and set alarms for it.
-EscuelApp is a simple android application that show how to use many of tools and libraries designed to build robust and testable software all together.
-The main idea is to show how to design an app following the mvvm architecture. Implementing RXJava to do asynchronous work. And do UI tests with Espresso.
+AlarMe is an application that allows you to set alarms with several configurations and personalizations. It allows you to set the horoscope, the daily weather, a realtime speaker and much more.
+This app are using many tools and libraries designed to build robust and testable software all together. Also it follow the mvvm architecture, implement RXJava to do asynchronous work, and are fully tested.
 
 ## Tech Stack
 
@@ -14,13 +13,13 @@ This project uses [feature modularization architecture](https://proandroiddev.co
 This project requires the following
 
  1. Android Studio 4.2 (stable channel) or higher.
- 2. Android SDK 23 or above.
- 3. Android SDK build tools 23.0.3 or above.
+ 2. Android SDK 21 or above.
+ 3. Android SDK build tools 21.0.0 or above.
 
 ## Screenshots
 The screenshot below shows how the app looks like when it is done.
 
-![](https://i.imgur.com/3zxh1y6l.png)   ![Imgur](https://i.imgur.com/ED9sTXKl.png)   ![Imgur](https://i.imgur.com/zldJNrwl.png)   ![Imgur](https://i.imgur.com/6yEWOKSl.png)
+<img width="300" alt="SC1" src="https://i.imgur.com/efNJfuy.png">   <img width="300" alt="SC1" src="https://i.imgur.com/ylbZn98.png">   <img width="300" alt="SC1" src="https://i.imgur.com/bjWF954.png">   <img width="300" alt="SC1" src="https://i.imgur.com/MctQFIE.png">   <img width="300" alt="SC1" src="https://i.imgur.com/h1DA11X.png">
 
 ### Libraries
 
@@ -31,14 +30,9 @@ The screenshot below shows how the app looks like when it is done.
  - Uses [JUnit4](https://developer.android.com/training/testing/junit-rules), [Espresso](https://developer.android.com/training/testing/espresso), [Robolectric](http://robolectric.org/) among other libraries for unit & instrumented tests.
 
 ## Notes
-The application does not have all the functionalities developed. Since the main idea is to expose a structure on which to later work on extending.
-I think it is not necessary to emphasize that the project is open to contributions, improvement proposals and corrections ;)
-The notes below describe some features that are not currently being developed that you could help implement.
+I consumes different APIs to expose several the application's features. Like realtime weather and daily horoscope. Therefore, these functionalities are directly linked to the availability of the corresponding APIs.
 
- 1. About screen are not developer
- 2. Validations over input forms are not developed
- 3. Update created Event are not developed
- 4. Following de same structure you can develop the Event types management. Allowing users to define her owns types.
+On the other hand, you have total freedom to extend the current functionalities and help me to solve any bug that you find :)
 
 ## 📃 License
 
